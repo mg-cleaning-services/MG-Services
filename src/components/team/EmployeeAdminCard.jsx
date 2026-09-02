@@ -1,4 +1,9 @@
-export default function EmployeeAdminCard({ employee, onEdit, onDelete }) {
+export default function EmployeeAdminCard({
+  employee,
+  onEdit,
+  onDelete,
+  onToggleAvailability,
+}) {
   return (
     <div className="bg-white rounded-2xl border border-[#2E7D32]/10 p-5">
       <div className="flex flex-col gap-5 md:flex-row md:items-center">
@@ -23,18 +28,19 @@ export default function EmployeeAdminCard({ employee, onEdit, onDelete }) {
 
         {/* Status */}
         <div className="flex flex-wrap gap-2">
-          <span
-            className={`text-xs px-3 py-1.5 rounded-full font-medium ${
+          <button
+            type="button"
+            onClick={() => onToggleAvailability(employee)}
+            className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${
               employee.availability === "available"
-                ? "bg-[#E8F5E9] text-[#2E7D32]"
-                : "bg-gray-100 text-gray-500"
+                ? "bg-[#E8F5E9] text-[#2E7D32] hover:bg-[#d9efdb]"
+                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
             }`}
           >
             {employee.availability === "available"
               ? "Available"
               : "Unavailable"}
-          </span>
-
+          </button>
           <span
             className={`text-xs px-3 py-1.5 rounded-full font-medium ${
               employee.publicProfile

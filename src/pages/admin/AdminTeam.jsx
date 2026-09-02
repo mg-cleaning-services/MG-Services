@@ -1,16 +1,22 @@
 import { useMemo, useState } from "react";
-import { getEmployees } from "@/services/employeeService";
+import {
+  getEmployees,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+  toggleEmployeeAvailability,
+} from "@/services/employeeService";
 import EmployeeFilters from "@/components/team/EmployeeFilters";
 import EmployeeAdminCard from "@/components/team/EmployeeAdminCard";
-import EmployeeForm from "@/components/team/EmployeeForm";
+import EmployeeFormModal from "@/components/team/EmployeeFormModal";
 export default function AdminTeam() {
   const [employees, setEmployees] = useState(() => getEmployees());
   const [search, setSearch] = useState("");
   const [role, setRole] = useState("all");
   const [availability, setAvailability] = useState("all");
   const [location, setLocation] = useState("all");
-  const [editingEmployee, setEditingEmployee] = useState(null);
-  const [isCreatingEmployee, setIsCreatingEmployee] = useState(false);
+  const [formMode, setFormMode] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const roles = useMemo(
     () => [...new Set(employees.map((employee) => employee.role))].sort(),
     [employees],
@@ -44,7 +50,10 @@ export default function AdminTeam() {
       );
     });
   }, [employees, search, role, availability, location]);
-
+  function closeEmployeeForm() {
+    setFormMode(null);
+    setSelectedEmployee(null);
+  }
   return (
     <main className="min-h-screen bg-[#F9FAF9] py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -66,7 +75,10 @@ export default function AdminTeam() {
 
           <button
             type="button"
-            onClick={() => setIsCreatingEmployee(true)}
+            onClick={() => {
+              setSelectedEmployee(null);
+              setFormMode("create");
+            }}
             className="px-5 py-2.5 rounded-xl bg-[#2E7D32] text-white text-sm font-medium hover:bg-[#256628] transition-colors"
           >
             Add Employee
@@ -142,7 +154,8 @@ export default function AdminTeam() {
                 key={employee.id}
                 employee={employee}
                 onEdit={(employee) => {
-                  setEditingEmployee(employee);
+                  setSelectedEmployee(employee);
+                  setFormMode("edit");
                 }}
                 onDelete={(employee) => {
                   const confirmed = window.confirm(
@@ -154,9 +167,12 @@ export default function AdminTeam() {
                   }
 
                   setEmployees((currentEmployees) =>
-                    currentEmployees.filter(
-                      (currentEmployee) => currentEmployee.id !== employee.id,
-                    ),
+                    deleteEmployee(currentEmployees, employee.id),
+                  );
+                }}
+                onToggleAvailability={(employee) => {
+                  setEmployees((currentEmployees) =>
+                    toggleEmployeeAvailability(currentEmployees, employee.id),
                   );
                 }}
               />
@@ -164,102 +180,26 @@ export default function AdminTeam() {
           </div>
         </div>
       </div>
-      {isCreatingEmployee && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setIsCreatingEmployee(false)}
-          />
+      <EmployeeFormModal
+        mode={formMode}
+        employee={selectedEmployee}
+        onClose={closeEmployeeForm}
+        onSubmit={(employeeData) => {
+          if (formMode === "create") {
+            setEmployees((currentEmployees) =>
+              createEmployee(currentEmployees, employeeData),
+            );
+          }
 
-          <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl p-6 md:p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.15em] uppercase mb-2">
-                  Employee
-                </p>
+          if (formMode === "edit") {
+            setEmployees((currentEmployees) =>
+              updateEmployee(currentEmployees, employeeData),
+            );
+          }
 
-                <h2 className="text-2xl md:text-3xl font-heading text-[#1A1A1A]">
-                  Add Employee
-                </h2>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setIsCreatingEmployee(false)}
-                className="w-10 h-10 rounded-full hover:bg-gray-100 text-[#1A1A1A]/60 hover:text-[#1A1A1A] transition-colors"
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-
-            <EmployeeForm
-              employee={null}
-              onCancel={() => setIsCreatingEmployee(false)}
-              onSubmit={(newEmployee) => {
-                const employeeWithId = {
-                  ...newEmployee,
-                  id: crypto.randomUUID(),
-                };
-
-                setEmployees((currentEmployees) => [
-                  ...currentEmployees,
-                  employeeWithId,
-                ]);
-
-                setIsCreatingEmployee(false);
-              }}
-            />
-          </div>
-        </div>
-      )}
-      {editingEmployee && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setEditingEmployee(null)}
-          />
-
-          <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl p-6 md:p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.15em] uppercase mb-2">
-                  Employee
-                </p>
-
-                <h2 className="text-2xl md:text-3xl font-heading text-[#1A1A1A]">
-                  Edit Employee
-                </h2>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setEditingEmployee(null)}
-                className="w-10 h-10 rounded-full hover:bg-gray-100 text-[#1A1A1A]/60 hover:text-[#1A1A1A] transition-colors"
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-
-            <EmployeeForm
-              employee={editingEmployee}
-              onCancel={() => setEditingEmployee(null)}
-              onSubmit={(updatedEmployee) => {
-                setEmployees((currentEmployees) =>
-                  currentEmployees.map((employee) =>
-                    employee.id === updatedEmployee.id
-                      ? updatedEmployee
-                      : employee,
-                  ),
-                );
-
-                setEditingEmployee(null);
-              }}
-            />
-          </div>
-        </div>
-      )}
+          closeEmployeeForm();
+        }}
+      />
     </main>
   );
 }

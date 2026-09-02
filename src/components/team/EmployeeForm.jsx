@@ -34,7 +34,12 @@ function employeeToForm(employee) {
   };
 }
 
-export default function EmployeeForm({ employee, onSubmit, onCancel }) {
+export default function EmployeeForm({
+  employee,
+  onSubmit,
+  onCancel,
+  submitLabel = "Save Changes",
+}) {
   const [form, setForm] = useState(() => employeeToForm(employee));
 
   useEffect(() => {
@@ -322,7 +327,7 @@ export default function EmployeeForm({ employee, onSubmit, onCancel }) {
           type="submit"
           className="px-5 py-2.5 rounded-xl bg-[#2E7D32] text-white text-sm font-medium hover:bg-[#256628] transition-colors"
         >
-          Save Changes
+          {submitLabel}
         </button>
       </div>
     </form>
