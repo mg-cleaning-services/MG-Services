@@ -14,7 +14,7 @@ import AdminJobs from "./pages/AdminJobs";
 import JobDetail from "./pages/JobDetail";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLayout from "./components/admin/AdminLayout";
-import CreateJob from "@/pages/admin/CreateJob";
+//*import CreateJob from "@/pages/admin/CreateJob";*//
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
           <Route path="requests/:id" element={<RequestDetail />} />
 
           <Route path="jobs" element={<AdminJobs />} />
-          <Route path="jobs/new" element={<CreateJob />} />
+          {/*<Route path="jobs/new" element={<CreateJob />} /> */}
           <Route path="jobs/:id" element={<JobDetail />} />
 
           <Route path="team" element={<AdminTeam />} />
