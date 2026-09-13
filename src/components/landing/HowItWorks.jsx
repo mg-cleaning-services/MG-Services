@@ -1,32 +1,38 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Users, Smile } from "lucide-react";
+import { MessageSquare, ClipboardCheck, Users, Smile } from "lucide-react";
 
 const steps = [
   {
     icon: MessageSquare,
     num: "01",
-    title: "Request a Quote",
-    desc: "Tell us about your home, your needs, and your preferred schedule. It takes less than two minutes.",
+    title: "Request a Cleaning",
+    desc: "Tell us about your home, the cleaning you need, and your preferred date and time.",
+  },
+  {
+    icon: ClipboardCheck,
+    num: "02",
+    title: "We Review & Confirm",
+    desc: "We review your request, clarify the details with you, and confirm the service before anything is booked.",
   },
   {
     icon: Users,
-    num: "02",
+    num: "03",
     title: "Meet Your Cleaner",
-    desc: "You'll know who's coming before the appointment. No strangers, no surprises.",
+    desc: "Once your job is arranged, you'll know who's coming before the appointment. No strangers, no surprises.",
   },
   {
     icon: Smile,
-    num: "03",
+    num: "04",
     title: "Enjoy Your Clean Home",
-    desc: "Relax while we take care of everything. Come home to a space that feels brand new.",
+    desc: "Your cleaner takes care of the agreed service so you can come back to a fresh, comfortable space.",
   },
 ];
 
 export default function HowItWorks() {
   return (
     <section className="py-24 md:py-40 bg-white">
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -38,26 +44,26 @@ export default function HowItWorks() {
             How It Works
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-[#1A1A1A] mb-6">
-            Simple as 1, 2, 3
+            Simple from request to clean
           </h2>
-          <p className="text-lg text-[#1A1A1A]/60 max-w-xl mx-auto leading-relaxed">
-            Getting started is effortless. We handle the details so you don't
-            have to.
+          <p className="text-lg text-[#1A1A1A]/60 max-w-2xl mx-auto leading-relaxed">
+            Send us what you need. We review the details personally, confirm the
+            service with you, and introduce the cleaner assigned to your home.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
               className="text-center relative"
             >
               {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-[#2E7D32]/15" />
+                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px bg-[#2E7D32]/15" />
               )}
               <div className="w-20 h-20 rounded-full bg-[#E8F5E9] flex items-center justify-center mx-auto mb-6 relative">
                 <step.icon className="w-8 h-8 text-[#2E7D32]" />

@@ -6,10 +6,23 @@
     "role": "Senior Cleaner",
     "location": "Melbourne",
     "years": 6,
+    "phone": "61477507874",
+    "tagline": "Detail-focused, warm and always happy around pets.",
+
+    "bio": "Sarah brings meticulous attention to detail and a warm approach to every home she cleans. She enjoys helping clients feel comfortable and confident in their space.",
+
     "languages": ["English", "Mandarin"],
+
+    "specialties": ["Deep Cleaning", "Family Homes", "Pet-Friendly Homes"],
+
+    "traits": ["Detail Oriented", "Friendly", "Organised", "Reliable"],
+
+    "interests": ["Cooking", "Weekend Markets", "Dogs"],
+
     "tags": ["Detail Oriented", "Pet Friendly", "Deep Cleaning Expert"],
+
     "photo": "/images/Sarah.png",
-    "bio": "Sarah brings meticulous attention to detail and a warm smile to every home she cleans.",
+
     "availability": "available",
     "publicProfile": true,
     "status": "active"
@@ -21,10 +34,25 @@
     "role": "Cleaning Specialist",
     "location": "Melbourne",
     "years": 4,
+    "phone": "61477507874",
+    "tagline": "Friendly, reliable and especially at home in the kitchen.",
+
+    "bio": "Marco combines a friendly attitude with a consistent and careful approach to every job. He enjoys creating clean, organised spaces and is especially confident with kitchens and high-use areas.",
+
     "languages": ["English", "Italian"],
-    "tags": ["Friendly", "Reliable", "Kitchen Expert"],
+
+    "specialties": [
+      "Kitchen Cleaning",
+      "Regular Home Cleaning",
+      "High-Use Areas"
+    ],
+
+    "traits": ["Friendly", "Reliable", "Consistent", "Respectful"],
+
+    "interests": ["Cooking", "Football", "Coffee"],
+
     "photo": "/images/Marco.png",
-    "bio": "Marco's dedication to quality and his friendly nature make him a favourite among our clients.",
+
     "availability": "available",
     "publicProfile": true,
     "status": "active"
@@ -36,10 +64,25 @@
     "role": "Team Lead",
     "location": "Melbourne",
     "years": 7,
+    "phone": "61477507874",
+    "tagline": "Experienced, organised and committed to making every clean feel effortless.",
+
+    "bio": "Priya brings years of experience and a calm, organised approach to every service. As a Team Lead, she supports both clients and cleaners while making sure each job is completed to a high standard.",
+
     "languages": ["English", "Hindi", "Tamil"],
-    "tags": ["Detail Oriented", "Eco Cleaning Expert", "Reliable"],
+
+    "specialties": [
+      "Deep Cleaning",
+      "Eco-Friendly Cleaning",
+      "Team Coordination"
+    ],
+
+    "traits": ["Detail Oriented", "Organised", "Reliable", "Calm"],
+
+    "interests": ["Cooking", "Reading", "Gardening"],
+
     "photo": "/images/Priya.jpg",
-    "bio": "Priya leads our team with passion and ensures every client receives five-star service.",
+
     "availability": "available",
     "publicProfile": true,
     "status": "active"
@@ -51,10 +94,25 @@
     "role": "Cleaning Specialist",
     "location": "Melbourne",
     "years": 3,
+    "phone": "61477507874",
+    "tagline": "Positive, thorough and always ready to tackle a challenging clean.",
+
+    "bio": "James is known for his positive energy and thorough approach to every cleaning task. He enjoys taking on demanding jobs and making sure clients can see a clear difference when the work is finished.",
+
     "languages": ["English"],
-    "tags": ["Pet Friendly", "Friendly", "End of Lease Expert"],
+
+    "specialties": [
+      "End of Lease Cleaning",
+      "Pet-Friendly Homes",
+      "Detailed Cleaning"
+    ],
+
+    "traits": ["Friendly", "Thorough", "Positive", "Hard Working"],
+
+    "interests": ["Fitness", "Hiking", "Music"],
+
     "photo": "/images/James.png",
-    "bio": "James is known for his positive energy and thorough approach to every cleaning task.",
+
     "availability": "unavailable",
     "publicProfile": false,
     "status": "active"
@@ -66,10 +124,25 @@
     "role": "Senior Cleaner",
     "location": "Melbourne",
     "years": 5,
+    "phone": "61477507874",
+    "tagline": "Detail-driven, dependable and focused on making every space guest-ready.",
+
+    "bio": "Emma has strong experience with Airbnb turnovers and detailed residential cleaning. She enjoys creating fresh, welcoming spaces and works carefully to make sure every room is ready for the next guest or family.",
+
     "languages": ["English", "French"],
-    "tags": ["Detail Oriented", "Airbnb Specialist", "Reliable"],
+
+    "specialties": [
+      "Airbnb Turnovers",
+      "Detail Cleaning",
+      "Guest-Ready Preparation"
+    ],
+
+    "traits": ["Detail Oriented", "Reliable", "Efficient", "Organised"],
+
+    "interests": ["Travel", "Photography", "Interior Design"],
+
     "photo": "/images/Emma.jpg",
-    "bio": "Emma's experience with Airbnb turnovers and her eye for detail make every space guest-ready.",
+
     "availability": "available",
     "publicProfile": true,
     "status": "active"

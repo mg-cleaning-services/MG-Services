@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-
+import { Link } from "react-router-dom";
 export default function EmployeeCard({ employee, index = 0 }) {
   return (
     <motion.div
@@ -31,19 +31,30 @@ export default function EmployeeCard({ employee, index = 0 }) {
         </p>
 
         <div className="flex flex-wrap gap-1.5 mb-4">
-          {employee.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] font-medium"
-            >
-              {tag}
-            </span>
-          ))}
+          {[...(employee.traits ?? []), ...(employee.specialties ?? [])]
+            .slice(0, 3)
+            .map((item) => (
+              <span
+                key={item}
+                className="px-3 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] text-xs font-medium"
+              >
+                {item}
+              </span>
+            ))}
         </div>
 
         <p className="text-sm text-[#1A1A1A]/50 leading-relaxed">
           {employee.bio}
         </p>
+        <Link
+          to={`/team/${employee.slug}`}
+          className="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-[#2E7D32] group"
+        >
+          Meet {employee.name.split(" ")[0]}
+          <span className="transition-transform group-hover:translate-x-1">
+            →
+          </span>
+        </Link>
       </div>
     </motion.div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { label: "Why Us", href: "#why-us" },
@@ -64,20 +65,20 @@ export default function Navbar() {
 
             <div className="flex items-center gap-4">
               <a
-                href="tel:+61400000000"
+                href="tel:+61424584774"
                 className={`hidden md:flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
                   scrolled ? "text-[#1A1A1A]/70" : "text-white/80"
                 }`}
               >
                 <Phone className="w-4 h-4" />
-                0400 000 000
+                +61 424584774
               </a>
-              <a
-                href="#quote"
+              <Link
+                to="/request-service"
                 className="hidden lg:inline-flex bg-[#2E7D32] text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-[#256b29] transition-all duration-300 hover:shadow-lg hover:shadow-[#2E7D32]/20"
               >
-                Get a Free Quote
-              </a>
+                Request a Cleaning
+              </Link>
               <button
                 onClick={() => setMenuOpen(true)}
                 className={`lg:hidden p-2 transition-colors ${scrolled ? "text-[#1A1A1A]" : "text-white"}`}
@@ -125,16 +126,20 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
-              <motion.a
-                href="#quote"
-                onClick={() => setMenuOpen(false)}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="mt-4 bg-[#2E7D32] text-white px-8 py-3 rounded-full text-lg font-semibold"
+                className="mt-4"
               >
-                Get a Free Quote
-              </motion.a>
+                <Link
+                  to="/request-service"
+                  onClick={() => setMenuOpen(false)}
+                  className="inline-flex bg-[#2E7D32] text-white px-8 py-3 rounded-full text-lg font-semibold"
+                >
+                  Request a Cleaning
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}

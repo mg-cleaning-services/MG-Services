@@ -5,10 +5,17 @@ const EMPTY_FORM = {
   role: "",
   location: "",
   years: "",
-  languages: "",
-  tags: "",
-  photo: "",
+
+  tagline: "",
   bio: "",
+
+  languages: "",
+  specialties: "",
+  traits: "",
+  interests: "",
+
+  photo: "",
+
   availability: "available",
   publicProfile: false,
   status: "active",
@@ -24,10 +31,17 @@ function employeeToForm(employee) {
     role: employee.role ?? "",
     location: employee.location ?? "",
     years: employee.years ?? "",
-    languages: employee.languages?.join(", ") ?? "",
-    tags: employee.tags?.join(", ") ?? "",
-    photo: employee.photo ?? "",
+
+    tagline: employee.tagline ?? "",
     bio: employee.bio ?? "",
+
+    languages: employee.languages?.join(", ") ?? "",
+    specialties: employee.specialties?.join(", ") ?? "",
+    traits: employee.traits?.join(", ") ?? "",
+    interests: employee.interests?.join(", ") ?? "",
+
+    photo: employee.photo ?? "",
+
     availability: employee.availability ?? "available",
     publicProfile: employee.publicProfile ?? false,
     status: employee.status ?? "active",
@@ -60,20 +74,37 @@ export default function EmployeeForm({
 
     onSubmit({
       ...(employee ?? {}),
+
       name: form.name.trim(),
       role: form.role.trim(),
       location: form.location.trim(),
       years: Number(form.years),
+
+      tagline: form.tagline.trim(),
+      bio: form.bio.trim(),
+
       languages: form.languages
         .split(",")
         .map((item) => item.trim())
         .filter(Boolean),
-      tags: form.tags
+
+      specialties: form.specialties
         .split(",")
         .map((item) => item.trim())
         .filter(Boolean),
+
+      traits: form.traits
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+
+      interests: form.interests
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+
       photo: form.photo.trim(),
-      bio: form.bio.trim(),
+
       availability: form.availability,
       publicProfile: form.publicProfile,
       status: form.status,
@@ -106,7 +137,20 @@ export default function EmployeeForm({
               className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+              Profile Tagline
+            </label>
 
+            <input
+              type="text"
+              name="tagline"
+              value={form.tagline}
+              onChange={handleChange}
+              placeholder="Detail-focused, warm and always happy around pets."
+              className="w-full rounded-xl border border-black/10 px-4 py-3 outline-none focus:border-[#2E7D32]"
+            />
+          </div>
           <div>
             <label
               htmlFor="employee-role"
@@ -228,25 +272,72 @@ export default function EmployeeForm({
             </p>
           </div>
 
+          {/* Specialties */}
           <div>
             <label
-              htmlFor="employee-tags"
+              htmlFor="employee-specialties"
               className="block text-sm font-medium text-[#1A1A1A] mb-2"
             >
-              Tags
+              Specialties
             </label>
 
             <input
-              id="employee-tags"
-              name="tags"
-              value={form.tags}
+              id="employee-specialties"
+              name="specialties"
+              value={form.specialties}
               onChange={handleChange}
-              placeholder="Reliable, Pet Friendly, Deep Cleaning Expert"
+              placeholder="Deep Cleaning, Family Homes, Pet-Friendly Homes"
               className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
             />
 
             <p className="text-xs text-[#1A1A1A]/40 mt-1">
-              Separate tags with commas.
+              Separate specialties with commas.
+            </p>
+          </div>
+
+          {/* Working Style */}
+          <div>
+            <label
+              htmlFor="employee-traits"
+              className="block text-sm font-medium text-[#1A1A1A] mb-2"
+            >
+              Working Style & Personality
+            </label>
+
+            <input
+              id="employee-traits"
+              name="traits"
+              value={form.traits}
+              onChange={handleChange}
+              placeholder="Detail Oriented, Friendly, Organised, Reliable"
+              className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+            />
+
+            <p className="text-xs text-[#1A1A1A]/40 mt-1">
+              Separate traits with commas.
+            </p>
+          </div>
+
+          {/* Interests */}
+          <div>
+            <label
+              htmlFor="employee-interests"
+              className="block text-sm font-medium text-[#1A1A1A] mb-2"
+            >
+              Interests & Hobbies
+            </label>
+
+            <input
+              id="employee-interests"
+              name="interests"
+              value={form.interests}
+              onChange={handleChange}
+              placeholder="Cooking, Dogs, Weekend Markets"
+              className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+            />
+
+            <p className="text-xs text-[#1A1A1A]/40 mt-1">
+              Separate interests with commas.
             </p>
           </div>
         </div>

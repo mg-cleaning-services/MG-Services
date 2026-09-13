@@ -22,7 +22,7 @@ export default function Home() {
       <TeamSection />
       <HowItWorks />
       <GallerySection />
-      <TestimonialsSection />
+      {/* <TestimonialsSection />*/}
       <ServiceAreas />
       <InstagramFeed />
       <QuoteSection />

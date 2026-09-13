@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Shield, Clock, Leaf } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HERO_IMG = "images/hero.png";
 
@@ -27,7 +28,7 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-[#2E7D32] text-sm font-semibold tracking-[0.2em] uppercase mb-6"
         >
-          Melbourne's Trusted Home Cleaning
+          Melbourne&apos;s Trusted Home Cleaning
         </motion.p>
 
         <motion.h1
@@ -55,12 +56,12 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.9 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
-          <a
-            href="#quote"
+          <Link
+            to="/request-service"
             className="bg-[#2E7D32] text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-[#256b29] transition-all duration-300 hover:shadow-xl hover:shadow-[#2E7D32]/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
-            Get a Free Quote
-          </a>
+            Request a Cleaning
+          </Link>
           <a
             href="#team"
             className="border border-white/30 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/10 transition-all duration-300 w-full sm:w-auto"

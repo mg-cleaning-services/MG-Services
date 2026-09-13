@@ -96,11 +96,11 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="tel:+61400000000"
+                  href="tel:+61424584774"
                   className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#4CAF50]" />
-                  0400 000 000
+                  +61 424584774
                 </a>
               </li>
               <li>

@@ -12,6 +12,15 @@ export function getEmployeeBySlug(slug) {
   return employees.find((employee) => employee.slug === slug);
 }
 
+export function getPublicEmployeeBySlug(slug) {
+  return employees.find(
+    (employee) =>
+      employee.slug === slug &&
+      employee.status === "active" &&
+      employee.publicProfile === true,
+  );
+}
+
 export function getPublicEmployees() {
   return employees.filter(
     (employee) =>

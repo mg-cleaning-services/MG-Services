@@ -1,0 +1,96 @@
+[
+  {
+    "id": "REQ-001",
+    "status": "new",
+    "customer": {
+      "firstName": "Anderson",
+      "lastName": "Perez",
+      "phone": "0412345678",
+      "email": "anderson@example.com",
+      "preferredContact": "whatsapp"
+    },
+    "service": {
+      "requestType": "package",
+      "packageId": "regular",
+      "selectedServices": [],
+      "extras": ["carpet-cleaning"]
+    },
+    "property": {
+      "propertyType": "apartment",
+
+      "address": "123 Example Street",
+      "unit": "Apartment 804",
+      "suburb": "South Yarra",
+      "postcode": "3141",
+
+      "bedrooms": "2",
+      "bathrooms": "2",
+      "kitchens": "1",
+      "balconies": "1",
+      "laundries": "1",
+      "floors": "1",
+      "pets": "yes"
+    },
+    "access": {
+      "instructions": "Collect the keys from reception. Use the rear entrance.",
+      "parking": "Visitor parking available in basement level B2.",
+      "contactOnArrival": true
+    },
+    "schedule": {
+      "preferredDate": "2026-09-15",
+      "preferredTime": "morning"
+    },
+    "condition": {
+      "level": "needs-attention",
+      "lastProfessionalClean": "3-6-months"
+    },
+    "notes": "Kitchen and carpets need extra attention.",
+    "createdAt": "2026-09-10T10:00:00.000Z"
+  },
+  {
+    "id": "REQ-002",
+    "status": "contacted",
+    "customer": {
+      "firstName": "Emily",
+      "lastName": "Brown",
+      "phone": "0498765432",
+      "email": "emily@example.com",
+      "preferredContact": "phone"
+    },
+    "service": {
+      "requestType": "unsure",
+      "packageId": "",
+      "selectedServices": [],
+      "extras": []
+    },
+    "property": {
+      "propertyType": "apartment",
+      "address": "123 Example Street",
+      "unit": "Apartment 804",
+      "suburb": "South Yarra",
+      "postcode": "3141",
+      "bedrooms": "2",
+      "bathrooms": "1",
+      "kitchens": "1",
+      "balconies": "1",
+      "laundries": "1",
+      "floors": "1",
+      "pets": "no"
+    },
+    "access": {
+      "instructions": "Collect the keys from reception. Use the rear entrance.",
+      "parking": "Visitor parking available in basement level B2.",
+      "contactOnArrival": true
+    },
+    "schedule": {
+      "preferredDate": "2026-09-18",
+      "preferredTime": "afternoon"
+    },
+    "condition": {
+      "level": "maintained",
+      "lastProfessionalClean": "1-3-months"
+    },
+    "notes": "Main concern is the bathroom and balcony.",
+    "createdAt": "2026-09-09T08:30:00.000Z"
+  }
+]
