@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 
-export default function AdminLayout() {
+export default function AdminLayout({ profile }) {
   return (
-    <div className="min-h-screen bg-[#F9FAF9] lg:flex">
-      <AdminSidebar />
+    <div className="lg:flex">
+      <AdminSidebar profile={profile} />
 
       <main className="min-w-0 flex-1">
         <Outlet />

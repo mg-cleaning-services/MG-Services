@@ -1,22 +1,22 @@
-import { getPackageById, getServiceById } from "@/services/cleaningService";
 import { Link } from "react-router-dom";
+import { getPackageById, getServiceById } from "@/services/cleaningService";
 
 export default function RequestCard({ request, onStatusChange }) {
   const packageName = request.service.packageId
     ? getPackageById(request.service.packageId)?.name
     : null;
 
-  const customServices = request.service.selectedServices
+  const customServices = (request.service.selectedServices || [])
     .map((id) => getServiceById(id)?.name)
     .filter(Boolean);
 
-  const extras = request.service.extras
+  const extras = (request.service.extras || [])
     .map((id) => getServiceById(id)?.name)
     .filter(Boolean);
 
   const serviceLabel =
     request.service.requestType === "package"
-      ? packageName
+      ? packageName || "Cleaning Package"
       : request.service.requestType === "custom"
         ? "Custom Cleaning"
         : "Needs Recommendation";
@@ -25,7 +25,9 @@ export default function RequestCard({ request, onStatusChange }) {
     <article className="rounded-2xl border border-gray-200 bg-white p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-gray-500">{request.id}</p>
+          <p className="text-sm font-semibold text-gray-500">
+            {request.requestCode}
+          </p>
 
           <h2 className="mt-1 text-xl font-semibold text-gray-900">
             {request.customer.firstName} {request.customer.lastName}
@@ -98,17 +100,12 @@ export default function RequestCard({ request, onStatusChange }) {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button
-          type="button"
+        <Link
+          to={`/admin/requests/${request.id}`}
           className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white"
         >
-          <Link
-            to={`/admin/requests/${request.id}`}
-            className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white"
-          >
-            View Request
-          </Link>
-        </button>
+          View Request
+        </Link>
 
         <button
           type="button"

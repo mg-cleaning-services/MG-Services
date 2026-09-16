@@ -6,14 +6,13 @@ export default function JobCard({ job }) {
     ? getPackageById(job.service.packageId)?.name
     : null;
 
-  const customServices =
-    job.service.selectedServices
-      ?.map((id) => getServiceById(id)?.name)
-      .filter(Boolean) || [];
+  const customServices = (job.service.selectedServices || [])
+    .map((id) => getServiceById(id)?.name)
+    .filter(Boolean);
 
-  const extras =
-    job.service.extras?.map((id) => getServiceById(id)?.name).filter(Boolean) ||
-    [];
+  const extras = (job.service.extras || [])
+    .map((id) => getServiceById(id)?.name)
+    .filter(Boolean);
 
   const serviceLabel =
     job.service.requestType === "package"
@@ -26,7 +25,7 @@ export default function JobCard({ job }) {
     <article className="rounded-2xl border border-gray-200 bg-white p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-gray-500">{job.id}</p>
+          <p className="text-sm font-semibold text-gray-500">{job.jobCode}</p>
 
           <h2 className="mt-1 text-xl font-semibold text-gray-900">
             {job.customer.firstName} {job.customer.lastName}
@@ -66,7 +65,9 @@ export default function JobCard({ job }) {
           <p className="mt-1 text-gray-900">{job.schedule.date}</p>
 
           <p className="mt-1 text-sm text-gray-600">
-            {job.schedule.startTime} · {job.schedule.estimatedHours}h
+            {job.schedule.startTime}
+            {job.schedule.estimatedHours != null &&
+              ` · ${job.schedule.estimatedHours}h`}
           </p>
         </div>
 
@@ -74,18 +75,30 @@ export default function JobCard({ job }) {
           <p className="text-xs font-semibold uppercase text-gray-400">Price</p>
 
           <p className="mt-1 font-medium text-gray-900">
-            {job.pricing.finalPrice ? `$${job.pricing.finalPrice}` : "Not set"}
+            {job.pricing.finalPrice != null
+              ? `$${job.pricing.finalPrice}`
+              : "Not set"}
           </p>
         </div>
 
         <div>
-          <p className="text-xs font-semibold uppercase text-gray-400">
-            Cleaner
-          </p>
+          <p className="text-xs font-semibold uppercase text-gray-400">Team</p>
 
-          <p className="mt-1 font-medium text-gray-900">
-            {job.assignedEmployeeId || "Not assigned"}
-          </p>
+          {job.team.length === 0 ? (
+            <p className="mt-1 font-medium text-gray-900">Not assigned</p>
+          ) : (
+            <>
+              <p className="mt-1 font-medium text-gray-900">
+                {job.team[0].name}
+              </p>
+
+              {job.team.length > 1 && (
+                <p className="mt-1 text-sm text-gray-500">
+                  + {job.team.length - 1} more
+                </p>
+              )}
+            </>
+          )}
         </div>
       </div>
 

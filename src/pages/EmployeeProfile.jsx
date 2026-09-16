@@ -1,12 +1,21 @@
 import { Link, useParams } from "react-router-dom";
-import { getPublicEmployeeBySlug } from "@/services/employeeService";
+
+import usePublicEmployeeProfile from "@/hooks/usePublicEmployeeProfile";
 
 export default function EmployeeProfile() {
   const { slug } = useParams();
 
-  const employee = getPublicEmployeeBySlug(slug);
+  const { employee, loading, error } = usePublicEmployeeProfile(slug);
 
-  if (!employee) {
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-[#F9FAF9] px-6">
+        <p className="text-[#1A1A1A]/60">Loading employee profile...</p>
+      </main>
+    );
+  }
+
+  if (error || !employee) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-[#F9FAF9] px-6">
         <div className="text-center">
@@ -60,9 +69,7 @@ export default function EmployeeProfile() {
                 {employee.name}
               </h1>
 
-              <p className="mt-5 text-xl text-[#1A1A1A]/55">
-                {employee.role} · {employee.location}
-              </p>
+              <p className="mt-5 text-xl text-[#1A1A1A]/55">{employee.role}</p>
 
               {employee.tagline && (
                 <p className="mt-8 text-2xl md:text-3xl leading-relaxed text-[#1A1A1A]/85">
@@ -97,6 +104,7 @@ export default function EmployeeProfile() {
           </div>
         </div>
       </section>
+
       {/* ABOUT */}
       <section className="max-w-5xl mx-auto px-6 lg:px-8 py-16 lg:py-24">
         <div className="max-w-3xl">
@@ -142,6 +150,7 @@ export default function EmployeeProfile() {
           />
         </div>
       </section>
+
       {/* TRUST */}
       <section className="bg-[#1F3B2D] text-white">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 py-16 lg:py-24 text-center">
@@ -188,6 +197,7 @@ export default function EmployeeProfile() {
     </main>
   );
 }
+
 function ProfileDetail({ title, description, items = [] }) {
   if (!items?.length) {
     return null;

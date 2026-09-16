@@ -1,60 +1,210 @@
-import employees from "@/data/employees.json";
+import { supabase } from "@/lib/supabase";
 
-export function getEmployees() {
-  return employees;
-}
+/*
+|--------------------------------------------------------------------------
+| MAPPERS
+|--------------------------------------------------------------------------
+*/
 
-export function getEmployeeById(id) {
-  return employees.find((employee) => employee.id === id);
-}
+function mapEmployeeFromDatabase(employee) {
+  return {
+    id: employee.id,
+    employeeCode: employee.employee_code,
+    slug: employee.slug,
+    name: employee.name,
+    role: employee.role,
+    location: employee.location,
+    years: employee.years_experience,
 
-export function getEmployeeBySlug(slug) {
-  return employees.find((employee) => employee.slug === slug);
-}
+    phone: employee.phone,
+    email: employee.email,
 
-export function getPublicEmployeeBySlug(slug) {
-  return employees.find(
-    (employee) =>
-      employee.slug === slug &&
-      employee.status === "active" &&
-      employee.publicProfile === true,
-  );
-}
+    tagline: employee.tagline,
+    bio: employee.bio,
 
-export function getPublicEmployees() {
-  return employees.filter(
-    (employee) =>
-      employee.status === "active" && employee.publicProfile === true,
-  );
-}
+    languages: employee.languages || [],
+    specialties: employee.specialties || [],
+    traits: employee.traits || [],
+    interests: employee.interests || [],
 
-export function createEmployee(currentEmployees, employeeData) {
-  const newEmployee = {
-    ...employeeData,
-    id: crypto.randomUUID(),
+    photo: employee.photo_url,
+
+    publicProfile: employee.public_profile,
+    status: employee.status,
+
+    createdAt: employee.created_at,
+    updatedAt: employee.updated_at,
   };
-
-  return [...currentEmployees, newEmployee];
 }
 
-export function updateEmployee(currentEmployees, updatedEmployee) {
-  return currentEmployees.map((employee) =>
-    employee.id === updatedEmployee.id ? updatedEmployee : employee,
-  );
+function mapPublicEmployeeFromDatabase(employee) {
+  return {
+    id: employee.id,
+    slug: employee.slug,
+    name: employee.name,
+    role: employee.role,
+    years: employee.years_experience,
+
+    tagline: employee.tagline,
+    bio: employee.bio,
+
+    languages: employee.languages || [],
+    specialties: employee.specialties || [],
+    traits: employee.traits || [],
+    interests: employee.interests || [],
+
+    photo: employee.photo_url,
+  };
 }
 
-export function deleteEmployee(currentEmployees, employeeId) {
-  return currentEmployees.filter((employee) => employee.id !== employeeId);
+function mapEmployeeToDatabase(employee) {
+  return {
+    employee_code: employee.employeeCode || null,
+
+    name: employee.name,
+    role: employee.role,
+    location: employee.location || null,
+    years_experience: Number(employee.years) || 0,
+
+    phone: employee.phone || null,
+    email: employee.email || null,
+
+    tagline: employee.tagline || null,
+    bio: employee.bio || null,
+
+    languages: employee.languages || [],
+    specialties: employee.specialties || [],
+    traits: employee.traits || [],
+    interests: employee.interests || [],
+
+    photo_url: employee.photo || null,
+
+    public_profile: employee.publicProfile ?? false,
+    status: employee.status || "active",
+  };
 }
 
-export function toggleEmployeeAvailability(currentEmployees, employeeId) {
-  return currentEmployees.map((employee) =>
-    employee.id === employeeId
-      ? {
-          ...employee,
-          availability:
-            employee.availability === "available" ? "unavailable" : "available",
-        }
-      : employee,
-  );
+/*
+|--------------------------------------------------------------------------
+| ADMIN - SUPABASE
+|--------------------------------------------------------------------------
+*/
+
+export async function getEmployees() {
+  const { data, error } = await supabase
+    .from("employees")
+    .select("*")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching employees:", error);
+    throw error;
+  }
+
+  return (data || []).map(mapEmployeeFromDatabase);
+}
+
+export async function getEmployeeById(id) {
+  const { data, error } = await supabase
+    .from("employees")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error fetching employee:", error);
+    throw error;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  return mapEmployeeFromDatabase(data);
+}
+
+export async function createEmployee(employeeData) {
+  const databaseEmployee = mapEmployeeToDatabase(employeeData);
+
+  const { data, error } = await supabase
+    .from("employees")
+    .insert(databaseEmployee)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating employee:", error);
+    throw error;
+  }
+
+  return mapEmployeeFromDatabase(data);
+}
+
+export async function updateEmployee(employeeData) {
+  const databaseEmployee = mapEmployeeToDatabase(employeeData);
+
+  const { data, error } = await supabase
+    .from("employees")
+    .update(databaseEmployee)
+    .eq("id", employeeData.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating employee:", error);
+    throw error;
+  }
+
+  return mapEmployeeFromDatabase(data);
+}
+
+export async function deleteEmployee(employeeId) {
+  const { error } = await supabase
+    .from("employees")
+    .delete()
+    .eq("id", employeeId);
+
+  if (error) {
+    console.error("Error deleting employee:", error);
+    throw error;
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC - SUPABASE
+|--------------------------------------------------------------------------
+*/
+
+export async function getPublicEmployees() {
+  const { data, error } = await supabase
+    .from("public_employees")
+    .select("*")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching public employees:", error);
+    throw error;
+  }
+
+  return (data || []).map(mapPublicEmployeeFromDatabase);
+}
+
+export async function getPublicEmployeeBySlug(slug) {
+  const { data, error } = await supabase
+    .from("public_employees")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error fetching public employee:", error);
+    throw error;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  return mapPublicEmployeeFromDatabase(data);
 }

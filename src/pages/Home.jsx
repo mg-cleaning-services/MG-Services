@@ -6,7 +6,6 @@ import ServicesSection from "@/components/landing/ServicesSection";
 import TeamSection from "@/components/landing/TeamSection";
 import HowItWorks from "@/components/landing/HowItWorks";
 import GallerySection from "@/components/landing/GallerySection";
-import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import ServiceAreas from "@/components/landing/ServiceAreas";
 import InstagramFeed from "@/components/landing/InstagramFeed";
 import QuoteSection from "@/components/landing/QuoteSection";

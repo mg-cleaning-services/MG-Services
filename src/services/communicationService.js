@@ -101,12 +101,18 @@ export function buildCustomerCleanerMessage(job, employee) {
     "",
     `Cleaner: ${employee.name}`,
     `Role: ${employee.role}`,
-    employee.years ? `Experience: ${employee.years} years` : null,
+    employee.years
+      ? `Experience: ${employee.years} ${
+          employee.years === 1 ? "year" : "years"
+        }`
+      : null,
     "",
     `Date: ${job.schedule.date}`,
     `Time: ${job.schedule.startTime}`,
     "",
     "We've prepared an introduction card so you can get to know the person who will be looking after your home.",
+    "",
+    profileUrl ? `Learn more about ${employee.name}: ${profileUrl}` : null,
     "",
     "If you have any questions before your service, please contact us.",
     "",

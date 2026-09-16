@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   ClipboardList,
@@ -6,6 +6,8 @@ import {
   Users,
   ExternalLink,
 } from "lucide-react";
+
+import { supabase } from "@/lib/supabase";
 
 const navigation = [
   {
@@ -31,36 +33,48 @@ const navigation = [
   },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ profile }) {
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Error signing out:", error);
+      return;
+    }
+
+    navigate("/login", { replace: true });
+  }
+
   return (
     <aside
       className="
-    sticky top-0 z-40
-    border-b border-[#2E7D32]/10
-    bg-white/95 backdrop-blur
-    lg:relative lg:min-h-screen lg:w-64
-    lg:border-b-0 lg:border-r"
+        sticky top-0 z-40
+        border-b border-[#2E7D32]/10
+        bg-white/95 backdrop-blur
+        lg:relative lg:min-h-screen lg:w-64
+        lg:border-b-0 lg:border-r
+      "
     >
-      {/* Brand */}
-      <div className="border-b border-[#2E7D32]/10 px-6 py-6">
-        <Link to="/" className="inline-block">
-          <div className="text-2xl font-heading font-bold text-[#1A1A1A]">
-            MG<span className="text-[#2E7D32]">.</span>
-          </div>
+      {/* User */}
+      <div className="border-b border-gray-100 px-4 py-4 lg:px-6">
+        <p className="font-semibold text-gray-900">
+          {profile?.full_name || "Admin"}
+        </p>
 
-          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#1A1A1A]/40">
-            Admin
-          </p>
-        </Link>
+        <p className="text-sm capitalize text-gray-500">
+          {profile?.role || ""}
+        </p>
       </div>
 
       {/* Navigation */}
       <nav
         className="
-    flex gap-2 overflow-x-auto p-4
-    scrollbar-hide
-    lg:block lg:space-y-2
-  "
+          flex gap-2 overflow-x-auto p-4
+          scrollbar-hide
+          lg:block lg:space-y-2
+        "
       >
         {navigation.map(({ name, to, icon: Icon, end }) => (
           <NavLink
@@ -82,15 +96,23 @@ export default function AdminSidebar() {
         ))}
       </nav>
 
-      {/* Website */}
-      <div className="hidden px-4 lg:absolute lg:bottom-6 lg:block lg:w-64">
+      {/* Bottom actions */}
+      <div className="px-4 pb-4 lg:absolute lg:bottom-6 lg:w-64">
         <Link
           to="/"
-          className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#1A1A1A]/50 transition hover:bg-[#F9FAF9] hover:text-[#2E7D32]"
+          className="hidden items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#1A1A1A]/50 transition hover:bg-[#F9FAF9] hover:text-[#2E7D32] lg:flex"
         >
           <ExternalLink size={18} />
           View Website
         </Link>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="mt-2 w-full rounded-xl px-4 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+        >
+          Sign out
+        </button>
       </div>
     </aside>
   );
