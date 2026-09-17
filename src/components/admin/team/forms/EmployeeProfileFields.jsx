@@ -8,24 +8,6 @@ export default function EmployeeProfileFields({ form, onChange }) {
       <div className="space-y-4">
         <div>
           <label
-            htmlFor="employee-photo"
-            className="block text-sm font-medium text-[#1A1A1A] mb-2"
-          >
-            Photo path
-          </label>
-
-          <input
-            id="employee-photo"
-            name="photo"
-            value={form.photo}
-            onChange={onChange}
-            placeholder="/images/Sarah.png"
-            className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
-          />
-        </div>
-
-        <div>
-          <label
             htmlFor="employee-bio"
             className="block text-sm font-medium text-[#1A1A1A] mb-2"
           >

@@ -1,5 +1,6 @@
 import EmployeeBasicFields from "./EmployeeBasicFields";
 import EmployeeManagementFields from "./EmployeeManagementFields";
+import EmployeePhotoField from "./EmployeePhotoField";
 import EmployeeProfileFields from "./EmployeeProfileFields";
 
 import useEmployeeForm from "@/hooks/useEmployeeForm";
@@ -10,31 +11,38 @@ export default function EmployeeForm({
   onCancel,
   submitLabel = "Save Changes",
 }) {
-  const { form, handleChange, handleSubmit } = useEmployeeForm({
-    employee,
-    onSubmit,
-  });
+  const { form, photoPreview, handleChange, handlePhotoChange, handleSubmit } =
+    useEmployeeForm({
+      employee,
+      onSubmit,
+    });
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <EmployeeBasicFields form={form} onChange={handleChange} />
 
+      <EmployeePhotoField
+        employeeName={form.name}
+        photoPreview={photoPreview}
+        onPhotoChange={handlePhotoChange}
+      />
+
       <EmployeeProfileFields form={form} onChange={handleChange} />
 
       <EmployeeManagementFields form={form} onChange={handleChange} />
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-[#1A1A1A]/10">
+      <div className="flex justify-end gap-3 border-t border-[#1A1A1A]/10 pt-4">
         <button
           type="button"
           onClick={onCancel}
-          className="px-5 py-2.5 rounded-xl border border-[#1A1A1A]/10 text-sm font-medium text-[#1A1A1A] hover:bg-gray-50 transition-colors"
+          className="rounded-xl border border-[#1A1A1A]/10 px-5 py-2.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-gray-50"
         >
           Cancel
         </button>
 
         <button
           type="submit"
-          className="px-5 py-2.5 rounded-xl bg-[#2E7D32] text-white text-sm font-medium hover:bg-[#256628] transition-colors"
+          className="rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
         >
           {submitLabel}
         </button>

@@ -3,6 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { getEmployeeById, updateEmployee } from "@/services/employeeService";
 
+import {
+  deleteEmployeePhoto,
+  getEmployeePhotoPath,
+  uploadEmployeePhoto,
+} from "@/services/employeePhotoService";
+
 export default function useEmployeeDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -50,7 +56,7 @@ export default function useEmployeeDetail() {
     };
   }, [id]);
 
-  async function saveEmployee(employeeData) {
+  async function saveEmployee(employeeData, photoFile) {
     if (saving) {
       return;
     }
@@ -59,12 +65,67 @@ export default function useEmployeeDetail() {
       setSaving(true);
       setSaveError("");
 
-      await updateEmployee(employeeData);
+      let dataToSave = employeeData;
+      let newPhotoPath = null;
+
+      if (photoFile) {
+        const uploadedPhoto = await uploadEmployeePhoto(
+          employeeData.id,
+          photoFile,
+        );
+
+        newPhotoPath = uploadedPhoto.path;
+
+        dataToSave = {
+          ...employeeData,
+          photo: uploadedPhoto.url,
+        };
+      }
+
+      try {
+        await updateEmployee(dataToSave);
+      } catch (error) {
+        // DB failed after uploading the new image.
+        // Remove the new image so it does not become orphaned.
+        if (newPhotoPath) {
+          try {
+            await deleteEmployeePhoto(newPhotoPath);
+          } catch (cleanupError) {
+            console.error(
+              "Could not clean up uploaded employee photo:",
+              cleanupError,
+            );
+          }
+        }
+
+        throw error;
+      }
+
+      // DB now points to the new image.
+      // The previous image can safely be removed.
+      if (photoFile && employee?.photo) {
+        const previousPhotoPath = getEmployeePhotoPath(employee.photo);
+
+        if (previousPhotoPath) {
+          try {
+            await deleteEmployeePhoto(previousPhotoPath);
+          } catch (cleanupError) {
+            // The employee was saved successfully.
+            // Failure to remove an old image should not make
+            // the whole save appear to have failed.
+            console.error(
+              "Could not delete previous employee photo:",
+              cleanupError,
+            );
+          }
+        }
+      }
 
       navigate("/admin/team");
     } catch (error) {
       console.error("Could not update employee:", error);
-      setSaveError("Could not save employee changes.");
+
+      setSaveError(error?.message || "Could not save employee changes.");
     } finally {
       setSaving(false);
     }

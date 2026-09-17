@@ -62,65 +62,99 @@ export default function TeamAssignmentFields({
               return (
                 <div
                   key={employee.id}
-                  className="rounded-xl border border-gray-200 bg-gray-50 p-5"
+                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
                 >
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <p className="text-lg font-semibold text-gray-900">
-                        {employee.name}
-                      </p>
-
-                      <p className="mt-1 text-sm text-gray-600">
-                        {employee.role}
-                      </p>
-
-                      {employee.employeeCode && (
-                        <p className="mt-1 text-xs text-gray-400">
-                          {employee.employeeCode}
-                        </p>
+                  <div className="flex min-h-[220px] flex-col sm:flex-row">
+                    {/* Employee photo */}
+                    <div className="h-56 w-full shrink-0 sm:h-auto sm:w-52">
+                      {employee.photo ? (
+                        <img
+                          src={employee.photo}
+                          alt={employee.name}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full min-h-56 w-full items-center justify-center bg-[#E8F5E9] text-3xl font-semibold text-[#2E7D32]">
+                          {getInitials(employee.name)}
+                        </div>
                       )}
                     </div>
 
-                    <button
-                      type="button"
-                      disabled={assignmentLoading}
-                      onClick={() => onRemoveEmployee(employee.id)}
-                      className="text-sm font-medium text-red-600 disabled:opacity-50"
-                    >
-                      Remove
-                    </button>
-                  </div>
+                    {/* Employee information */}
+                    <div className="flex flex-1 flex-col p-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-xl font-semibold text-gray-900">
+                            {employee.name}
+                          </p>
 
-                  <div className="mt-4 space-y-1 text-sm text-gray-600">
-                    <p>Phone: {employee.phone || "Not provided"}</p>
+                          <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-gray-600">
+                            <span>{employee.role}</span>
 
-                    <p>Location: {employee.location || "Not provided"}</p>
-                  </div>
+                            {employee.employeeCode && (
+                              <>
+                                <span className="text-gray-300">•</span>
+                                <span className="text-gray-400">
+                                  {employee.employeeCode}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </div>
 
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() => onDownloadIntroduction(employee)}
-                      className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
-                    >
-                      Download Introduction
-                    </button>
+                        <button
+                          type="button"
+                          disabled={assignmentLoading}
+                          onClick={() => onRemoveEmployee(employee.id)}
+                          className="text-sm font-medium text-red-600 disabled:opacity-50"
+                        >
+                          Remove
+                        </button>
+                      </div>
 
-                    <button
-                      type="button"
-                      onClick={() => onSendToCustomer(employee)}
-                      className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
-                    >
-                      Send to Customer
-                    </button>
+                      <div className="mt-5 space-y-2 text-sm text-gray-600">
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Phone:
+                          </span>{" "}
+                          {employee.phone || "Not provided"}
+                        </p>
 
-                    <button
-                      type="button"
-                      onClick={() => onSendJob(employee)}
-                      className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
-                    >
-                      Send Job
-                    </button>
+                        <p>
+                          <span className="font-medium text-gray-800">
+                            Location:
+                          </span>{" "}
+                          {employee.location || "Not provided"}
+                        </p>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="mt-auto flex flex-wrap gap-3 pt-6">
+                        <button
+                          type="button"
+                          onClick={() => onDownloadIntroduction(employee)}
+                          className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                        >
+                          Download Introduction
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => onSendToCustomer(employee)}
+                          className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                        >
+                          Send to Customer
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => onSendJob(employee)}
+                          className="rounded-xl bg-[#2E7D32] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+                        >
+                          Send Job
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
@@ -129,5 +163,35 @@ export default function TeamAssignmentFields({
         )}
       </div>
     </>
+  );
+}
+
+function EmployeePhoto({ employee }) {
+  if (employee.photo) {
+    return (
+      <img
+        src={employee.photo}
+        alt={employee.name}
+        className="h-16 w-16 shrink-0 rounded-2xl object-cover"
+      />
+    );
+  }
+
+  return (
+    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#E8F5E9] text-lg font-semibold text-[#2E7D32]">
+      {getInitials(employee.name)}
+    </div>
+  );
+}
+
+function getInitials(name = "") {
+  return (
+    name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "MG"
   );
 }

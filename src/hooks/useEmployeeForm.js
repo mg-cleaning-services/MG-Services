@@ -61,10 +61,22 @@ function commaSeparatedToArray(value) {
 
 export default function useEmployeeForm({ employee, onSubmit }) {
   const [form, setForm] = useState(() => employeeToForm(employee));
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(employee?.photo ?? "");
 
   useEffect(() => {
     setForm(employeeToForm(employee));
+    setPhotoFile(null);
+    setPhotoPreview(employee?.photo ?? "");
   }, [employee]);
+
+  useEffect(() => {
+    return () => {
+      if (photoPreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(photoPreview);
+      }
+    };
+  }, [photoPreview]);
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
@@ -75,38 +87,60 @@ export default function useEmployeeForm({ employee, onSubmit }) {
     }));
   }
 
+  function handlePhotoChange(event) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (photoPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(photoPreview);
+    }
+
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
-    onSubmit({
-      ...(employee ?? {}),
+    onSubmit(
+      {
+        ...(employee ?? {}),
 
-      name: form.name.trim(),
-      role: form.role.trim(),
-      location: form.location.trim(),
-      years: Number(form.years),
+        name: form.name.trim(),
+        role: form.role.trim(),
+        location: form.location.trim(),
+        years: Number(form.years),
 
-      phone: form.phone.trim(),
-      email: form.email.trim(),
+        phone: form.phone.trim(),
+        email: form.email.trim(),
 
-      tagline: form.tagline.trim(),
-      bio: form.bio.trim(),
+        tagline: form.tagline.trim(),
+        bio: form.bio.trim(),
 
-      languages: commaSeparatedToArray(form.languages),
-      specialties: commaSeparatedToArray(form.specialties),
-      traits: commaSeparatedToArray(form.traits),
-      interests: commaSeparatedToArray(form.interests),
+        languages: commaSeparatedToArray(form.languages),
+        specialties: commaSeparatedToArray(form.specialties),
+        traits: commaSeparatedToArray(form.traits),
+        interests: commaSeparatedToArray(form.interests),
 
-      photo: form.photo.trim(),
+        photo: form.photo.trim(),
 
-      publicProfile: form.publicProfile,
-      status: form.status,
-    });
+        publicProfile: form.publicProfile,
+        status: form.status,
+      },
+      photoFile,
+    );
   }
 
   return {
     form,
+    photoFile,
+    photoPreview,
+
     handleChange,
+    handlePhotoChange,
     handleSubmit,
   };
 }

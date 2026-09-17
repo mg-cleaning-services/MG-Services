@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { createEmployee } from "@/services/employeeService";
+import { createEmployee, updateEmployee } from "@/services/employeeService";
+
+import { uploadEmployeePhoto } from "@/services/employeePhotoService";
 
 export default function useCreateEmployee() {
   const navigate = useNavigate();
@@ -9,7 +11,7 @@ export default function useCreateEmployee() {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
 
-  async function createNewEmployee(employeeData) {
+  async function createNewEmployee(employeeData, photoFile) {
     if (saving) {
       return;
     }
@@ -18,12 +20,25 @@ export default function useCreateEmployee() {
       setSaving(true);
       setSaveError("");
 
-      const createdEmployee = await createEmployee(employeeData);
+      let createdEmployee = await createEmployee(employeeData);
+
+      if (photoFile) {
+        const uploadedPhoto = await uploadEmployeePhoto(
+          createdEmployee.id,
+          photoFile,
+        );
+
+        createdEmployee = await updateEmployee({
+          ...createdEmployee,
+          photo: uploadedPhoto.url,
+        });
+      }
 
       navigate(`/admin/team/${createdEmployee.id}`);
     } catch (error) {
       console.error("Could not create employee:", error);
-      setSaveError("Could not create employee.");
+
+      setSaveError(error?.message || "Could not create employee.");
     } finally {
       setSaving(false);
     }
