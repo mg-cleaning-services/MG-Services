@@ -7,7 +7,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { Toaster } from "@/components/ui/toaster";
 
 import EmployeeProfile from "@/pages/EmployeeProfile";
-import RequestService from "@/pages/admin/RequestService";
+import RequestService from "@/pages/RequestService";
 import AdminRequests from "@/pages/admin/AdminRequests";
 import RequestDetail from "@/pages/admin/RequestDetail";
 import AdminJobs from "@/pages/admin/AdminJobs";

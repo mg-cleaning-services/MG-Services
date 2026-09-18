@@ -57,6 +57,7 @@ export default function useRequestService() {
   );
 
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const includedServices = useMemo(() => {
     if (!selectedPackage) {
@@ -101,8 +102,6 @@ export default function useRequestService() {
 
   /*
    * STEP 3 — SCHEDULE
-   *
-   * focusAreas remains optional.
    */
   const hasValidServiceDetails =
     Boolean(serviceDetails.preferredDate) &&
@@ -112,13 +111,6 @@ export default function useRequestService() {
 
   /*
    * STEP 4 — CONTACT
-   *
-   * Phone is required because it gives MG Cleaning
-   * a reliable contact method.
-   *
-   * Email is only required when the customer
-   * explicitly chooses Email as their preferred
-   * contact method.
    */
   const hasRequiredContactDetails =
     Boolean(customerDetails.firstName?.trim()) &&
@@ -260,7 +252,7 @@ export default function useRequestService() {
 
       const createdRequest = await createRequest(requestData);
 
-      alert("Your cleaning request has been sent successfully.");
+      setSubmitted(true);
 
       return createdRequest;
     } catch (error) {
@@ -297,6 +289,7 @@ export default function useRequestService() {
 
     canReview,
     submitting,
+    submitted,
 
     updateCustomerField,
     updateServiceField,
