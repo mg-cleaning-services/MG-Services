@@ -9,12 +9,15 @@ import {
 
 import { getJobByRequestId } from "@/services/jobService";
 
-const initialJobDetails = {
-  date: "",
-  startTime: "",
-  estimatedHours: "",
-  finalPrice: "",
-};
+import { getActiveEmployees } from "@/services/employeeService";
+
+import { getJobConflictsByEmployee } from "@/services/availabilityService";
+
+import {
+  assignEmployeeToRequest,
+  getRequestAssignments,
+  removeEmployeeFromRequest,
+} from "@/services/requestAssignmentService";
 
 const initialJobLocation = {
   address: "",
@@ -36,16 +39,44 @@ export default function useRequestDetail() {
   const [request, setRequest] = useState(null);
   const [generatedJob, setGeneratedJob] = useState(null);
 
-  const [jobDetails, setJobDetails] = useState(initialJobDetails);
-
   const [jobLocation, setJobLocation] = useState(initialJobLocation);
 
   const [jobAccess, setJobAccess] = useState(initialJobAccess);
+
+  /*
+  |--------------------------------------------------------------------------
+  | TEAM PLANNING
+  |--------------------------------------------------------------------------
+  */
+
+  const [activeEmployees, setActiveEmployees] = useState([]);
+
+  const [requestAssignments, setRequestAssignments] = useState([]);
+
+  const [jobConflictsByEmployee, setJobConflictsByEmployee] = useState(
+    new Map(),
+  );
+
+  const [checkingConflicts, setCheckingConflicts] = useState(false);
+
+  const [assignmentLoadingId, setAssignmentLoadingId] = useState(null);
+
+  /*
+  |--------------------------------------------------------------------------
+  | GENERAL STATE
+  |--------------------------------------------------------------------------
+  */
 
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [saving, setSaving] = useState(false);
   const [converting, setConverting] = useState(false);
+
+  /*
+  |--------------------------------------------------------------------------
+  | INITIAL LOAD
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     let ignore = false;
@@ -55,10 +86,13 @@ export default function useRequestDetail() {
         setLoading(true);
         setLoadError("");
 
-        const [requestData, relatedJob] = await Promise.all([
-          getRequestById(id),
-          getJobByRequestId(id),
-        ]);
+        const [requestData, relatedJob, employees, assignments] =
+          await Promise.all([
+            getRequestById(id),
+            getJobByRequestId(id),
+            getActiveEmployees(),
+            getRequestAssignments(id),
+          ]);
 
         if (ignore) {
           return;
@@ -67,12 +101,10 @@ export default function useRequestDetail() {
         setRequest(requestData);
         setGeneratedJob(relatedJob);
 
-        if (requestData) {
-          setJobDetails((current) => ({
-            ...current,
-            date: requestData.schedule?.preferredDate || "",
-          }));
+        setActiveEmployees(employees);
+        setRequestAssignments(assignments);
 
+        if (requestData) {
           setJobLocation((current) => ({
             ...current,
             suburb: requestData.property?.suburb || "",
@@ -99,6 +131,72 @@ export default function useRequestDetail() {
     };
   }, [id]);
 
+  /*
+  |--------------------------------------------------------------------------
+  | JOB CONFLICT CHECK
+  |--------------------------------------------------------------------------
+  |
+  | Re-check whenever the proposed service window changes.
+  |
+  */
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function checkJobConflicts() {
+      const serviceDate = request?.schedule?.serviceDate;
+
+      const startTime = request?.schedule?.startTime;
+
+      const endTime = request?.schedule?.endTime;
+
+      if (!serviceDate || !startTime || !endTime || endTime <= startTime) {
+        setJobConflictsByEmployee(new Map());
+        return;
+      }
+
+      try {
+        setCheckingConflicts(true);
+
+        const conflicts = await getJobConflictsByEmployee({
+          serviceDate,
+          startTime,
+          endTime,
+        });
+
+        if (!ignore) {
+          setJobConflictsByEmployee(conflicts);
+        }
+      } catch (error) {
+        console.error("Could not check job conflicts:", error);
+
+        if (!ignore) {
+          setJobConflictsByEmployee(new Map());
+        }
+      } finally {
+        if (!ignore) {
+          setCheckingConflicts(false);
+        }
+      }
+    }
+
+    checkJobConflicts();
+
+    return () => {
+      ignore = true;
+    };
+  }, [
+    request?.schedule?.serviceDate,
+    request?.schedule?.startTime,
+    request?.schedule?.endTime,
+  ]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | REQUEST EDITING
+  |--------------------------------------------------------------------------
+  */
+
   function updateRequestSection(section, value) {
     setRequest((current) => ({
       ...current,
@@ -112,6 +210,87 @@ export default function useRequestDetail() {
       [field]: value,
     }));
   }
+
+  function updateNestedRequestField(section, field, value) {
+    setRequest((current) => ({
+      ...current,
+      [section]: {
+        ...current[section],
+        [field]: value,
+      },
+    }));
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | REQUEST ASSIGNMENTS
+  |--------------------------------------------------------------------------
+  */
+
+  function isEmployeeAssigned(employeeId) {
+    return requestAssignments.some(
+      (assignment) => assignment.employeeId === employeeId,
+    );
+  }
+
+  function getEmployeeJobConflicts(employeeId) {
+    return jobConflictsByEmployee.get(employeeId) || [];
+  }
+
+  function hasEmployeeJobConflict(employeeId) {
+    return getEmployeeJobConflicts(employeeId).length > 0;
+  }
+
+  async function toggleRequestAssignment(employeeId) {
+    if (!request) {
+      return;
+    }
+
+    const assigned = isEmployeeAssigned(employeeId);
+
+    /*
+     * Prevent creating a new preliminary assignment
+     * when the employee already has an overlapping Job.
+     *
+     * An employee who was previously assigned and later
+     * develops a conflict can still be removed.
+     */
+    if (!assigned && hasEmployeeJobConflict(employeeId)) {
+      return;
+    }
+
+    try {
+      setAssignmentLoadingId(employeeId);
+
+      if (assigned) {
+        await removeEmployeeFromRequest(request.id, employeeId);
+      } else {
+        await assignEmployeeToRequest(request.id, employeeId);
+      }
+
+      /*
+       * Reload from the database instead of manually
+       * constructing assignment objects.
+       *
+       * This keeps the database as the source of truth.
+       */
+      const assignments = await getRequestAssignments(request.id);
+
+      setRequestAssignments(assignments);
+    } catch (error) {
+      console.error("Could not update request assignment:", error);
+
+      alert("Could not update the team assignment. Please try again.");
+    } finally {
+      setAssignmentLoadingId(null);
+    }
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | SAVE REQUEST
+  |--------------------------------------------------------------------------
+  */
 
   async function saveRequest() {
     if (!request) {
@@ -139,57 +318,102 @@ export default function useRequestDetail() {
     }
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | CONVERSION VALIDATION
+  |--------------------------------------------------------------------------
+  */
+
   function validateConversion() {
     if (
-      !jobDetails.date ||
-      !jobDetails.startTime ||
-      !jobDetails.estimatedHours ||
+      !request.schedule?.serviceDate ||
+      !request.schedule?.startTime ||
+      !request.schedule?.endTime ||
+      request.estimation?.labourHours === "" ||
+      request.estimation?.labourHours === null ||
+      request.estimation?.labourHours === undefined ||
       !jobLocation.address.trim() ||
       !jobLocation.suburb.trim()
     ) {
       alert(
-        "Please enter the confirmed date, start time, estimated duration, street address and suburb.",
+        "Please enter the service date, start time, end time, estimated labour hours, street address and suburb.",
       );
 
       return null;
     }
 
-    const estimatedHours = Number(jobDetails.estimatedHours);
+    const estimatedLabourHours = Number(request.estimation.labourHours);
 
-    if (!Number.isFinite(estimatedHours) || estimatedHours <= 0) {
-      alert("Estimated hours must be greater than zero.");
+    if (!Number.isFinite(estimatedLabourHours) || estimatedLabourHours <= 0) {
+      alert("Estimated labour hours must be greater than zero.");
 
       return null;
     }
 
-    return {
-      estimatedHours,
-    };
+    if (request.schedule.endTime <= request.schedule.startTime) {
+      alert("End time must be later than start time.");
+
+      return null;
+    }
+
+    /*
+     * A selected employee may have become unavailable
+     * after the original planning decision.
+     *
+     * Do not silently remove them. Block conversion
+     * until Maxi reviews the team.
+     */
+    const conflictingAssignments = requestAssignments.filter((assignment) =>
+      hasEmployeeJobConflict(assignment.employeeId),
+    );
+
+    if (conflictingAssignments.length > 0) {
+      alert(
+        "One or more planned employees now have a conflicting job. Please review the team before converting this request.",
+      );
+
+      return null;
+    }
+
+    return true;
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | CONVERT TO JOB
+  |--------------------------------------------------------------------------
+  */
 
   async function convertToJob() {
     if (!request) {
       return;
     }
 
-    const validation = validateConversion();
-
-    if (!validation) {
+    if (!validateConversion()) {
       return;
     }
 
     try {
       setConverting(true);
 
-      /*
-       * Save the current Request first.
-       *
-       * This prevents unsaved edits in the form from
-       * being lost when the database RPC creates the Job.
-       */
       const savedRequest = await updateRequest(request);
 
       setRequest(savedRequest);
+
+      /*
+       * TEMPORARY RPC CONTRACT
+       *
+       * This remains compatible with the current
+       * convert_request_to_job RPC.
+       *
+       * We will update the RPC separately so that it
+       * copies:
+       *
+       * - end_time
+       * - estimated_labour_hours
+       * - quoted_price -> agreed_price
+       * - request_assignments -> job_assignments
+       */
 
       const createdJob = await convertRequestToJob(savedRequest.id, {
         location: {
@@ -203,16 +427,6 @@ export default function useRequestDetail() {
           instructions: jobAccess.instructions,
           parking: jobAccess.parking,
           contactOnArrival: jobAccess.contactOnArrival,
-        },
-
-        schedule: {
-          date: jobDetails.date,
-          startTime: jobDetails.startTime,
-          estimatedHours: validation.estimatedHours,
-        },
-
-        pricing: {
-          finalPrice: jobDetails.finalPrice,
         },
 
         notes: savedRequest.notes,
@@ -232,15 +446,28 @@ export default function useRequestDetail() {
     request,
     generatedJob,
 
-    jobDetails,
-    setJobDetails,
-
     jobLocation,
     setJobLocation,
 
     jobAccess,
     setJobAccess,
 
+    /*
+     * Team planning
+     */
+    activeEmployees,
+    requestAssignments,
+    checkingConflicts,
+    assignmentLoadingId,
+
+    isEmployeeAssigned,
+    getEmployeeJobConflicts,
+    hasEmployeeJobConflict,
+    toggleRequestAssignment,
+
+    /*
+     * General state
+     */
     loading,
     loadError,
     saving,
@@ -248,6 +475,7 @@ export default function useRequestDetail() {
 
     updateRequestSection,
     updateRequestField,
+    updateNestedRequestField,
 
     saveRequest,
     convertToJob,

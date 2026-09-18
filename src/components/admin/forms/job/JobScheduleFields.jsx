@@ -9,7 +9,7 @@ export default function JobScheduleFields({ value, onChange }) {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <FormInput
         type="date"
         label="Date"
@@ -25,10 +25,19 @@ export default function JobScheduleFields({ value, onChange }) {
       />
 
       <FormInput
+        type="time"
+        label="End time"
+        value={value.endTime}
+        onChange={(fieldValue) => updateField("endTime", fieldValue)}
+      />
+
+      <FormInput
         type="number"
-        label="Estimated hours"
-        value={value.estimatedHours}
-        onChange={(fieldValue) => updateField("estimatedHours", fieldValue)}
+        label="Estimated labour hours"
+        value={value.estimatedLabourHours ?? ""}
+        onChange={(fieldValue) =>
+          updateField("estimatedLabourHours", fieldValue)
+        }
       />
     </div>
   );

@@ -10,8 +10,10 @@ import RequestHeader from "@/components/admin/forms/request/RequestHeader";
 import ConvertedJobCard from "@/components/admin/forms/request/ConvertedJobCard";
 import PreferredScheduleFields from "@/components/admin/forms/request/PreferredScheduleFields";
 import PropertyConditionFields from "@/components/admin/forms/request/PropertyConditionFields";
+import ServicePlanningFields from "@/components/admin/forms/request/ServicePlanningFields";
+import EstimateQuoteFields from "@/components/admin/forms/request/EstimateQuoteFields";
+import TeamPlanningFields from "@/components/admin/forms/request/TeamPlanningFields";
 
-import JobDetailsFields from "@/components/admin/forms/job/JobDetailsFields";
 import ServiceLocationFields from "@/components/admin/forms/job/ServiceLocationFields";
 import AccessFields from "@/components/admin/forms/job/AccessFields";
 
@@ -22,14 +24,19 @@ export default function RequestDetail() {
     request,
     generatedJob,
 
-    jobDetails,
-    setJobDetails,
-
     jobLocation,
     setJobLocation,
 
     jobAccess,
     setJobAccess,
+
+    activeEmployees,
+    checkingConflicts,
+    assignmentLoadingId,
+
+    isEmployeeAssigned,
+    getEmployeeJobConflicts,
+    toggleRequestAssignment,
 
     loading,
     loadError,
@@ -38,6 +45,7 @@ export default function RequestDetail() {
 
     updateRequestSection,
     updateRequestField,
+    updateNestedRequestField,
 
     saveRequest,
     convertToJob,
@@ -136,15 +144,6 @@ export default function RequestDetail() {
             />
           </FormSection>
 
-          <FormSection title="Preferred Schedule">
-            <PreferredScheduleFields
-              value={request.schedule}
-              onChange={(schedule) =>
-                updateRequestSection("schedule", schedule)
-              }
-            />
-          </FormSection>
-
           <FormSection title="Property Condition">
             <PropertyConditionFields
               condition={request.condition}
@@ -156,16 +155,54 @@ export default function RequestDetail() {
             />
           </FormSection>
 
+          <FormSection title="Service Location">
+            <ServiceLocationFields
+              value={jobLocation}
+              onChange={setJobLocation}
+            />
+          </FormSection>
+
+          <FormSection title="Customer Preferred Schedule">
+            <PreferredScheduleFields
+              value={request.schedule}
+              onChange={(schedule) =>
+                updateRequestSection("schedule", schedule)
+              }
+            />
+          </FormSection>
+
           {!isConverted && (
             <>
-              <FormSection title="Confirmed Job Details">
-                <JobDetailsFields value={jobDetails} onChange={setJobDetails} />
+              <FormSection title="Service Planning">
+                <ServicePlanningFields
+                  value={request.schedule}
+                  onChange={(field, value) =>
+                    updateNestedRequestField("schedule", field, value)
+                  }
+                />
               </FormSection>
 
-              <FormSection title="Service Location">
-                <ServiceLocationFields
-                  value={jobLocation}
-                  onChange={setJobLocation}
+              <FormSection title="Estimate & Quote">
+                <EstimateQuoteFields
+                  estimation={request.estimation}
+                  pricing={request.pricing}
+                  onEstimationChange={(field, value) =>
+                    updateNestedRequestField("estimation", field, value)
+                  }
+                  onPricingChange={(field, value) =>
+                    updateNestedRequestField("pricing", field, value)
+                  }
+                />
+              </FormSection>
+
+              <FormSection title="Team Planning">
+                <TeamPlanningFields
+                  employees={activeEmployees}
+                  checkingConflicts={checkingConflicts}
+                  assignmentLoadingId={assignmentLoadingId}
+                  isEmployeeAssigned={isEmployeeAssigned}
+                  getEmployeeJobConflicts={getEmployeeJobConflicts}
+                  onToggleAssignment={toggleRequestAssignment}
                 />
               </FormSection>
 

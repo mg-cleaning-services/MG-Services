@@ -26,6 +26,10 @@ export default function JobDetail() {
     selectedEmployeeId,
     setSelectedEmployeeId,
 
+    checkingConflicts,
+    getEmployeeJobConflicts,
+    hasEmployeeJobConflict,
+
     loading,
     loadError,
     saving,
@@ -144,6 +148,9 @@ export default function JobDetail() {
               assignments={assignments}
               selectedEmployeeId={selectedEmployeeId}
               assignmentLoading={assignmentLoading}
+              checkingConflicts={checkingConflicts}
+              getEmployeeJobConflicts={getEmployeeJobConflicts}
+              hasEmployeeJobConflict={hasEmployeeJobConflict}
               onSelectedEmployeeChange={setSelectedEmployeeId}
               onAddEmployee={addEmployee}
               onRemoveEmployee={handleRemoveEmployee}

@@ -1,33 +1,35 @@
 export default function PropertyStep({ value, onFieldChange }) {
   return (
-    <div className="mt-10 rounded-2xl border border-gray-200 p-6">
+    <div>
+      {/* STEP HEADER */}
       <div className="max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-widest text-gray-500">
-          Step 2
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          Property Details
         </p>
 
-        <h2 className="mt-2 text-2xl font-semibold text-gray-900">
+        <h2 className="font-heading text-2xl leading-tight text-[#1A1A1A] md:text-3xl">
           Tell us about your property
         </h2>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-3 text-sm leading-relaxed text-[#1A1A1A]/60 md:text-base">
           This helps us understand the size of the job and prepare a more
           accurate recommendation.
         </p>
       </div>
 
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
+      {/* PROPERTY FIELDS */}
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
         <SelectField
           label="Property type"
           value={value.propertyType}
           onChange={(newValue) => onFieldChange("propertyType", newValue)}
-          placeholder="Select property type"
           options={[
-            ["apartment", "Apartment"],
-            ["house", "House"],
-            ["townhouse", "Townhouse"],
-            ["office", "Office"],
-            ["other", "Other"],
+            { value: "", label: "Select property type" },
+            { value: "apartment", label: "Apartment" },
+            { value: "house", label: "House" },
+            { value: "townhouse", label: "Townhouse" },
+            { value: "unit", label: "Unit" },
+            { value: "other", label: "Other" },
           ]}
         />
 
@@ -35,12 +37,12 @@ export default function PropertyStep({ value, onFieldChange }) {
           label="Floors"
           value={value.floors}
           onChange={(newValue) => onFieldChange("floors", newValue)}
-          placeholder="Select floors"
           options={[
-            ["1", "1 floor"],
-            ["2", "2 floors"],
-            ["3", "3 floors"],
-            ["4+", "4+ floors"],
+            { value: "", label: "Select floors" },
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3", label: "3" },
+            { value: "4+", label: "4+" },
           ]}
         />
 
@@ -48,14 +50,14 @@ export default function PropertyStep({ value, onFieldChange }) {
           label="Bedrooms"
           value={value.bedrooms}
           onChange={(newValue) => onFieldChange("bedrooms", newValue)}
-          placeholder="Select bedrooms"
           options={[
-            ["0", "Studio / 0"],
-            ["1", "1 bedroom"],
-            ["2", "2 bedrooms"],
-            ["3", "3 bedrooms"],
-            ["4", "4 bedrooms"],
-            ["5+", "5+ bedrooms"],
+            { value: "", label: "Select bedrooms" },
+            { value: "0", label: "0" },
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3", label: "3" },
+            { value: "4", label: "4" },
+            { value: "5+", label: "5+" },
           ]}
         />
 
@@ -63,13 +65,13 @@ export default function PropertyStep({ value, onFieldChange }) {
           label="Bathrooms"
           value={value.bathrooms}
           onChange={(newValue) => onFieldChange("bathrooms", newValue)}
-          placeholder="Select bathrooms"
           options={[
-            ["1", "1 bathroom"],
-            ["2", "2 bathrooms"],
-            ["3", "3 bathrooms"],
-            ["4", "4 bathrooms"],
-            ["5+", "5+ bathrooms"],
+            { value: "", label: "Select bathrooms" },
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3", label: "3" },
+            { value: "4", label: "4" },
+            { value: "5+", label: "5+" },
           ]}
         />
 
@@ -77,12 +79,12 @@ export default function PropertyStep({ value, onFieldChange }) {
           label="Kitchens"
           value={value.kitchens}
           onChange={(newValue) => onFieldChange("kitchens", newValue)}
-          placeholder="Select kitchens"
           options={[
-            ["0", "0"],
-            ["1", "1 kitchen"],
-            ["2", "2 kitchens"],
-            ["3+", "3+ kitchens"],
+            { value: "", label: "Select kitchens" },
+            { value: "0", label: "0" },
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3+", label: "3+" },
           ]}
         />
 
@@ -90,12 +92,12 @@ export default function PropertyStep({ value, onFieldChange }) {
           label="Balconies"
           value={value.balconies}
           onChange={(newValue) => onFieldChange("balconies", newValue)}
-          placeholder="Select balconies"
           options={[
-            ["0", "No balcony"],
-            ["1", "1 balcony"],
-            ["2", "2 balconies"],
-            ["3+", "3+ balconies"],
+            { value: "", label: "Select balconies" },
+            { value: "0", label: "0" },
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3+", label: "3+" },
           ]}
         />
 
@@ -103,11 +105,11 @@ export default function PropertyStep({ value, onFieldChange }) {
           label="Laundry rooms"
           value={value.laundries}
           onChange={(newValue) => onFieldChange("laundries", newValue)}
-          placeholder="Select laundry rooms"
           options={[
-            ["0", "0"],
-            ["1", "1 laundry"],
-            ["2+", "2+ laundries"],
+            { value: "", label: "Select laundry rooms" },
+            { value: "0", label: "0" },
+            { value: "1", label: "1" },
+            { value: "2+", label: "2+" },
           ]}
         />
 
@@ -126,49 +128,59 @@ export default function PropertyStep({ value, onFieldChange }) {
         />
       </div>
 
-      <div className="mt-6">
-        <p className="mb-3 text-sm font-medium text-gray-700">
+      {/* PETS */}
+      <div className="mt-8 border-t border-[#2E7D32]/10 pt-7">
+        <p className="text-sm font-semibold text-[#1A1A1A]">
           Are there pets at the property?
         </p>
 
-        <div className="flex gap-3">
-          {["yes", "no"].map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onFieldChange("pets", option)}
-              className={`rounded-xl border px-5 py-2.5 capitalize transition ${
-                value.pets === option
-                  ? "border-gray-900 bg-gray-900 text-white"
-                  : "border-gray-300 bg-white text-gray-700"
-              }`}
-            >
-              {option}
-            </button>
-          ))}
+        <p className="mt-1 text-sm text-[#1A1A1A]/50">
+          This helps our team prepare before arriving.
+        </p>
+
+        <div className="mt-4 flex gap-3">
+          {[
+            { value: "yes", label: "Yes" },
+            { value: "no", label: "No" },
+          ].map((option) => {
+            const selected = value.pets === option.value;
+
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => onFieldChange("pets", option.value)}
+                className={`min-w-24 rounded-xl border px-5 py-3 text-sm font-semibold transition-all duration-300 ${
+                  selected
+                    ? "border-[#2E7D32] bg-[#E8F5E9] text-[#2E7D32]"
+                    : "border-[#2E7D32]/10 bg-white text-[#1A1A1A]/60 hover:border-[#2E7D32]/30"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
 
-function SelectField({ label, value, onChange, placeholder, options }) {
+function SelectField({ label, value, onChange, options }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
         {label}
       </label>
 
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-gray-300 px-4 py-3"
+        className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
       >
-        <option value="">{placeholder}</option>
-
-        {options.map(([optionValue, optionLabel]) => (
-          <option key={optionValue} value={optionValue}>
-            {optionLabel}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>
@@ -179,7 +191,7 @@ function SelectField({ label, value, onChange, placeholder, options }) {
 function TextField({ label, value, onChange, placeholder }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
         {label}
       </label>
 
@@ -188,7 +200,7 @@ function TextField({ label, value, onChange, placeholder }) {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-gray-300 px-4 py-3"
+        className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 placeholder:text-[#1A1A1A]/30 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
       />
     </div>
   );

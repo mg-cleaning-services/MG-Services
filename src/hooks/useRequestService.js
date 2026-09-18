@@ -74,22 +74,72 @@ export default function useRequestService() {
     );
   }, [includedServices, services]);
 
+  /*
+   * STEP 1 — SERVICE
+   */
   const hasValidServiceSelection =
-    requestType === "package" ||
-    requestType === "unsure" ||
-    (requestType === "custom" && selectedServices.length > 0);
+    requestType === "package"
+      ? Boolean(selectedPackage)
+      : requestType === "custom"
+        ? selectedServices.length > 0
+        : requestType === "unsure";
 
+  /*
+   * STEP 2 — PROPERTY
+   */
+  const hasValidPropertyDetails =
+    Boolean(propertyDetails.propertyType) &&
+    Boolean(propertyDetails.floors) &&
+    Boolean(propertyDetails.bedrooms) &&
+    Boolean(propertyDetails.bathrooms) &&
+    Boolean(propertyDetails.kitchens) &&
+    Boolean(propertyDetails.balconies) &&
+    Boolean(propertyDetails.laundries) &&
+    Boolean(propertyDetails.suburb?.trim()) &&
+    Boolean(propertyDetails.postcode?.trim()) &&
+    Boolean(propertyDetails.pets);
+
+  /*
+   * STEP 3 — SCHEDULE
+   *
+   * focusAreas remains optional.
+   */
+  const hasValidServiceDetails =
+    Boolean(serviceDetails.preferredDate) &&
+    Boolean(serviceDetails.preferredTime) &&
+    Boolean(serviceDetails.condition) &&
+    Boolean(serviceDetails.lastProfessionalClean);
+
+  /*
+   * STEP 4 — CONTACT
+   *
+   * Phone is required because it gives MG Cleaning
+   * a reliable contact method.
+   *
+   * Email is only required when the customer
+   * explicitly chooses Email as their preferred
+   * contact method.
+   */
+  const hasRequiredContactDetails =
+    Boolean(customerDetails.firstName?.trim()) &&
+    Boolean(customerDetails.lastName?.trim()) &&
+    Boolean(customerDetails.phone?.trim()) &&
+    Boolean(customerDetails.preferredContact);
+
+  const hasRequiredEmail =
+    customerDetails.preferredContact !== "email" ||
+    Boolean(customerDetails.email?.trim());
+
+  const hasValidCustomerDetails = hasRequiredContactDetails && hasRequiredEmail;
+
+  /*
+   * FINAL REQUEST VALIDATION
+   */
   const canReview =
     hasValidServiceSelection &&
-    propertyDetails.propertyType &&
-    propertyDetails.bedrooms !== "" &&
-    propertyDetails.bathrooms !== "" &&
-    propertyDetails.suburb &&
-    serviceDetails.preferredDate &&
-    serviceDetails.preferredTime &&
-    customerDetails.firstName &&
-    customerDetails.phone &&
-    customerDetails.preferredContact;
+    hasValidPropertyDetails &&
+    hasValidServiceDetails &&
+    hasValidCustomerDetails;
 
   function updateCustomerField(field, value) {
     setCustomerDetails((current) => ({
@@ -241,6 +291,10 @@ export default function useRequestService() {
     availableExtras,
 
     hasValidServiceSelection,
+    hasValidPropertyDetails,
+    hasValidServiceDetails,
+    hasValidCustomerDetails,
+
     canReview,
     submitting,
 

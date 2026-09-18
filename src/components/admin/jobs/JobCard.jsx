@@ -21,6 +21,8 @@ export default function JobCard({ job }) {
         ? customServices.join(", ")
         : "Customised Service";
 
+  const displayPrice = job.pricing.finalPrice ?? job.pricing.agreedPrice;
+
   return (
     <article className="rounded-2xl border border-gray-200 bg-white p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -66,19 +68,31 @@ export default function JobCard({ job }) {
 
           <p className="mt-1 text-sm text-gray-600">
             {job.schedule.startTime}
-            {job.schedule.estimatedHours != null &&
-              ` · ${job.schedule.estimatedHours}h`}
+            {job.schedule.endTime && ` – ${job.schedule.endTime}`}
           </p>
+
+          {job.schedule.estimatedLabourHours != null && (
+            <p className="mt-1 text-xs text-gray-500">
+              {job.schedule.estimatedLabourHours}h total labour
+            </p>
+          )}
         </div>
 
         <div>
           <p className="text-xs font-semibold uppercase text-gray-400">Price</p>
 
           <p className="mt-1 font-medium text-gray-900">
-            {job.pricing.finalPrice != null
-              ? `$${job.pricing.finalPrice}`
-              : "Not set"}
+            {displayPrice != null ? `$${displayPrice}` : "Not set"}
           </p>
+
+          {job.pricing.finalPrice != null && (
+            <p className="mt-1 text-xs text-gray-500">Final price</p>
+          )}
+
+          {job.pricing.finalPrice == null &&
+            job.pricing.agreedPrice != null && (
+              <p className="mt-1 text-xs text-gray-500">Agreed price</p>
+            )}
         </div>
 
         <div>

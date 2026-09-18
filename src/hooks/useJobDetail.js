@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { getJobById, updateJob } from "@/services/jobService";
+
 import { getEmployees } from "@/services/employeeService";
+
+import { getJobConflictsByEmployee } from "@/services/availabilityService";
 
 import {
   assignEmployeeToJob,
@@ -19,11 +22,37 @@ export default function useJobDetail() {
 
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
 
+  /*
+  |--------------------------------------------------------------------------
+  | OPERATIONAL AVAILABILITY
+  |--------------------------------------------------------------------------
+  */
+
+  const [jobConflictsByEmployee, setJobConflictsByEmployee] = useState(
+    new Map(),
+  );
+
+  const [checkingConflicts, setCheckingConflicts] = useState(false);
+
+  /*
+  |--------------------------------------------------------------------------
+  | GENERAL STATE
+  |--------------------------------------------------------------------------
+  */
+
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
+
   const [assignmentLoading, setAssignmentLoading] = useState(false);
+
+  /*
+  |--------------------------------------------------------------------------
+  | INITIAL LOAD
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     let ignore = false;
@@ -66,6 +95,78 @@ export default function useJobDetail() {
     };
   }, [id]);
 
+  /*
+  |--------------------------------------------------------------------------
+  | JOB CONFLICT CHECK
+  |--------------------------------------------------------------------------
+  |
+  | Re-check whenever the Job service window changes.
+  |
+  | excludeJobId prevents the Job from conflicting
+  | with itself.
+  |
+  */
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function checkJobConflicts() {
+      const serviceDate = job?.schedule?.date;
+
+      const startTime = job?.schedule?.startTime;
+
+      const endTime = job?.schedule?.endTime;
+
+      if (!serviceDate || !startTime || !endTime || endTime <= startTime) {
+        setJobConflictsByEmployee(new Map());
+
+        return;
+      }
+
+      try {
+        setCheckingConflicts(true);
+
+        const conflicts = await getJobConflictsByEmployee({
+          serviceDate,
+          startTime,
+          endTime,
+          excludeJobId: job.id,
+        });
+
+        if (!ignore) {
+          setJobConflictsByEmployee(conflicts);
+        }
+      } catch (error) {
+        console.error("Could not check job conflicts:", error);
+
+        if (!ignore) {
+          setJobConflictsByEmployee(new Map());
+        }
+      } finally {
+        if (!ignore) {
+          setCheckingConflicts(false);
+        }
+      }
+    }
+
+    checkJobConflicts();
+
+    return () => {
+      ignore = true;
+    };
+  }, [
+    job?.id,
+    job?.schedule?.date,
+    job?.schedule?.startTime,
+    job?.schedule?.endTime,
+  ]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | EMPLOYEES
+  |--------------------------------------------------------------------------
+  */
+
   const activeEmployees = employees.filter(
     (employee) => employee.status === "active",
   );
@@ -77,6 +178,20 @@ export default function useJobDetail() {
   const availableEmployees = activeEmployees.filter(
     (employee) => !assignedEmployeeIds.has(String(employee.id)),
   );
+
+  function getEmployeeJobConflicts(employeeId) {
+    return jobConflictsByEmployee.get(employeeId) || [];
+  }
+
+  function hasEmployeeJobConflict(employeeId) {
+    return getEmployeeJobConflicts(employeeId).length > 0;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | EDIT JOB
+  |--------------------------------------------------------------------------
+  */
 
   function updateJobSection(section, value) {
     setJob((current) => ({
@@ -92,7 +207,50 @@ export default function useJobDetail() {
     }));
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | SAVE JOB
+  |--------------------------------------------------------------------------
+  */
+
   async function saveJob() {
+    if (!job) {
+      return null;
+    }
+
+    if (
+      !job.schedule?.date ||
+      !job.schedule?.startTime ||
+      !job.schedule?.endTime
+    ) {
+      setSaveMessage("Please enter the service date, start time and end time.");
+
+      return null;
+    }
+
+    if (job.schedule.endTime <= job.schedule.startTime) {
+      setSaveMessage("End time must be later than start time.");
+
+      return null;
+    }
+
+    /*
+     * If the Job already has assigned employees,
+     * changing its schedule may create conflicts
+     * with other Jobs.
+     */
+    const conflictingAssignments = assignments.filter((assignment) =>
+      hasEmployeeJobConflict(assignment.employeeId),
+    );
+
+    if (conflictingAssignments.length > 0) {
+      setSaveMessage(
+        "One or more assigned employees have a conflicting job. Please review the team or schedule before saving.",
+      );
+
+      return null;
+    }
+
     try {
       setSaving(true);
       setSaveMessage("");
@@ -102,14 +260,22 @@ export default function useJobDetail() {
 
         schedule: {
           ...job.schedule,
-          estimatedHours:
-            job.schedule.estimatedHours !== ""
-              ? Number(job.schedule.estimatedHours)
+
+          estimatedLabourHours:
+            job.schedule.estimatedLabourHours !== "" &&
+            job.schedule.estimatedLabourHours !== null
+              ? Number(job.schedule.estimatedLabourHours)
               : null,
         },
 
         pricing: {
           ...job.pricing,
+
+          agreedPrice:
+            job.pricing.agreedPrice !== "" && job.pricing.agreedPrice !== null
+              ? Number(job.pricing.agreedPrice)
+              : null,
+
           finalPrice:
             job.pricing.finalPrice !== "" && job.pricing.finalPrice !== null
               ? Number(job.pricing.finalPrice)
@@ -120,11 +286,13 @@ export default function useJobDetail() {
       const savedJob = await updateJob(updatedJob);
 
       setJob(savedJob);
+
       setSaveMessage("Job saved successfully.");
 
       return savedJob;
     } catch (error) {
       console.error("Could not save job:", error);
+
       setSaveMessage("Could not save job.");
 
       throw error;
@@ -133,8 +301,20 @@ export default function useJobDetail() {
     }
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | ASSIGN EMPLOYEE
+  |--------------------------------------------------------------------------
+  */
+
   async function addEmployee() {
-    if (!selectedEmployeeId) {
+    if (!selectedEmployeeId || !job) {
+      return;
+    }
+
+    if (hasEmployeeJobConflict(selectedEmployeeId)) {
+      alert("This employee already has another job during this time.");
+
       return;
     }
 
@@ -161,11 +341,18 @@ export default function useJobDetail() {
       }
     } catch (error) {
       console.error("Could not assign employee:", error);
+
       alert("Could not assign this employee.");
     } finally {
       setAssignmentLoading(false);
     }
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | REMOVE EMPLOYEE
+  |--------------------------------------------------------------------------
+  */
 
   async function removeEmployee(employeeId) {
     try {
@@ -189,6 +376,7 @@ export default function useJobDetail() {
       }
     } catch (error) {
       console.error("Could not remove employee:", error);
+
       alert("Could not remove this employee.");
     } finally {
       setAssignmentLoading(false);
@@ -203,6 +391,14 @@ export default function useJobDetail() {
 
     selectedEmployeeId,
     setSelectedEmployeeId,
+
+    /*
+     * Operational availability
+     */
+    jobConflictsByEmployee,
+    checkingConflicts,
+    getEmployeeJobConflicts,
+    hasEmployeeJobConflict,
 
     loading,
     loadError,

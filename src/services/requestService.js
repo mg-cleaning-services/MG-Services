@@ -1,5 +1,15 @@
 import { supabase } from "@/lib/supabase";
 
+function toNullableNumber(value) {
+  if (value === "" || value === null || value === undefined) {
+    return null;
+  }
+
+  const number = Number(value);
+
+  return Number.isNaN(number) ? null : number;
+}
+
 function mapRequestFromDatabase(request) {
   return {
     id: request.id,
@@ -36,8 +46,23 @@ function mapRequestFromDatabase(request) {
     },
 
     schedule: {
+      // Customer preference
       preferredDate: request.preferred_date,
       preferredTime: request.preferred_time,
+
+      // Internal planning
+      serviceDate: request.service_date || "",
+      startTime: request.start_time || "",
+      endTime: request.end_time || "",
+    },
+
+    estimation: {
+      labourHours: request.estimated_labour_hours ?? "",
+      price: request.estimated_price ?? "",
+    },
+
+    pricing: {
+      quotedPrice: request.quoted_price ?? "",
     },
 
     condition: {
@@ -79,10 +104,25 @@ function mapRequestToDatabase(request) {
     postcode: request.property.postcode?.trim() || null,
     pets: request.property.pets || null,
 
+    // Customer preference
     preferred_date: request.schedule.preferredDate,
     preferred_time: request.schedule.preferredTime,
 
+    // Internal planning
+    service_date: request.schedule.serviceDate || null,
+    start_time: request.schedule.startTime || null,
+    end_time: request.schedule.endTime || null,
+
+    // Internal estimation
+    estimated_labour_hours: toNullableNumber(request.estimation?.labourHours),
+
+    estimated_price: toNullableNumber(request.estimation?.price),
+
+    // Price communicated / agreed during Request stage
+    quoted_price: toNullableNumber(request.pricing?.quotedPrice),
+
     condition_level: request.condition.level || null,
+
     last_professional_clean: request.condition.lastProfessionalClean || null,
 
     notes: request.notes?.trim() || null,
@@ -93,7 +133,9 @@ export async function getRequests() {
   const { data, error } = await supabase
     .from("requests")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_at", {
+      ascending: false,
+    });
 
   if (error) {
     throw error;
@@ -183,6 +225,28 @@ export async function deleteRequest(requestId) {
   return requestId;
 }
 
+/*
+|--------------------------------------------------------------------------
+| CONVERT REQUEST TO JOB
+|--------------------------------------------------------------------------
+|
+| Planning and commercial values are already stored
+| on the Request before this RPC is called.
+|
+| The database reads directly from the Request:
+|
+| service_date
+| start_time
+| end_time
+| estimated_labour_hours
+| quoted_price -> agreed_price
+| request_assignments -> job_assignments
+|
+| React only sends operational information that does
+| not currently live on the Request.
+|
+*/
+
 export async function convertRequestToJob(requestId, confirmedData) {
   const { data, error } = await supabase.rpc("convert_request_to_job", {
     p_request_id: requestId,
@@ -200,19 +264,6 @@ export async function convertRequestToJob(requestId, confirmedData) {
     p_parking: confirmedData.access.parking?.trim() || null,
 
     p_contact_on_arrival: confirmedData.access.contactOnArrival ?? false,
-
-    p_service_date: confirmedData.schedule.date,
-
-    p_start_time: confirmedData.schedule.startTime,
-
-    p_estimated_hours: Number(confirmedData.schedule.estimatedHours),
-
-    p_final_price:
-      confirmedData.pricing.finalPrice !== "" &&
-      confirmedData.pricing.finalPrice !== null &&
-      confirmedData.pricing.finalPrice !== undefined
-        ? Number(confirmedData.pricing.finalPrice)
-        : null,
 
     p_notes: confirmedData.notes?.trim() || null,
   });

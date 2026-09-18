@@ -18,26 +18,28 @@ const conditionOptions = [
 
 export default function ScheduleStep({ value, onFieldChange }) {
   return (
-    <div className="mt-10 rounded-2xl border border-gray-200 p-6">
+    <div>
+      {/* STEP HEADER */}
       <div className="max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-widest text-gray-500">
-          Step 3
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          Schedule
         </p>
 
-        <h2 className="mt-2 text-2xl font-semibold text-gray-900">
+        <h2 className="font-heading text-2xl leading-tight text-[#1A1A1A] md:text-3xl">
           When would you like your cleaning?
         </h2>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-3 text-sm leading-relaxed text-[#1A1A1A]/60 md:text-base">
           Tell us your preferred date and a little about the current condition
           of the property. We'll confirm availability with you before the
           service is booked.
         </p>
       </div>
 
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
+      {/* PREFERRED SCHEDULE */}
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">
+          <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
             Preferred date
           </label>
 
@@ -47,12 +49,12 @@ export default function ScheduleStep({ value, onFieldChange }) {
             onChange={(event) =>
               onFieldChange("preferredDate", event.target.value)
             }
-            className="w-full rounded-xl border border-gray-300 px-4 py-3"
+            className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
           />
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">
+          <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
             Preferred time
           </label>
 
@@ -61,7 +63,7 @@ export default function ScheduleStep({ value, onFieldChange }) {
             onChange={(event) =>
               onFieldChange("preferredTime", event.target.value)
             }
-            className="w-full rounded-xl border border-gray-300 px-4 py-3"
+            className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
           >
             <option value="">Select preferred time</option>
             <option value="morning">Morning</option>
@@ -72,12 +74,13 @@ export default function ScheduleStep({ value, onFieldChange }) {
         </div>
       </div>
 
-      <div className="mt-8">
-        <p className="text-sm font-medium text-gray-700">
+      {/* PROPERTY CONDITION */}
+      <div className="mt-8 border-t border-[#2E7D32]/10 pt-7">
+        <p className="text-sm font-semibold text-[#1A1A1A]">
           How would you describe the current condition of the property?
         </p>
 
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm leading-relaxed text-[#1A1A1A]/50">
           Don't worry if you're not sure. This just helps us understand the
           amount of work involved.
         </p>
@@ -91,19 +94,21 @@ export default function ScheduleStep({ value, onFieldChange }) {
                 key={option.value}
                 type="button"
                 onClick={() => onFieldChange("condition", option.value)}
-                className={`rounded-xl border p-4 text-left transition ${
+                className={`relative rounded-2xl border p-5 text-left transition-all duration-300 ${
                   selected
-                    ? "border-gray-900 bg-gray-900 text-white"
-                    : "border-gray-200 bg-white hover:border-gray-400"
+                    ? "border-[#2E7D32] bg-[#E8F5E9]"
+                    : "border-[#2E7D32]/10 bg-[#F9FAF9] hover:border-[#2E7D32]/30"
                 }`}
               >
-                <p className="font-medium">{option.title}</p>
-
                 <p
-                  className={`mt-2 text-sm ${
-                    selected ? "text-gray-300" : "text-gray-500"
+                  className={`font-semibold ${
+                    selected ? "text-[#2E7D32]" : "text-[#1A1A1A]"
                   }`}
                 >
+                  {option.title}
+                </p>
+
+                <p className="mt-2 text-sm leading-relaxed text-[#1A1A1A]/50">
                   {option.description}
                 </p>
               </button>
@@ -112,8 +117,9 @@ export default function ScheduleStep({ value, onFieldChange }) {
         </div>
       </div>
 
+      {/* LAST PROFESSIONAL CLEAN */}
       <div className="mt-8">
-        <label className="mb-2 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
           When was the property last professionally cleaned?
         </label>
 
@@ -122,7 +128,7 @@ export default function ScheduleStep({ value, onFieldChange }) {
           onChange={(event) =>
             onFieldChange("lastProfessionalClean", event.target.value)
           }
-          className="w-full rounded-xl border border-gray-300 px-4 py-3 md:max-w-md"
+          className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5 md:max-w-md"
         >
           <option value="">Select an option</option>
           <option value="less-than-month">Less than a month ago</option>
@@ -134,12 +140,13 @@ export default function ScheduleStep({ value, onFieldChange }) {
         </select>
       </div>
 
+      {/* FOCUS AREAS */}
       <div className="mt-8">
-        <label className="mb-2 block text-sm font-medium text-gray-700">
+        <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
           What would you like us to focus on?
         </label>
 
-        <p className="mb-3 text-sm text-gray-500">
+        <p className="mb-3 text-sm leading-relaxed text-[#1A1A1A]/50">
           Tell us about any areas that need extra attention or anything else
           that would help us understand the job.
         </p>
@@ -149,7 +156,7 @@ export default function ScheduleStep({ value, onFieldChange }) {
           value={value.focusAreas}
           onChange={(event) => onFieldChange("focusAreas", event.target.value)}
           placeholder="For example: the kitchen needs extra attention, there are stains on the carpet, the bathrooms haven't been deep cleaned recently..."
-          className="w-full rounded-xl border border-gray-300 px-4 py-3"
+          className="w-full resize-y rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 placeholder:text-[#1A1A1A]/30 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
         />
       </div>
     </div>

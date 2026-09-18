@@ -1,5 +1,15 @@
 import { supabase } from "@/lib/supabase";
 
+function toNullableNumber(value) {
+  if (value === "" || value === null || value === undefined) {
+    return null;
+  }
+
+  const number = Number(value);
+
+  return Number.isNaN(number) ? null : number;
+}
+
 function mapJobFromDatabase(job) {
   return {
     // Internal database identifier
@@ -8,12 +18,14 @@ function mapJobFromDatabase(job) {
     // Human-readable identifier
     jobCode: job.job_code,
 
-    // Relation to original request
+    // Relation to original Request
     requestId: job.request_id,
     requestCode: job.requests?.request_code || null,
+
     jobType: job.job_type,
     source: job.source,
     status: job.status,
+
     team:
       job.job_assignments
         ?.map((assignment) => assignment.employees)
@@ -25,6 +37,7 @@ function mapJobFromDatabase(job) {
           role: employee.role,
           photo: employee.photo_url,
         })) || [],
+
     customer: {
       firstName: job.first_name,
       lastName: job.last_name || "",
@@ -66,15 +79,50 @@ function mapJobFromDatabase(job) {
       contactOnArrival: job.contact_on_arrival ?? false,
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | OPERATIONAL SCHEDULE
+    |--------------------------------------------------------------------------
+    |
+    | estimatedLabourHours represents total labour effort.
+    | It is independent from the scheduled service duration.
+    |
+    */
+
     schedule: {
       date: job.service_date,
+
       startTime: job.start_time?.slice(0, 5) || "",
-      estimatedHours:
-        job.estimated_hours !== null ? Number(job.estimated_hours) : null,
+
+      endTime: job.end_time?.slice(0, 5) || "",
+
+      estimatedLabourHours:
+        job.estimated_labour_hours !== null &&
+        job.estimated_labour_hours !== undefined
+          ? Number(job.estimated_labour_hours)
+          : null,
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | PRICING
+    |--------------------------------------------------------------------------
+    |
+    | agreedPrice = amount agreed when the Request became a Job.
+    | finalPrice  = eventual actual/final amount.
+    |
+    */
+
     pricing: {
-      finalPrice: job.final_price !== null ? Number(job.final_price) : null,
+      agreedPrice:
+        job.agreed_price !== null && job.agreed_price !== undefined
+          ? Number(job.agreed_price)
+          : null,
+
+      finalPrice:
+        job.final_price !== null && job.final_price !== undefined
+          ? Number(job.final_price)
+          : null,
     },
 
     notes: job.notes || "",
@@ -93,22 +141,35 @@ function mapJobToDatabase(job) {
     status: job.status || "unassigned",
 
     first_name: job.customer.firstName.trim(),
+
     last_name: job.customer.lastName?.trim() || null,
+
     phone: job.customer.phone.trim(),
+
     email: job.customer.email?.trim() || null,
+
     preferred_contact: job.customer.preferredContact || null,
 
     request_type: job.service.requestType,
+
     package_id: job.service.packageId || null,
+
     selected_services: job.service.selectedServices || [],
+
     extras: job.service.extras || [],
 
     property_type: job.property.propertyType || null,
+
     floors: job.property.floors || null,
+
     bedrooms: job.property.bedrooms || null,
+
     bathrooms: job.property.bathrooms || null,
+
     kitchens: job.property.kitchens || null,
+
     balconies: job.property.balconies || null,
+
     laundries: job.property.laundries || null,
 
     suburb: job.location?.suburb?.trim() || job.property.suburb?.trim(),
@@ -128,45 +189,68 @@ function mapJobToDatabase(job) {
 
     contact_on_arrival: job.access?.contactOnArrival ?? false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | SCHEDULE
+    |--------------------------------------------------------------------------
+    */
+
     service_date: job.schedule.date,
 
     start_time: job.schedule.startTime,
 
-    estimated_hours:
-      job.schedule.estimatedHours !== ""
-        ? Number(job.schedule.estimatedHours)
-        : null,
+    end_time: job.schedule.endTime,
 
-    final_price:
-      job.pricing.finalPrice !== "" &&
-      job.pricing.finalPrice !== null &&
-      job.pricing.finalPrice !== undefined
-        ? Number(job.pricing.finalPrice)
-        : null,
+    estimated_labour_hours: toNullableNumber(job.schedule.estimatedLabourHours),
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRICING
+    |--------------------------------------------------------------------------
+    */
+
+    agreed_price: toNullableNumber(job.pricing?.agreedPrice),
+
+    final_price: toNullableNumber(job.pricing?.finalPrice),
 
     notes: job.notes?.trim() || null,
   };
 }
 
+/*
+|--------------------------------------------------------------------------
+| COMMON JOB RELATIONS
+|--------------------------------------------------------------------------
+|
+| Keep the same relational data available across
+| list/detail/request lookups.
+|
+*/
+
+const jobRelations = `
+  *,
+  requests (
+    request_code
+  ),
+  job_assignments (
+    employee_id,
+    employees (
+      id,
+      employee_code,
+      name,
+      role,
+      photo_url
+    )
+  )
+`;
+
 export async function getJobs() {
   const { data, error } = await supabase
     .from("jobs")
-    .select(
-      `
-      *,
-      job_assignments (
-        employee_id,
-        employees (
-          id,
-          employee_code,
-          name,
-          role,
-          photo_url
-        )
-      )
-    `,
-    )
-    .order("service_date", { ascending: true });
+    .select(jobRelations)
+    .order("service_date", {
+      ascending: true,
+    });
 
   if (error) {
     throw error;
@@ -178,14 +262,7 @@ export async function getJobs() {
 export async function getJobById(id) {
   const { data, error } = await supabase
     .from("jobs")
-    .select(
-      `
-      *,
-      requests (
-        request_code
-      )
-    `,
-    )
+    .select(jobRelations)
     .eq("id", id)
     .single();
 
@@ -199,24 +276,7 @@ export async function getJobById(id) {
 export async function getJobByRequestId(requestId) {
   const { data, error } = await supabase
     .from("jobs")
-    .select(
-      `
-      *,
-      requests (
-        request_code
-      ),
-      job_assignments (
-        employee_id,
-        employees (
-          id,
-          employee_code,
-          name,
-          role,
-          photo_url
-        )
-      )
-    `,
-    )
+    .select(jobRelations)
     .eq("request_id", requestId)
     .maybeSingle();
 
@@ -237,6 +297,40 @@ export async function createJob(jobData) {
     .single();
 
   if (error) {
+    throw error;
+  }
+
+  return mapJobFromDatabase(data);
+}
+export async function createJobWithAssignments(jobData, employeeIds = []) {
+  const databaseJob = mapJobToDatabase(jobData);
+
+  /*
+  |--------------------------------------------------------------------------
+  | ATOMIC JOB CREATION
+  |--------------------------------------------------------------------------
+  |
+  | PostgreSQL handles:
+  |
+  | - Job validation
+  | - employee validation
+  | - final conflict check
+  | - Job creation
+  | - job assignments
+  | - assigned / unassigned status
+  |
+  | Everything happens inside one database transaction.
+  |
+  */
+
+  const { data, error } = await supabase.rpc("create_job_with_assignments", {
+    p_job: databaseJob,
+    p_employee_ids: employeeIds,
+  });
+
+  if (error) {
+    console.error("Error creating job with assignments:", error);
+
     throw error;
   }
 

@@ -100,6 +100,20 @@ export async function getEmployees() {
     console.error("Error fetching employees:", error);
     throw error;
   }
+  return (data || []).map(mapEmployeeFromDatabase);
+}
+
+export async function getActiveEmployees() {
+  const { data, error } = await supabase
+    .from("employees")
+    .select("*")
+    .eq("status", "active")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching active employees:", error);
+    throw error;
+  }
 
   return (data || []).map(mapEmployeeFromDatabase);
 }

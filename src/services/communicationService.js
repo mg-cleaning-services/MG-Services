@@ -51,12 +51,15 @@ export function buildCleanerJobMessage(job) {
   return [
     "Hi, you have been assigned a new MG Cleaning job.",
     "",
-    `Job: ${job.id}`,
+    `Job: ${job.jobCode || job.id}`,
     `Client: ${job.customer.firstName} ${job.customer.lastName}`,
     "",
     `Date: ${job.schedule.date}`,
     `Start time: ${job.schedule.startTime}`,
-    `Estimated duration: ${job.schedule.estimatedHours} hours`,
+    job.schedule.endTime ? `End time: ${job.schedule.endTime}` : null,
+    job.schedule.estimatedLabourHours != null
+      ? `Estimated labour: ${job.schedule.estimatedLabourHours} hours`
+      : null,
     "",
     `Address: ${address}`,
     "",
@@ -108,7 +111,9 @@ export function buildCustomerCleanerMessage(job, employee) {
       : null,
     "",
     `Date: ${job.schedule.date}`,
-    `Time: ${job.schedule.startTime}`,
+    job.schedule.endTime
+      ? `Time: ${job.schedule.startTime} - ${job.schedule.endTime}`
+      : `Time: ${job.schedule.startTime}`,
     "",
     "We've prepared an introduction card so you can get to know the person who will be looking after your home.",
     "",

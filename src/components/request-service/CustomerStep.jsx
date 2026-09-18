@@ -18,23 +18,25 @@ const contactOptions = [
 
 export default function CustomerStep({ value, onFieldChange }) {
   return (
-    <div className="mt-10 rounded-2xl border border-gray-200 p-6">
+    <div>
+      {/* STEP HEADER */}
       <div className="max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-widest text-gray-500">
-          Step 4
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          Contact Details
         </p>
 
-        <h2 className="mt-2 text-2xl font-semibold text-gray-900">
+        <h2 className="font-heading text-2xl leading-tight text-[#1A1A1A] md:text-3xl">
           How can we contact you?
         </h2>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-3 text-sm leading-relaxed text-[#1A1A1A]/60 md:text-base">
           We'll use these details to discuss your request, answer any questions
           and confirm the service with you.
         </p>
       </div>
 
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
+      {/* CONTACT DETAILS */}
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
         <CustomerInput
           label="First name"
           value={value.firstName}
@@ -66,9 +68,14 @@ export default function CustomerStep({ value, onFieldChange }) {
         />
       </div>
 
-      <div className="mt-8">
-        <p className="text-sm font-medium text-gray-700">
+      {/* CONTACT PREFERENCE */}
+      <div className="mt-8 border-t border-[#2E7D32]/10 pt-7">
+        <p className="text-sm font-semibold text-[#1A1A1A]">
           How would you prefer us to contact you?
+        </p>
+
+        <p className="mt-1 text-sm text-[#1A1A1A]/50">
+          Choose the easiest way for us to get in touch.
         </p>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -80,19 +87,21 @@ export default function CustomerStep({ value, onFieldChange }) {
                 key={option.value}
                 type="button"
                 onClick={() => onFieldChange("preferredContact", option.value)}
-                className={`rounded-xl border p-4 text-left transition ${
+                className={`rounded-2xl border p-5 text-left transition-all duration-300 ${
                   selected
-                    ? "border-gray-900 bg-gray-900 text-white"
-                    : "border-gray-200 bg-white hover:border-gray-400"
+                    ? "border-[#2E7D32] bg-[#E8F5E9]"
+                    : "border-[#2E7D32]/10 bg-[#F9FAF9] hover:border-[#2E7D32]/30"
                 }`}
               >
-                <p className="font-medium">{option.title}</p>
-
                 <p
-                  className={`mt-1 text-sm ${
-                    selected ? "text-gray-300" : "text-gray-500"
+                  className={`font-semibold ${
+                    selected ? "text-[#2E7D32]" : "text-[#1A1A1A]"
                   }`}
                 >
+                  {option.title}
+                </p>
+
+                <p className="mt-1.5 text-sm leading-relaxed text-[#1A1A1A]/50">
                   {option.description}
                 </p>
               </button>
@@ -101,8 +110,9 @@ export default function CustomerStep({ value, onFieldChange }) {
         </div>
       </div>
 
-      <div className="mt-8 rounded-xl bg-gray-50 p-4">
-        <p className="text-sm text-gray-600">
+      {/* INFORMATION */}
+      <div className="mt-8 rounded-2xl border border-[#2E7D32]/10 bg-[#E8F5E9]/50 p-5">
+        <p className="text-sm leading-relaxed text-[#1A1A1A]/60">
           Sending this request does not confirm a booking. MG Cleaning will
           contact you to review the details, recommend the appropriate service
           if needed, and confirm availability.
@@ -115,7 +125,7 @@ export default function CustomerStep({ value, onFieldChange }) {
 function CustomerInput({ label, value, onChange, type = "text", placeholder }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
         {label}
       </label>
 
@@ -124,7 +134,7 @@ function CustomerInput({ label, value, onChange, type = "text", placeholder }) {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-gray-300 px-4 py-3"
+        className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 placeholder:text-[#1A1A1A]/30 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
       />
     </div>
   );
