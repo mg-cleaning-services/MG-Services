@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 
 import ServiceSelectionStep from "@/components/request-service/ServiceSelectionStep";
@@ -13,7 +14,11 @@ import RequestSuccess from "@/components/request-service/RequestSuccess";
 import useRequestService from "@/hooks/useRequestService";
 
 export default function RequestService() {
+  const location = useLocation();
+
   const [currentStep, setCurrentStep] = useState(1);
+
+  const preselectionHandledRef = useRef(false);
 
   const {
     packages,
@@ -57,6 +62,47 @@ export default function RequestService() {
     submitRequest,
   } = useRequestService();
 
+  /*
+  |--------------------------------------------------------------------------
+  | PACKAGE PRESELECTION FROM LANDING
+  |--------------------------------------------------------------------------
+  */
+
+  useEffect(() => {
+    const packageId = location.state?.packageId;
+
+    if (!packageId) {
+      return;
+    }
+
+    if (preselectionHandledRef.current) {
+      return;
+    }
+
+    if (!packages.length) {
+      return;
+    }
+
+    const packageExists = packages.some(
+      (cleaningPackage) => cleaningPackage.id === packageId,
+    );
+
+    if (!packageExists) {
+      preselectionHandledRef.current = true;
+      return;
+    }
+
+    selectPackage(packageId);
+
+    preselectionHandledRef.current = true;
+  }, [location.state, packages, selectPackage]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | STEP VALIDATION
+  |--------------------------------------------------------------------------
+  */
+
   const canContinueCurrentStep =
     currentStep === 1
       ? hasValidServiceSelection
@@ -79,6 +125,12 @@ export default function RequestService() {
   function previousStep() {
     setCurrentStep((current) => Math.max(current - 1, 1));
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | SCROLL TO TOP BETWEEN STEPS
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     window.scrollTo({
@@ -109,6 +161,7 @@ export default function RequestService() {
 
           <div className="mt-6 flex items-center justify-center gap-2 text-sm text-[#1A1A1A]/45">
             <ShieldCheck className="h-4 w-4 text-[#2E7D32]" />
+
             <span>No payment required. This is not a confirmed booking.</span>
           </div>
         </div>
@@ -130,6 +183,7 @@ export default function RequestService() {
             ) : (
               <>
                 <div className="p-6 md:p-10 lg:p-12">
+                  {/* STEP 1 - SERVICE */}
                   {currentStep === 1 && (
                     <ServiceSelectionStep
                       packages={packages}
@@ -148,6 +202,7 @@ export default function RequestService() {
                     />
                   )}
 
+                  {/* STEP 2 - PROPERTY */}
                   {currentStep === 2 && (
                     <PropertyStep
                       value={propertyDetails}
@@ -155,6 +210,7 @@ export default function RequestService() {
                     />
                   )}
 
+                  {/* STEP 3 - SCHEDULE */}
                   {currentStep === 3 && (
                     <ScheduleStep
                       value={serviceDetails}
@@ -162,6 +218,7 @@ export default function RequestService() {
                     />
                   )}
 
+                  {/* STEP 4 - CUSTOMER */}
                   {currentStep === 4 && (
                     <CustomerStep
                       value={customerDetails}
@@ -169,6 +226,7 @@ export default function RequestService() {
                     />
                   )}
 
+                  {/* STEP 5 - REVIEW */}
                   {currentStep === 5 && (
                     <RequestReview
                       requestType={requestType}
@@ -185,6 +243,7 @@ export default function RequestService() {
                   )}
                 </div>
 
+                {/* WIZARD NAVIGATION */}
                 <div className="flex items-center justify-between border-t border-[#2E7D32]/10 bg-[#F9FAF9]/60 px-6 py-5 md:px-10 lg:px-12">
                   <div>
                     {currentStep > 1 && (

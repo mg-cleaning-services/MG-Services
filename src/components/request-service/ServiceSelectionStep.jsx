@@ -1,6 +1,5 @@
 import { useMemo, useRef } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Check,
   CheckCircle2,
@@ -29,6 +28,12 @@ export default function ServiceSelectionStep({
 }) {
   const carouselRef = useRef(null);
 
+  const mouseDragRef = useRef({
+    isDown: false,
+    startX: 0,
+    scrollLeft: 0,
+  });
+
   /*
   |--------------------------------------------------------------------------
   | PACKAGE ORDER
@@ -51,32 +56,36 @@ export default function ServiceSelectionStep({
 
   /*
   |--------------------------------------------------------------------------
-  | CAROUSEL
+  | MOUSE DRAG
   |--------------------------------------------------------------------------
   */
 
-  function scrollPackages(direction) {
+  function handleMouseDown(event) {
     const carousel = carouselRef.current;
 
-    if (!carousel) {
-      return;
-    }
+    if (!carousel) return;
 
-    const firstCard = carousel.querySelector("[data-package-card]");
+    mouseDragRef.current = {
+      isDown: true,
+      startX: event.pageX,
+      scrollLeft: carousel.scrollLeft,
+    };
+  }
 
-    if (!firstCard) {
-      return;
-    }
+  function handleMouseMove(event) {
+    const carousel = carouselRef.current;
 
-    const styles = window.getComputedStyle(carousel);
-    const gap = parseFloat(styles.columnGap || styles.gap || "0");
+    if (!carousel || !mouseDragRef.current.isDown) return;
 
-    const amount = firstCard.getBoundingClientRect().width + gap;
+    event.preventDefault();
 
-    carousel.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth",
-    });
+    const distance = event.pageX - mouseDragRef.current.startX;
+
+    carousel.scrollLeft = mouseDragRef.current.scrollLeft - distance;
+  }
+
+  function handleMouseUp() {
+    mouseDragRef.current.isDown = false;
   }
 
   return (
@@ -98,45 +107,38 @@ export default function ServiceSelectionStep({
       </div>
 
       {/* PACKAGES */}
-      {/* PACKAGES */}
       <div className="mt-10">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold text-[#1A1A1A]">
-              Choose one cleaning package
-            </p>
+        <div className="mb-5">
+          <p className="text-sm font-semibold text-[#1A1A1A]">
+            Choose one cleaning package
+          </p>
 
-            <p className="mt-1 text-sm text-[#1A1A1A]/45">
-              Select one option. You can change your selection at any time.
-            </p>
-          </div>
-
-          <div className="hidden items-center gap-2 md:flex">
-            <button
-              type="button"
-              onClick={() => scrollPackages("left")}
-              aria-label="Previous cleaning package"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2E7D32]/15 bg-white text-[#1A1A1A] transition hover:border-[#2E7D32]/40 hover:bg-[#E8F5E9] hover:text-[#2E7D32]"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => scrollPackages("right")}
-              aria-label="Next cleaning package"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2E7D32]/15 bg-white text-[#1A1A1A] transition hover:border-[#2E7D32]/40 hover:bg-[#E8F5E9] hover:text-[#2E7D32]"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
+          <p className="mt-1 text-sm text-[#1A1A1A]/45">
+            Select one option. You can change your selection at any time.
+          </p>
         </div>
 
         {/* CAROUSEL VIEWPORT */}
         <div className="relative">
           <div
             ref={carouselRef}
-            className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            className="
+              flex
+              cursor-grab
+              snap-x
+              snap-mandatory
+              gap-5
+              overflow-x-auto
+              pb-5
+              select-none
+              active:cursor-grabbing
+              [scrollbar-width:none]
+              [&::-webkit-scrollbar]:hidden
+            "
           >
             {orderedPackages.map((cleaningPackage) => {
               const selected =
@@ -170,7 +172,8 @@ export default function ServiceSelectionStep({
                       <img
                         src={cleaningPackage.image_url}
                         alt=""
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        draggable="false"
+                        className="pointer-events-none h-full w-full select-none object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">
@@ -318,12 +321,12 @@ export default function ServiceSelectionStep({
           <div className="pointer-events-none absolute bottom-5 right-0 top-0 w-10 bg-gradient-to-l from-white/90 to-transparent md:w-14" />
         </div>
 
-        {/* SCROLL / SWIPE HINT */}
+        {/* DRAG / SWIPE HINT */}
         <div className="mt-1 flex items-center justify-center gap-2">
           <ArrowRight className="h-3.5 w-3.5 text-[#2E7D32]/50" />
 
           <span className="text-xs text-[#1A1A1A]/40">
-            Scroll to explore all packages
+            Drag or swipe to explore all packages
           </span>
         </div>
       </div>
@@ -453,7 +456,7 @@ export default function ServiceSelectionStep({
                 </p>
               </div>
 
-              <div className="mt-6 grid gap-3 md:grid-cols-2">
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {includedServices.map((service) => (
                   <div
                     key={service.id}
