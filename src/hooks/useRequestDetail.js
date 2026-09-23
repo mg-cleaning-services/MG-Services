@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -11,13 +11,14 @@ import { getJobByRequestId } from "@/services/jobService";
 
 import { getActiveEmployees } from "@/services/employeeService";
 
-import { getJobConflictsByEmployee } from "@/services/availabilityService";
-
 import {
   assignEmployeeToRequest,
   getRequestAssignments,
   removeEmployeeFromRequest,
 } from "@/services/requestAssignmentService";
+
+import useServiceEstimate from "@/hooks/shared/useServiceEstimate";
+import useJobAvailability from "@/hooks/shared/useJobAvailability";
 
 const initialJobLocation = {
   address: "",
@@ -36,11 +37,22 @@ export default function useRequestDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  /*
+  |--------------------------------------------------------------------------
+  | REQUEST
+  |--------------------------------------------------------------------------
+  */
+
   const [request, setRequest] = useState(null);
   const [generatedJob, setGeneratedJob] = useState(null);
 
-  const [jobLocation, setJobLocation] = useState(initialJobLocation);
+  /*
+  |--------------------------------------------------------------------------
+  | JOB DATA
+  |--------------------------------------------------------------------------
+  */
 
+  const [jobLocation, setJobLocation] = useState(initialJobLocation);
   const [jobAccess, setJobAccess] = useState(initialJobAccess);
 
   /*
@@ -50,14 +62,7 @@ export default function useRequestDetail() {
   */
 
   const [activeEmployees, setActiveEmployees] = useState([]);
-
   const [requestAssignments, setRequestAssignments] = useState([]);
-
-  const [jobConflictsByEmployee, setJobConflictsByEmployee] = useState(
-    new Map(),
-  );
-
-  const [checkingConflicts, setCheckingConflicts] = useState(false);
 
   const [assignmentLoadingId, setAssignmentLoadingId] = useState(null);
 
@@ -133,63 +138,74 @@ export default function useRequestDetail() {
 
   /*
   |--------------------------------------------------------------------------
-  | JOB CONFLICT CHECK
+  | AUTOMATIC SERVICE ESTIMATE
   |--------------------------------------------------------------------------
   |
-  | Re-check whenever the proposed service window changes.
+  | Shared calculation logic lives in useServiceEstimate.
+  |
+  | This hook only decides where the calculated values belong
+  | in the Request model.
+  |
+  | quotedPrice is NEVER changed automatically.
   |
   */
 
-  useEffect(() => {
-    let ignore = false;
-
-    async function checkJobConflicts() {
-      const serviceDate = request?.schedule?.serviceDate;
-
-      const startTime = request?.schedule?.startTime;
-
-      const endTime = request?.schedule?.endTime;
-
-      if (!serviceDate || !startTime || !endTime || endTime <= startTime) {
-        setJobConflictsByEmployee(new Map());
-        return;
+  const handleEstimateChange = useCallback(({ price, labourHours }) => {
+    setRequest((current) => {
+      if (!current) {
+        return current;
       }
 
-      try {
-        setCheckingConflicts(true);
+      const currentPrice = Number(current.estimation?.price ?? 0);
+      const currentLabourHours = Number(current.estimation?.labourHours ?? 0);
 
-        const conflicts = await getJobConflictsByEmployee({
-          serviceDate,
-          startTime,
-          endTime,
-        });
-
-        if (!ignore) {
-          setJobConflictsByEmployee(conflicts);
-        }
-      } catch (error) {
-        console.error("Could not check job conflicts:", error);
-
-        if (!ignore) {
-          setJobConflictsByEmployee(new Map());
-        }
-      } finally {
-        if (!ignore) {
-          setCheckingConflicts(false);
-        }
+      if (currentPrice === price && currentLabourHours === labourHours) {
+        return current;
       }
-    }
 
-    checkJobConflicts();
+      return {
+        ...current,
 
-    return () => {
-      ignore = true;
-    };
-  }, [
-    request?.schedule?.serviceDate,
-    request?.schedule?.startTime,
-    request?.schedule?.endTime,
-  ]);
+        estimation: {
+          ...(current.estimation || {}),
+          price,
+          labourHours,
+        },
+      };
+    });
+  }, []);
+
+  const {
+    pricingCatalog,
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
+  } = useServiceEstimate({
+    service: request?.service,
+    property: request?.property,
+    onEstimateChange: handleEstimateChange,
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | OPERATIONAL AVAILABILITY
+  |--------------------------------------------------------------------------
+  |
+  | Shared conflict checking lives in useJobAvailability.
+  |
+  | Requests represent a proposed Job window, so there is no
+  | existing Job to exclude from the conflict check.
+  |
+  */
+
+  const { checkingConflicts, getEmployeeJobConflicts, hasEmployeeJobConflict } =
+    useJobAvailability({
+      serviceDate: request?.schedule?.serviceDate,
+      startTime: request?.schedule?.startTime,
+      endTime: request?.schedule?.endTime,
+    });
 
   /*
   |--------------------------------------------------------------------------
@@ -214,6 +230,7 @@ export default function useRequestDetail() {
   function updateNestedRequestField(section, field, value) {
     setRequest((current) => ({
       ...current,
+
       [section]: {
         ...current[section],
         [field]: value,
@@ -229,16 +246,8 @@ export default function useRequestDetail() {
 
   function isEmployeeAssigned(employeeId) {
     return requestAssignments.some(
-      (assignment) => assignment.employeeId === employeeId,
+      (assignment) => String(assignment.employeeId) === String(employeeId),
     );
-  }
-
-  function getEmployeeJobConflicts(employeeId) {
-    return jobConflictsByEmployee.get(employeeId) || [];
-  }
-
-  function hasEmployeeJobConflict(employeeId) {
-    return getEmployeeJobConflicts(employeeId).length > 0;
   }
 
   async function toggleRequestAssignment(employeeId) {
@@ -255,6 +264,7 @@ export default function useRequestDetail() {
      * An employee who was previously assigned and later
      * develops a conflict can still be removed.
      */
+
     if (!assigned && hasEmployeeJobConflict(employeeId)) {
       return;
     }
@@ -269,11 +279,10 @@ export default function useRequestDetail() {
       }
 
       /*
-       * Reload from the database instead of manually
-       * constructing assignment objects.
-       *
-       * This keeps the database as the source of truth.
+       * Reload assignments from the database so the
+       * database remains the source of truth.
        */
+
       const assignments = await getRequestAssignments(request.id);
 
       setRequestAssignments(assignments);
@@ -363,6 +372,7 @@ export default function useRequestDetail() {
      * Do not silently remove them. Block conversion
      * until Maxi reviews the team.
      */
+
     const conflictingAssignments = requestAssignments.filter((assignment) =>
       hasEmployeeJobConflict(assignment.employeeId),
     );
@@ -400,21 +410,6 @@ export default function useRequestDetail() {
 
       setRequest(savedRequest);
 
-      /*
-       * TEMPORARY RPC CONTRACT
-       *
-       * This remains compatible with the current
-       * convert_request_to_job RPC.
-       *
-       * We will update the RPC separately so that it
-       * copies:
-       *
-       * - end_time
-       * - estimated_labour_hours
-       * - quoted_price -> agreed_price
-       * - request_assignments -> job_assignments
-       */
-
       const createdJob = await convertRequestToJob(savedRequest.id, {
         location: {
           address: jobLocation.address,
@@ -442,9 +437,26 @@ export default function useRequestDetail() {
     }
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | RETURN
+  |--------------------------------------------------------------------------
+  */
+
   return {
     request,
     generatedJob,
+
+    /*
+     * Pricing calculation
+     */
+
+    pricingCatalog,
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
 
     jobLocation,
     setJobLocation,
@@ -452,9 +464,6 @@ export default function useRequestDetail() {
     jobAccess,
     setJobAccess,
 
-    /*
-     * Team planning
-     */
     activeEmployees,
     requestAssignments,
     checkingConflicts,
@@ -465,9 +474,6 @@ export default function useRequestDetail() {
     hasEmployeeJobConflict,
     toggleRequestAssignment,
 
-    /*
-     * General state
-     */
     loading,
     loadError,
     saving,

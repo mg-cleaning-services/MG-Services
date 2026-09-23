@@ -6,12 +6,12 @@ import FormSelect from "@/components/admin/forms/ui/FormSelect";
 
 import CustomerFields from "@/components/admin/forms/shared/CustomerFields";
 import CleaningServiceFields from "@/components/admin/forms/shared/CleaningServiceFields";
-
 import PropertyCharacteristicsFields from "@/components/admin/forms/shared/PropertyCharacteristicsFields";
-import JobServiceLocationFields from "@/components/admin/forms/job/JobServiceLocationFields";
-import JobAccessFields from "@/components/admin/forms/job/JobAccessFields";
-import JobScheduleFields from "@/components/admin/forms/job/JobScheduleFields";
-import PricingFields from "@/components/admin/forms/job/PricingFields";
+import ServiceLocationFields from "@/components/admin/forms/shared/ServiceLocationFields";
+import AccessFields from "@/components/admin/forms/shared/AccessFields";
+import ServiceScheduleFields from "@/components/admin/forms/shared/ServiceScheduleFields";
+import ServicePricingFields from "@/components/admin/forms/shared/ServicePricingFields";
+
 import InternalNotesFields from "@/components/admin/forms/job/InternalNotesFields";
 
 import EmployeeAvailabilitySelect from "@/components/admin/team/EmployeeAvailabilitySelect";
@@ -30,6 +30,12 @@ function getInitials(name = "") {
 export default function CreateJob() {
   const {
     job,
+
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
 
     selectedEmployees,
     selectableEmployees,
@@ -56,7 +62,7 @@ export default function CreateJob() {
   } = useCreateJob();
 
   const scheduleReady =
-    job.schedule.date &&
+    job.schedule.serviceDate &&
     job.schedule.startTime &&
     job.schedule.endTime &&
     job.schedule.endTime > job.schedule.startTime;
@@ -124,21 +130,21 @@ export default function CreateJob() {
           </FormSection>
 
           <FormSection title="Service Location">
-            <JobServiceLocationFields
+            <ServiceLocationFields
               value={job.location}
               onChange={(value) => updateJobSection("location", value)}
             />
           </FormSection>
 
           <FormSection title="Access Information">
-            <JobAccessFields
+            <AccessFields
               value={job.access}
               onChange={(value) => updateJobSection("access", value)}
             />
           </FormSection>
 
           <FormSection title="Schedule">
-            <JobScheduleFields
+            <ServiceScheduleFields
               value={job.schedule}
               onChange={(value) => updateJobSection("schedule", value)}
             />
@@ -296,9 +302,33 @@ export default function CreateJob() {
           </FormSection>
 
           <FormSection title="Pricing">
-            <PricingFields
-              value={job.pricing}
-              onChange={(value) => updateJobSection("pricing", value)}
+            <ServicePricingFields
+              estimatedPrice={job.estimation?.price}
+              estimatedLabourHours={job.estimation?.labourHours}
+              commercialPrice={job.pricing?.agreedPrice}
+              onCommercialPriceChange={(agreedPrice) =>
+                updateJobSection("pricing", {
+                  ...job.pricing,
+                  agreedPrice,
+                })
+              }
+              commercialPriceLabel="Agreed price"
+              commercialPriceDescription="Price agreed with the customer."
+              finalPrice={job.pricing?.finalPrice}
+              onFinalPriceChange={(finalPrice) =>
+                updateJobSection("pricing", {
+                  ...job.pricing,
+                  finalPrice,
+                })
+              }
+              showFinalPrice
+              packagePrice={packagePrice}
+              packageLabourHours={packageLabourHours}
+              packageName={selectedPackage?.name}
+              bedrooms={job.property?.bedrooms}
+              bathrooms={job.property?.bathrooms}
+              serviceBreakdown={serviceBreakdown}
+              calculationComplete={calculationComplete}
             />
           </FormSection>
 

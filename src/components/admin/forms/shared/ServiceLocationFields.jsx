@@ -1,6 +1,6 @@
 import FormInput from "../ui/FormInput";
 
-export default function JobServiceLocationFields({ value, onChange }) {
+export default function ServiceLocationFields({ value, onChange }) {
   function updateField(field, fieldValue) {
     onChange({
       ...value,

@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { createJobWithAssignments } from "@/services/jobService";
 import { getActiveEmployees } from "@/services/employeeService";
 import { getJobConflictsByEmployee } from "@/services/availabilityService";
+
+import useServiceEstimate from "@/hooks/shared/useServiceEstimate";
+import useJobAvailability from "@/hooks/shared/useJobAvailability";
 
 const initialJob = {
   requestId: null,
@@ -25,6 +28,7 @@ const initialJob = {
     packageId: "",
     selectedServices: [],
     extras: [],
+    serviceQuantities: {},
   },
 
   property: {
@@ -52,10 +56,14 @@ const initialJob = {
   },
 
   schedule: {
-    date: "",
+    serviceDate: "",
     startTime: "",
     endTime: "",
-    estimatedLabourHours: "",
+  },
+
+  estimation: {
+    labourHours: null,
+    price: null,
   },
 
   pricing: {
@@ -83,13 +91,7 @@ export default function useCreateJob() {
 
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
 
-  const [jobConflictsByEmployee, setJobConflictsByEmployee] = useState(
-    new Map(),
-  );
-
   const [loadingEmployees, setLoadingEmployees] = useState(true);
-
-  const [checkingConflicts, setCheckingConflicts] = useState(false);
 
   /*
   |--------------------------------------------------------------------------
@@ -140,56 +142,73 @@ export default function useCreateJob() {
 
   /*
   |--------------------------------------------------------------------------
-  | CHECK AVAILABILITY WHEN SCHEDULE CHANGES
+  | AUTOMATIC SERVICE ESTIMATE
   |--------------------------------------------------------------------------
+  |
+  | Create Job uses the exact same calculation engine
+  | as Request Detail and Job Detail.
+  |
+  | agreedPrice and finalPrice remain manually controlled.
+  |
   */
 
-  useEffect(() => {
-    let ignore = false;
+  const handleEstimateChange = useCallback(({ price, labourHours }) => {
+    setJob((current) => {
+      const currentPrice = Number(current.estimation?.price ?? 0);
+      const currentLabourHours = Number(current.estimation?.labourHours ?? 0);
 
-    const { date, startTime, endTime } = job.schedule;
-
-    if (!date || !startTime || !endTime || endTime <= startTime) {
-      setJobConflictsByEmployee(new Map());
-      setCheckingConflicts(false);
-
-      return () => {
-        ignore = true;
-      };
-    }
-
-    async function checkConflicts() {
-      try {
-        setCheckingConflicts(true);
-
-        const conflicts = await getJobConflictsByEmployee({
-          serviceDate: date,
-          startTime,
-          endTime,
-        });
-
-        if (!ignore) {
-          setJobConflictsByEmployee(conflicts);
-        }
-      } catch (conflictError) {
-        console.error("Could not check employee availability:", conflictError);
-
-        if (!ignore) {
-          setJobConflictsByEmployee(new Map());
-        }
-      } finally {
-        if (!ignore) {
-          setCheckingConflicts(false);
-        }
+      if (currentPrice === price && currentLabourHours === labourHours) {
+        return current;
       }
-    }
 
-    checkConflicts();
+      return {
+        ...current,
 
-    return () => {
-      ignore = true;
-    };
-  }, [job.schedule.date, job.schedule.startTime, job.schedule.endTime]);
+        estimation: {
+          ...(current.estimation || {}),
+          price,
+          labourHours,
+        },
+      };
+    });
+  }, []);
+
+  const {
+    pricingCatalog,
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
+  } = useServiceEstimate({
+    service: job.service,
+    property: job.property,
+    onEstimateChange: handleEstimateChange,
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | OPERATIONAL AVAILABILITY
+  |--------------------------------------------------------------------------
+  |
+  | Shared availability logic performs the live conflict check
+  | whenever the proposed service window changes.
+  |
+  | Create Job has no existing Job to exclude.
+  |
+  */
+
+  const {
+    jobConflictsByEmployee,
+    setJobConflictsByEmployee,
+    checkingConflicts,
+    getEmployeeJobConflicts,
+    hasEmployeeJobConflict,
+  } = useJobAvailability({
+    serviceDate: job.schedule.serviceDate,
+    startTime: job.schedule.startTime,
+    endTime: job.schedule.endTime,
+  });
 
   /*
   |--------------------------------------------------------------------------
@@ -213,21 +232,9 @@ export default function useCreateJob() {
 
   /*
   |--------------------------------------------------------------------------
-  | AVAILABILITY HELPERS
+  | TEAM HELPERS
   |--------------------------------------------------------------------------
   */
-
-  function getEmployeeJobConflicts(employeeId) {
-    return (
-      jobConflictsByEmployee.get(employeeId) ||
-      jobConflictsByEmployee.get(String(employeeId)) ||
-      []
-    );
-  }
-
-  function hasEmployeeJobConflict(employeeId) {
-    return getEmployeeJobConflicts(employeeId).length > 0;
-  }
 
   function isEmployeeSelected(employeeId) {
     return selectedEmployeeIds.some((id) => String(id) === String(employeeId));
@@ -246,11 +253,13 @@ export default function useCreateJob() {
 
     if (hasEmployeeJobConflict(selectedEmployeeId)) {
       setError("This employee has a conflicting job at the selected time.");
+
       return;
     }
 
     if (isEmployeeSelected(selectedEmployeeId)) {
       setSelectedEmployeeId("");
+
       return;
     }
 
@@ -293,7 +302,7 @@ export default function useCreateJob() {
       return "Please enter the suburb.";
     }
 
-    if (!job.schedule.date) {
+    if (!job.schedule.serviceDate) {
       return "Please select the service date.";
     }
 
@@ -309,14 +318,16 @@ export default function useCreateJob() {
       return "End time must be later than start time.";
     }
 
-    const estimatedLabourHours = Number(job.schedule.estimatedLabourHours);
+    const estimatedLabourHours = Number(job.estimation?.labourHours);
 
     if (
-      !job.schedule.estimatedLabourHours ||
+      job.estimation?.labourHours === "" ||
+      job.estimation?.labourHours === null ||
+      job.estimation?.labourHours === undefined ||
       Number.isNaN(estimatedLabourHours) ||
       estimatedLabourHours <= 0
     ) {
-      return "Please enter valid estimated labour hours.";
+      return "The service requires valid estimated labour hours.";
     }
 
     if (job.pricing.agreedPrice !== "" && job.pricing.agreedPrice !== null) {
@@ -366,6 +377,7 @@ export default function useCreateJob() {
 
     if (validationError) {
       setError(validationError);
+
       return;
     }
 
@@ -374,16 +386,19 @@ export default function useCreateJob() {
       setError("");
 
       /*
-       * Re-check availability immediately before
-       * sending the creation request.
+       * Re-check availability immediately before sending
+       * the creation request.
        *
-       * PostgreSQL will perform the authoritative
-       * conflict check again inside the RPC.
+       * This intentionally remains separate from the shared
+       * reactive availability hook.
+       *
+       * PostgreSQL performs the authoritative conflict check
+       * again inside the RPC.
        */
 
       if (selectedEmployeeIds.length > 0) {
         const latestConflicts = await getJobConflictsByEmployee({
-          serviceDate: job.schedule.date,
+          serviceDate: job.schedule.serviceDate,
           startTime: job.schedule.startTime,
           endTime: job.schedule.endTime,
         });
@@ -398,6 +413,11 @@ export default function useCreateJob() {
         );
 
         if (conflictingEmployee) {
+          /*
+           * Keep the visible availability state synchronized
+           * with the latest pre-submit check.
+           */
+
           setJobConflictsByEmployee(latestConflicts);
 
           setError(
@@ -420,10 +440,20 @@ export default function useCreateJob() {
 
         status: selectedEmployeeIds.length > 0 ? "assigned" : "unassigned",
 
-        schedule: {
-          ...job.schedule,
+        estimation: {
+          labourHours:
+            job.estimation?.labourHours !== "" &&
+            job.estimation?.labourHours !== null &&
+            job.estimation?.labourHours !== undefined
+              ? Number(job.estimation.labourHours)
+              : null,
 
-          estimatedLabourHours: Number(job.schedule.estimatedLabourHours),
+          price:
+            job.estimation?.price !== "" &&
+            job.estimation?.price !== null &&
+            job.estimation?.price !== undefined
+              ? Number(job.estimation.price)
+              : null,
         },
 
         pricing: {
@@ -447,11 +477,6 @@ export default function useCreateJob() {
       navigate(`/admin/jobs/${createdJob.id}`);
     } catch (createError) {
       console.error("Could not create job:", createError);
-
-      /*
-       * Preserve useful RPC conflict errors instead
-       * of hiding them behind a generic message.
-       */
 
       if (createError?.message?.toLowerCase().includes("conflict")) {
         setError(
@@ -484,6 +509,17 @@ export default function useCreateJob() {
 
   return {
     job,
+
+    /*
+     * Pricing calculation
+     */
+
+    pricingCatalog,
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
 
     /*
      * Team planning

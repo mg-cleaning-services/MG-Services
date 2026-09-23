@@ -1,9 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
-  getPackages,
+  getPackagesWithServices,
   getServices,
-  getPackageServices,
 } from "@/services/cleaningService";
 
 import { createRequest } from "@/services/requestService";
@@ -38,13 +37,40 @@ const initialCustomerDetails = {
 };
 
 export default function useRequestService() {
-  const packages = getPackages();
-  const services = getServices();
+  /*
+  |--------------------------------------------------------------------------
+  | CATALOG
+  |--------------------------------------------------------------------------
+  */
+
+  const [packages, setPackages] = useState([]);
+  const [services, setServices] = useState([]);
+
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState("");
+
+  /*
+  |--------------------------------------------------------------------------
+  | REQUEST STATE
+  |--------------------------------------------------------------------------
+  */
 
   const [requestType, setRequestType] = useState("");
   const [selectedPackage, setSelectedPackage] = useState("");
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedExtras, setSelectedExtras] = useState([]);
+
+  const includedServices = useMemo(() => {
+    if (!selectedPackage) {
+      return [];
+    }
+
+    const cleaningPackage = packages.find(
+      (item) => item.id === selectedPackage,
+    );
+
+    return cleaningPackage?.includedServices || [];
+  }, [packages, selectedPackage]);
 
   const [propertyDetails, setPropertyDetails] = useState(
     initialPropertyDetails,
@@ -59,25 +85,81 @@ export default function useRequestService() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const includedServices = useMemo(() => {
-    if (!selectedPackage) {
-      return [];
+  /*
+  |--------------------------------------------------------------------------
+  | LOAD CATALOG
+  |--------------------------------------------------------------------------
+  */
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function loadCatalog() {
+      try {
+        setCatalogLoading(true);
+        setCatalogError("");
+
+        const [packageData, serviceData] = await Promise.all([
+          getPackagesWithServices(),
+          getServices(),
+        ]);
+
+        if (ignore) {
+          return;
+        }
+
+        setPackages(packageData);
+        setServices(serviceData);
+      } catch (error) {
+        console.error("Could not load cleaning catalog:", error);
+
+        if (!ignore) {
+          setCatalogError("Could not load cleaning services.");
+        }
+      } finally {
+        if (!ignore) {
+          setCatalogLoading(false);
+        }
+      }
     }
 
-    return getPackageServices(selectedPackage);
-  }, [selectedPackage]);
+    loadCatalog();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  /*
+  |--------------------------------------------------------------------------
+  | AVAILABLE EXTRAS
+  |--------------------------------------------------------------------------
+  */
 
   const availableExtras = useMemo(() => {
     const includedServiceIds = includedServices.map((service) => service.id);
 
     return services.filter(
-      (service) => !includedServiceIds.includes(service.id),
+      (service) =>
+        service.available_as_addon && !includedServiceIds.includes(service.id),
     );
   }, [includedServices, services]);
 
+  const publicServices = useMemo(() => {
+    return services.filter(
+      (service) =>
+        service.active &&
+        service.available_as_addon &&
+        service.publicly_visible,
+    );
+  }, [services]);
+
   /*
-   * STEP 1 — SERVICE
-   */
+  |--------------------------------------------------------------------------
+  | STEP 1 — SERVICE
+  |--------------------------------------------------------------------------
+  */
+
   const hasValidServiceSelection =
     requestType === "package"
       ? Boolean(selectedPackage)
@@ -86,8 +168,11 @@ export default function useRequestService() {
         : requestType === "unsure";
 
   /*
-   * STEP 2 — PROPERTY
-   */
+  |--------------------------------------------------------------------------
+  | STEP 2 — PROPERTY
+  |--------------------------------------------------------------------------
+  */
+
   const hasValidPropertyDetails =
     Boolean(propertyDetails.propertyType) &&
     Boolean(propertyDetails.floors) &&
@@ -101,8 +186,11 @@ export default function useRequestService() {
     Boolean(propertyDetails.pets);
 
   /*
-   * STEP 3 — SCHEDULE
-   */
+  |--------------------------------------------------------------------------
+  | STEP 3 — SCHEDULE
+  |--------------------------------------------------------------------------
+  */
+
   const hasValidServiceDetails =
     Boolean(serviceDetails.preferredDate) &&
     Boolean(serviceDetails.preferredTime) &&
@@ -110,8 +198,11 @@ export default function useRequestService() {
     Boolean(serviceDetails.lastProfessionalClean);
 
   /*
-   * STEP 4 — CONTACT
-   */
+  |--------------------------------------------------------------------------
+  | STEP 4 — CONTACT
+  |--------------------------------------------------------------------------
+  */
+
   const hasRequiredContactDetails =
     Boolean(customerDetails.firstName?.trim()) &&
     Boolean(customerDetails.lastName?.trim()) &&
@@ -125,13 +216,22 @@ export default function useRequestService() {
   const hasValidCustomerDetails = hasRequiredContactDetails && hasRequiredEmail;
 
   /*
-   * FINAL REQUEST VALIDATION
-   */
+  |--------------------------------------------------------------------------
+  | FINAL REQUEST VALIDATION
+  |--------------------------------------------------------------------------
+  */
+
   const canReview =
     hasValidServiceSelection &&
     hasValidPropertyDetails &&
     hasValidServiceDetails &&
     hasValidCustomerDetails;
+
+  /*
+  |--------------------------------------------------------------------------
+  | FIELD UPDATES
+  |--------------------------------------------------------------------------
+  */
 
   function updateCustomerField(field, value) {
     setCustomerDetails((current) => ({
@@ -153,6 +253,12 @@ export default function useRequestService() {
       [field]: value,
     }));
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | SERVICE SELECTION
+  |--------------------------------------------------------------------------
+  */
 
   function selectPackage(packageId) {
     setRequestType("package");
@@ -191,6 +297,12 @@ export default function useRequestService() {
     );
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | DISPLAY HELPERS
+  |--------------------------------------------------------------------------
+  */
+
   function getSelectedPackageName() {
     const selected = packages.find(
       (cleaningPackage) => cleaningPackage.id === selectedPackage,
@@ -204,6 +316,12 @@ export default function useRequestService() {
       .map((id) => services.find((service) => service.id === id)?.name)
       .filter(Boolean);
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | BUILD REQUEST
+  |--------------------------------------------------------------------------
+  */
 
   function buildRequestData() {
     return {
@@ -240,6 +358,12 @@ export default function useRequestService() {
     };
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | SUBMIT REQUEST
+  |--------------------------------------------------------------------------
+  */
+
   async function submitRequest() {
     if (!canReview || submitting) {
       return;
@@ -267,9 +391,17 @@ export default function useRequestService() {
   }
 
   return {
+    /*
+     * Catalog
+     */
     packages,
-    services,
+    services: publicServices,
+    catalogLoading,
+    catalogError,
 
+    /*
+     * Selection
+     */
     requestType,
     selectedPackage,
     selectedServices,
@@ -282,15 +414,25 @@ export default function useRequestService() {
     includedServices,
     availableExtras,
 
+    /*
+     * Validation
+     */
     hasValidServiceSelection,
     hasValidPropertyDetails,
     hasValidServiceDetails,
     hasValidCustomerDetails,
 
     canReview,
+
+    /*
+     * Status
+     */
     submitting,
     submitted,
 
+    /*
+     * Updates
+     */
     updateCustomerField,
     updateServiceField,
     updatePropertyField,
@@ -302,6 +444,9 @@ export default function useRequestService() {
     toggleService,
     toggleExtra,
 
+    /*
+     * Helpers
+     */
     getSelectedPackageName,
     getServiceNames,
 

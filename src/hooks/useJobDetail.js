@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { getJobById, updateJob } from "@/services/jobService";
 
 import { getEmployees } from "@/services/employeeService";
 
-import { getJobConflictsByEmployee } from "@/services/availabilityService";
-
 import {
   assignEmployeeToJob,
   getJobAssignments,
   removeEmployeeFromJob,
 } from "@/services/jobAssignmentService";
+
+import useServiceEstimate from "@/hooks/shared/useServiceEstimate";
+import useJobAvailability from "@/hooks/shared/useJobAvailability";
 
 export default function useJobDetail() {
   const { id } = useParams();
@@ -21,18 +22,6 @@ export default function useJobDetail() {
   const [assignments, setAssignments] = useState([]);
 
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
-
-  /*
-  |--------------------------------------------------------------------------
-  | OPERATIONAL AVAILABILITY
-  |--------------------------------------------------------------------------
-  */
-
-  const [jobConflictsByEmployee, setJobConflictsByEmployee] = useState(
-    new Map(),
-  );
-
-  const [checkingConflicts, setCheckingConflicts] = useState(false);
 
   /*
   |--------------------------------------------------------------------------
@@ -97,69 +86,79 @@ export default function useJobDetail() {
 
   /*
   |--------------------------------------------------------------------------
-  | JOB CONFLICT CHECK
+  | AUTOMATIC SERVICE ESTIMATE
   |--------------------------------------------------------------------------
   |
-  | Re-check whenever the Job service window changes.
+  | Shared calculation logic lives in useServiceEstimate.
   |
-  | excludeJobId prevents the Job from conflicting
-  | with itself.
+  | This hook only decides where the calculated values belong
+  | in the Job model.
+  |
+  | agreedPrice and finalPrice are NEVER changed automatically.
   |
   */
 
-  useEffect(() => {
-    let ignore = false;
-
-    async function checkJobConflicts() {
-      const serviceDate = job?.schedule?.date;
-
-      const startTime = job?.schedule?.startTime;
-
-      const endTime = job?.schedule?.endTime;
-
-      if (!serviceDate || !startTime || !endTime || endTime <= startTime) {
-        setJobConflictsByEmployee(new Map());
-
-        return;
+  const handleEstimateChange = useCallback(({ price, labourHours }) => {
+    setJob((current) => {
+      if (!current) {
+        return current;
       }
 
-      try {
-        setCheckingConflicts(true);
+      const currentPrice = Number(current.estimation?.price ?? 0);
+      const currentLabourHours = Number(current.estimation?.labourHours ?? 0);
 
-        const conflicts = await getJobConflictsByEmployee({
-          serviceDate,
-          startTime,
-          endTime,
-          excludeJobId: job.id,
-        });
-
-        if (!ignore) {
-          setJobConflictsByEmployee(conflicts);
-        }
-      } catch (error) {
-        console.error("Could not check job conflicts:", error);
-
-        if (!ignore) {
-          setJobConflictsByEmployee(new Map());
-        }
-      } finally {
-        if (!ignore) {
-          setCheckingConflicts(false);
-        }
+      if (currentPrice === price && currentLabourHours === labourHours) {
+        return current;
       }
-    }
 
-    checkJobConflicts();
+      return {
+        ...current,
 
-    return () => {
-      ignore = true;
-    };
-  }, [
-    job?.id,
-    job?.schedule?.date,
-    job?.schedule?.startTime,
-    job?.schedule?.endTime,
-  ]);
+        estimation: {
+          ...(current.estimation || {}),
+          price,
+          labourHours,
+        },
+      };
+    });
+  }, []);
+
+  const {
+    pricingCatalog,
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
+  } = useServiceEstimate({
+    service: job?.service,
+    property: job?.property,
+    onEstimateChange: handleEstimateChange,
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | OPERATIONAL AVAILABILITY
+  |--------------------------------------------------------------------------
+  |
+  | Shared conflict checking lives in useJobAvailability.
+  |
+  | excludeJobId prevents the current Job from conflicting
+  | with itself when its schedule is checked.
+  |
+  */
+
+  const {
+    jobConflictsByEmployee,
+    checkingConflicts,
+    getEmployeeJobConflicts,
+    hasEmployeeJobConflict,
+  } = useJobAvailability({
+    serviceDate: job?.schedule?.serviceDate,
+    startTime: job?.schedule?.startTime,
+    endTime: job?.schedule?.endTime,
+    excludeJobId: job?.id,
+  });
 
   /*
   |--------------------------------------------------------------------------
@@ -178,14 +177,6 @@ export default function useJobDetail() {
   const availableEmployees = activeEmployees.filter(
     (employee) => !assignedEmployeeIds.has(String(employee.id)),
   );
-
-  function getEmployeeJobConflicts(employeeId) {
-    return jobConflictsByEmployee.get(employeeId) || [];
-  }
-
-  function hasEmployeeJobConflict(employeeId) {
-    return getEmployeeJobConflicts(employeeId).length > 0;
-  }
 
   /*
   |--------------------------------------------------------------------------
@@ -219,7 +210,7 @@ export default function useJobDetail() {
     }
 
     if (
-      !job.schedule?.date ||
+      !job.schedule?.serviceDate ||
       !job.schedule?.startTime ||
       !job.schedule?.endTime
     ) {
@@ -239,6 +230,7 @@ export default function useJobDetail() {
      * changing its schedule may create conflicts
      * with other Jobs.
      */
+
     const conflictingAssignments = assignments.filter((assignment) =>
       hasEmployeeJobConflict(assignment.employeeId),
     );
@@ -258,13 +250,21 @@ export default function useJobDetail() {
       const updatedJob = {
         ...job,
 
-        schedule: {
-          ...job.schedule,
+        estimation: {
+          ...job.estimation,
 
-          estimatedLabourHours:
-            job.schedule.estimatedLabourHours !== "" &&
-            job.schedule.estimatedLabourHours !== null
-              ? Number(job.schedule.estimatedLabourHours)
+          labourHours:
+            job.estimation?.labourHours !== "" &&
+            job.estimation?.labourHours !== null &&
+            job.estimation?.labourHours !== undefined
+              ? Number(job.estimation.labourHours)
+              : null,
+
+          price:
+            job.estimation?.price !== "" &&
+            job.estimation?.price !== null &&
+            job.estimation?.price !== undefined
+              ? Number(job.estimation.price)
               : null,
         },
 
@@ -272,12 +272,16 @@ export default function useJobDetail() {
           ...job.pricing,
 
           agreedPrice:
-            job.pricing.agreedPrice !== "" && job.pricing.agreedPrice !== null
+            job.pricing?.agreedPrice !== "" &&
+            job.pricing?.agreedPrice !== null &&
+            job.pricing?.agreedPrice !== undefined
               ? Number(job.pricing.agreedPrice)
               : null,
 
           finalPrice:
-            job.pricing.finalPrice !== "" && job.pricing.finalPrice !== null
+            job.pricing?.finalPrice !== "" &&
+            job.pricing?.finalPrice !== null &&
+            job.pricing?.finalPrice !== undefined
               ? Number(job.pricing.finalPrice)
               : null,
         },
@@ -391,10 +395,21 @@ export default function useJobDetail() {
 
     selectedEmployeeId,
     setSelectedEmployeeId,
+    /*
+     * Pricing calculation
+     */
+
+    pricingCatalog,
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
 
     /*
      * Operational availability
      */
+
     jobConflictsByEmployee,
     checkingConflicts,
     getEmployeeJobConflicts,

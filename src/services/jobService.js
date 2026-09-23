@@ -51,6 +51,7 @@ function mapJobFromDatabase(job) {
       packageId: job.package_id || "",
       selectedServices: job.selected_services || [],
       extras: job.extras || [],
+      serviceQuantities: job.service_quantities || {},
     },
 
     property: {
@@ -88,30 +89,24 @@ function mapJobFromDatabase(job) {
     | It is independent from the scheduled service duration.
     |
     */
-
     schedule: {
-      date: job.service_date,
-
+      serviceDate: job.service_date,
       startTime: job.start_time?.slice(0, 5) || "",
-
       endTime: job.end_time?.slice(0, 5) || "",
+    },
 
-      estimatedLabourHours:
+    estimation: {
+      labourHours:
         job.estimated_labour_hours !== null &&
         job.estimated_labour_hours !== undefined
           ? Number(job.estimated_labour_hours)
           : null,
-    },
 
-    /*
-    |--------------------------------------------------------------------------
-    | PRICING
-    |--------------------------------------------------------------------------
-    |
-    | agreedPrice = amount agreed when the Request became a Job.
-    | finalPrice  = eventual actual/final amount.
-    |
-    */
+      price:
+        job.estimated_price !== null && job.estimated_price !== undefined
+          ? Number(job.estimated_price)
+          : null,
+    },
 
     pricing: {
       agreedPrice:
@@ -158,6 +153,8 @@ function mapJobToDatabase(job) {
 
     extras: job.service.extras || [],
 
+    service_quantities: job.service.serviceQuantities || {},
+
     property_type: job.property.propertyType || null,
 
     floors: job.property.floors || null,
@@ -195,19 +192,21 @@ function mapJobToDatabase(job) {
     |--------------------------------------------------------------------------
     */
 
-    service_date: job.schedule.date,
+    service_date: job.schedule.serviceDate,
 
     start_time: job.schedule.startTime,
 
     end_time: job.schedule.endTime,
 
-    estimated_labour_hours: toNullableNumber(job.schedule.estimatedLabourHours),
+    estimated_labour_hours: toNullableNumber(job.estimation?.labourHours),
 
     /*
     |--------------------------------------------------------------------------
     | PRICING
     |--------------------------------------------------------------------------
     */
+
+    estimated_price: toNullableNumber(job.estimation?.price),
 
     agreed_price: toNullableNumber(job.pricing?.agreedPrice),
 

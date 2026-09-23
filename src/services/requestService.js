@@ -30,6 +30,17 @@ function mapRequestFromDatabase(request) {
       packageId: request.package_id || "",
       selectedServices: request.selected_services || [],
       extras: request.extras || [],
+
+      /*
+       * Quantities entered by Maxi.
+       *
+       * Structure:
+       *
+       * {
+       *   [serviceId]: totalRequiredQuantity
+       * }
+       */
+      serviceQuantities: request.service_quantities || {},
     },
 
     property: {
@@ -88,10 +99,24 @@ function mapRequestToDatabase(request) {
     email: request.customer.email?.trim() || null,
     preferred_contact: request.customer.preferredContact,
 
+    /*
+    |--------------------------------------------------------------------------
+    | SERVICE
+    |--------------------------------------------------------------------------
+    */
+
     request_type: request.service.requestType,
     package_id: request.service.packageId || null,
     selected_services: request.service.selectedServices || [],
     extras: request.service.extras || [],
+
+    service_quantities: request.service.serviceQuantities || {},
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROPERTY
+    |--------------------------------------------------------------------------
+    */
 
     property_type: request.property.propertyType,
     floors: request.property.floors || null,
@@ -104,30 +129,68 @@ function mapRequestToDatabase(request) {
     postcode: request.property.postcode?.trim() || null,
     pets: request.property.pets || null,
 
-    // Customer preference
+    /*
+    |--------------------------------------------------------------------------
+    | CUSTOMER PREFERENCE
+    |--------------------------------------------------------------------------
+    */
+
     preferred_date: request.schedule.preferredDate,
     preferred_time: request.schedule.preferredTime,
 
-    // Internal planning
+    /*
+    |--------------------------------------------------------------------------
+    | INTERNAL PLANNING
+    |--------------------------------------------------------------------------
+    */
+
     service_date: request.schedule.serviceDate || null,
     start_time: request.schedule.startTime || null,
     end_time: request.schedule.endTime || null,
 
-    // Internal estimation
+    /*
+    |--------------------------------------------------------------------------
+    | INTERNAL ESTIMATION
+    |--------------------------------------------------------------------------
+    */
+
     estimated_labour_hours: toNullableNumber(request.estimation?.labourHours),
 
     estimated_price: toNullableNumber(request.estimation?.price),
 
-    // Price communicated / agreed during Request stage
+    /*
+    |--------------------------------------------------------------------------
+    | COMMERCIAL PRICE
+    |--------------------------------------------------------------------------
+    */
+
     quoted_price: toNullableNumber(request.pricing?.quotedPrice),
+
+    /*
+    |--------------------------------------------------------------------------
+    | CONDITION
+    |--------------------------------------------------------------------------
+    */
 
     condition_level: request.condition.level || null,
 
     last_professional_clean: request.condition.lastProfessionalClean || null,
 
+    /*
+    |--------------------------------------------------------------------------
+    | NOTES
+    |--------------------------------------------------------------------------
+    */
+
     notes: request.notes?.trim() || null,
   };
 }
+
+/*
+|--------------------------------------------------------------------------
+| GET REQUESTS
+|--------------------------------------------------------------------------
+*/
 
 export async function getRequests() {
   const { data, error } = await supabase
@@ -144,6 +207,12 @@ export async function getRequests() {
   return data.map(mapRequestFromDatabase);
 }
 
+/*
+|--------------------------------------------------------------------------
+| GET REQUEST BY ID
+|--------------------------------------------------------------------------
+*/
+
 export async function getRequestById(id) {
   const { data, error } = await supabase
     .from("requests")
@@ -157,6 +226,12 @@ export async function getRequestById(id) {
 
   return mapRequestFromDatabase(data);
 }
+
+/*
+|--------------------------------------------------------------------------
+| CREATE REQUEST
+|--------------------------------------------------------------------------
+*/
 
 export async function createRequest(requestData) {
   const databaseRequest = mapRequestToDatabase({
@@ -173,6 +248,12 @@ export async function createRequest(requestData) {
 
   return true;
 }
+
+/*
+|--------------------------------------------------------------------------
+| UPDATE REQUEST
+|--------------------------------------------------------------------------
+*/
 
 export async function updateRequest(request) {
   const databaseRequest = mapRequestToDatabase(request);
@@ -194,6 +275,12 @@ export async function updateRequest(request) {
   return mapRequestFromDatabase(data);
 }
 
+/*
+|--------------------------------------------------------------------------
+| UPDATE REQUEST STATUS
+|--------------------------------------------------------------------------
+*/
+
 export async function updateRequestStatus(requestId, status) {
   const { data, error } = await supabase
     .from("requests")
@@ -211,6 +298,12 @@ export async function updateRequestStatus(requestId, status) {
 
   return mapRequestFromDatabase(data);
 }
+
+/*
+|--------------------------------------------------------------------------
+| DELETE REQUEST
+|--------------------------------------------------------------------------
+*/
 
 export async function deleteRequest(requestId) {
   const { error } = await supabase

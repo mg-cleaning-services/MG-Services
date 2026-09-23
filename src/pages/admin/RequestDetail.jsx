@@ -5,17 +5,16 @@ import FormSection from "@/components/admin/forms/ui/FormSection";
 import CustomerFields from "@/components/admin/forms/shared/CustomerFields";
 import CleaningServiceFields from "@/components/admin/forms/shared/CleaningServiceFields";
 import PropertyCharacteristicsFields from "@/components/admin/forms/shared/PropertyCharacteristicsFields";
+import ServiceLocationFields from "@/components/admin/forms/shared/ServiceLocationFields";
+import AccessFields from "@/components/admin/forms/shared/AccessFields";
+import ServiceScheduleFields from "@/components/admin/forms/shared/ServiceScheduleFields";
+import ServicePricingFields from "@/components/admin/forms/shared/ServicePricingFields";
 
 import RequestHeader from "@/components/admin/forms/request/RequestHeader";
 import ConvertedJobCard from "@/components/admin/forms/request/ConvertedJobCard";
 import PreferredScheduleFields from "@/components/admin/forms/request/PreferredScheduleFields";
 import PropertyConditionFields from "@/components/admin/forms/request/PropertyConditionFields";
-import ServicePlanningFields from "@/components/admin/forms/request/ServicePlanningFields";
-import EstimateQuoteFields from "@/components/admin/forms/request/EstimateQuoteFields";
 import TeamPlanningFields from "@/components/admin/forms/request/TeamPlanningFields";
-
-import ServiceLocationFields from "@/components/admin/forms/job/ServiceLocationFields";
-import AccessFields from "@/components/admin/forms/job/AccessFields";
 
 import useRequestDetail from "@/hooks/useRequestDetail";
 
@@ -23,6 +22,12 @@ export default function RequestDetail() {
   const {
     request,
     generatedJob,
+
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
 
     jobLocation,
     setJobLocation,
@@ -45,7 +50,6 @@ export default function RequestDetail() {
 
     updateRequestSection,
     updateRequestField,
-    updateNestedRequestField,
 
     saveRequest,
     convertToJob,
@@ -128,13 +132,6 @@ export default function RequestDetail() {
             />
           </FormSection>
 
-          <FormSection title="Service">
-            <CleaningServiceFields
-              value={request.service}
-              onChange={(service) => updateRequestSection("service", service)}
-            />
-          </FormSection>
-
           <FormSection title="Property">
             <PropertyCharacteristicsFields
               value={request.property}
@@ -152,6 +149,13 @@ export default function RequestDetail() {
                 updateRequestField("condition", condition)
               }
               onNotesChange={(notes) => updateRequestField("notes", notes)}
+            />
+          </FormSection>
+
+          <FormSection title="Service">
+            <CleaningServiceFields
+              value={request.service}
+              onChange={(service) => updateRequestSection("service", service)}
             />
           </FormSection>
 
@@ -174,24 +178,34 @@ export default function RequestDetail() {
           {!isConverted && (
             <>
               <FormSection title="Service Planning">
-                <ServicePlanningFields
+                <ServiceScheduleFields
                   value={request.schedule}
-                  onChange={(field, value) =>
-                    updateNestedRequestField("schedule", field, value)
+                  onChange={(schedule) =>
+                    updateRequestSection("schedule", schedule)
                   }
                 />
               </FormSection>
 
               <FormSection title="Estimate & Quote">
-                <EstimateQuoteFields
-                  estimation={request.estimation}
-                  pricing={request.pricing}
-                  onEstimationChange={(field, value) =>
-                    updateNestedRequestField("estimation", field, value)
+                <ServicePricingFields
+                  estimatedPrice={request.estimation?.price}
+                  estimatedLabourHours={request.estimation?.labourHours}
+                  commercialPrice={request.pricing?.quotedPrice}
+                  onCommercialPriceChange={(quotedPrice) =>
+                    updateRequestSection("pricing", {
+                      ...request.pricing,
+                      quotedPrice,
+                    })
                   }
-                  onPricingChange={(field, value) =>
-                    updateNestedRequestField("pricing", field, value)
-                  }
+                  commercialPriceLabel="Quoted price"
+                  commercialPriceDescription="Price offered to the customer."
+                  packagePrice={packagePrice}
+                  packageLabourHours={packageLabourHours}
+                  packageName={selectedPackage?.name}
+                  bedrooms={request.property?.bedrooms}
+                  bathrooms={request.property?.bathrooms}
+                  serviceBreakdown={serviceBreakdown}
+                  calculationComplete={calculationComplete}
                 />
               </FormSection>
 

@@ -3,16 +3,17 @@ import CleanerIntroductionCard from "@/components/employees/CleanerIntroductionC
 import FormSection from "@/components/admin/forms/ui/FormSection";
 
 import JobHeader from "@/components/admin/forms/job/JobHeader";
-import JobCustomerFields from "@/components/admin/forms/job/JobCustomerFields";
-import ConfirmedServiceFields from "@/components/admin/forms/job/ConfirmedServiceFields";
-import PropertyCharacteristicsFields from "@/components/admin/forms/shared/PropertyCharacteristicsFields";
-import JobServiceLocationFields from "@/components/admin/forms/job/JobServiceLocationFields";
-import JobAccessFields from "@/components/admin/forms/job/JobAccessFields";
-import JobScheduleFields from "@/components/admin/forms/job/JobScheduleFields";
-import PricingFields from "@/components/admin/forms/job/PricingFields";
 import TeamAssignmentFields from "@/components/admin/forms/job/TeamAssignmentFields";
 import InternalNotesFields from "@/components/admin/forms/job/InternalNotesFields";
 import JobActions from "@/components/admin/forms/job/JobActions";
+
+import CustomerFields from "@/components/admin/forms/shared/CustomerFields";
+import CleaningServiceFields from "@/components/admin/forms/shared/CleaningServiceFields";
+import PropertyCharacteristicsFields from "@/components/admin/forms/shared/PropertyCharacteristicsFields";
+import ServiceLocationFields from "@/components/admin/forms/shared/ServiceLocationFields";
+import AccessFields from "@/components/admin/forms/shared/AccessFields";
+import ServiceScheduleFields from "@/components/admin/forms/shared/ServiceScheduleFields";
+import ServicePricingFields from "@/components/admin/forms/shared/ServicePricingFields";
 
 import useJobDetail from "@/hooks/useJobDetail";
 import useJobCommunication from "@/hooks/useJobCommunication";
@@ -20,6 +21,13 @@ import useJobCommunication from "@/hooks/useJobCommunication";
 export default function JobDetail() {
   const {
     job,
+
+    selectedPackage,
+    calculationComplete,
+    serviceBreakdown,
+    packagePrice,
+    packageLabourHours,
+
     assignments,
     availableEmployees,
 
@@ -97,14 +105,10 @@ export default function JobDetail() {
 
         <div className="mt-10 space-y-8">
           <FormSection title="Customer">
-            <JobCustomerFields
+            <CustomerFields
               value={job.customer}
               onChange={(customer) => updateJobSection("customer", customer)}
             />
-          </FormSection>
-
-          <FormSection title="Service">
-            <ConfirmedServiceFields value={job.service} />
           </FormSection>
 
           <FormSection title="Property">
@@ -114,31 +118,62 @@ export default function JobDetail() {
             />
           </FormSection>
 
+          <FormSection title="Service">
+            <CleaningServiceFields
+              value={job.service}
+              onChange={(service) => updateJobSection("service", service)}
+            />
+          </FormSection>
+
           <FormSection title="Service Location">
-            <JobServiceLocationFields
+            <ServiceLocationFields
               value={job.location}
               onChange={(location) => updateJobSection("location", location)}
             />
           </FormSection>
 
           <FormSection title="Access Information">
-            <JobAccessFields
+            <AccessFields
               value={job.access}
               onChange={(access) => updateJobSection("access", access)}
             />
           </FormSection>
 
           <FormSection title="Schedule">
-            <JobScheduleFields
+            <ServiceScheduleFields
               value={job.schedule}
               onChange={(schedule) => updateJobSection("schedule", schedule)}
             />
           </FormSection>
 
           <FormSection title="Pricing">
-            <PricingFields
-              value={job.pricing}
-              onChange={(pricing) => updateJobSection("pricing", pricing)}
+            <ServicePricingFields
+              estimatedPrice={job.estimation?.price}
+              estimatedLabourHours={job.estimation?.labourHours}
+              commercialPrice={job.pricing?.agreedPrice}
+              onCommercialPriceChange={(agreedPrice) =>
+                updateJobSection("pricing", {
+                  ...job.pricing,
+                  agreedPrice,
+                })
+              }
+              commercialPriceLabel="Agreed price"
+              commercialPriceDescription="Price agreed with the customer."
+              finalPrice={job.pricing?.finalPrice}
+              onFinalPriceChange={(finalPrice) =>
+                updateJobSection("pricing", {
+                  ...job.pricing,
+                  finalPrice,
+                })
+              }
+              showFinalPrice
+              packagePrice={packagePrice}
+              packageLabourHours={packageLabourHours}
+              packageName={selectedPackage?.name}
+              bedrooms={job.property?.bedrooms}
+              bathrooms={job.property?.bathrooms}
+              serviceBreakdown={serviceBreakdown}
+              calculationComplete={calculationComplete}
             />
           </FormSection>
 

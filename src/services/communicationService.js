@@ -54,7 +54,7 @@ export function buildCleanerJobMessage(job) {
     `Job: ${job.jobCode || job.id}`,
     `Client: ${job.customer.firstName} ${job.customer.lastName}`,
     "",
-    `Date: ${job.schedule.date}`,
+    `Date: ${job.schedule.serviceDate}`,
     `Start time: ${job.schedule.startTime}`,
     job.schedule.endTime ? `End time: ${job.schedule.endTime}` : null,
     job.schedule.estimatedLabourHours != null
@@ -110,7 +110,7 @@ export function buildCustomerCleanerMessage(job, employee) {
         }`
       : null,
     "",
-    `Date: ${job.schedule.date}`,
+    `Date: ${job.schedule.serviceDate}`,
     job.schedule.endTime
       ? `Time: ${job.schedule.startTime} - ${job.schedule.endTime}`
       : `Time: ${job.schedule.startTime}`,
