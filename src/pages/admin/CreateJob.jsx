@@ -69,28 +69,38 @@ export default function CreateJob() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <section className="mx-auto max-w-4xl px-6 py-10">
-        <div className="mb-8">
-          <Link
-            to="/admin/jobs"
-            className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
-          >
-            ← Back to Jobs
-          </Link>
+      <section className="mx-auto w-full max-w-[1440px] px-6 pb-12">
+        {/* Page header */}
 
-          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
-            Direct Job
-          </p>
+        <div className="mx-auto max-w-6xl pt-10">
+          <div className="mb-8">
+            <Link
+              to="/admin/jobs"
+              className="text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            >
+              ← Back to Jobs
+            </Link>
 
-          <h1 className="mt-2 text-3xl font-bold text-gray-900">Create Job</h1>
+            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+              Direct Job
+            </p>
 
-          <p className="mt-2 max-w-2xl text-gray-600">
-            Create a confirmed job that did not originate from a website
-            request.
-          </p>
+            <h1 className="mt-2 text-3xl font-bold text-gray-900">
+              Create Job
+            </h1>
+
+            <p className="mt-2 max-w-2xl text-gray-600">
+              Create a confirmed job that did not originate from a website
+              request.
+            </p>
+          </div>
         </div>
 
-        <div className="space-y-6">
+        {/* Form content */}
+
+        <div className="mx-auto max-w-6xl space-y-8">
+          {/* Job Details */}
+
           <FormSection title="Job Details">
             <div className="grid gap-5 md:grid-cols-2">
               <FormSelect
@@ -108,6 +118,8 @@ export default function CreateJob() {
             </div>
           </FormSection>
 
+          {/* Customer */}
+
           <FormSection title="Customer">
             <CustomerFields
               value={job.customer}
@@ -115,12 +127,7 @@ export default function CreateJob() {
             />
           </FormSection>
 
-          <FormSection title="Service">
-            <CleaningServiceFields
-              value={job.service}
-              onChange={(value) => updateJobSection("service", value)}
-            />
-          </FormSection>
+          {/* Property */}
 
           <FormSection title="Property">
             <PropertyCharacteristicsFields
@@ -129,6 +136,17 @@ export default function CreateJob() {
             />
           </FormSection>
 
+          {/* Service */}
+
+          <FormSection title="Service">
+            <CleaningServiceFields
+              value={job.service}
+              onChange={(value) => updateJobSection("service", value)}
+            />
+          </FormSection>
+
+          {/* Service Location */}
+
           <FormSection title="Service Location">
             <ServiceLocationFields
               value={job.location}
@@ -136,12 +154,16 @@ export default function CreateJob() {
             />
           </FormSection>
 
-          <FormSection title="Access Information">
+          {/* Access */}
+
+          <FormSection title="Access">
             <AccessFields
               value={job.access}
               onChange={(value) => updateJobSection("access", value)}
             />
           </FormSection>
+
+          {/* Schedule */}
 
           <FormSection title="Schedule">
             <ServiceScheduleFields
@@ -150,7 +172,42 @@ export default function CreateJob() {
             />
           </FormSection>
 
-          <FormSection title="Team Assignment">
+          {/* Pricing */}
+
+          <FormSection title="Pricing">
+            <ServicePricingFields
+              estimatedPrice={job.estimation?.price}
+              estimatedLabourHours={job.estimation?.labourHours}
+              commercialPrice={job.pricing?.agreedPrice}
+              onCommercialPriceChange={(agreedPrice) =>
+                updateJobSection("pricing", {
+                  ...job.pricing,
+                  agreedPrice,
+                })
+              }
+              commercialPriceLabel="Agreed price"
+              commercialPriceDescription="Price agreed with the customer."
+              finalPrice={job.pricing?.finalPrice}
+              onFinalPriceChange={(finalPrice) =>
+                updateJobSection("pricing", {
+                  ...job.pricing,
+                  finalPrice,
+                })
+              }
+              showFinalPrice
+              packagePrice={packagePrice}
+              packageLabourHours={packageLabourHours}
+              packageName={selectedPackage?.name}
+              bedrooms={job.property?.bedrooms}
+              bathrooms={job.property?.bathrooms}
+              serviceBreakdown={serviceBreakdown}
+              calculationComplete={calculationComplete}
+            />
+          </FormSection>
+
+          {/* Team */}
+
+          <FormSection title="Team">
             <div className="space-y-5">
               <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
                 <div className="flex gap-3">
@@ -301,36 +358,7 @@ export default function CreateJob() {
             </div>
           </FormSection>
 
-          <FormSection title="Pricing">
-            <ServicePricingFields
-              estimatedPrice={job.estimation?.price}
-              estimatedLabourHours={job.estimation?.labourHours}
-              commercialPrice={job.pricing?.agreedPrice}
-              onCommercialPriceChange={(agreedPrice) =>
-                updateJobSection("pricing", {
-                  ...job.pricing,
-                  agreedPrice,
-                })
-              }
-              commercialPriceLabel="Agreed price"
-              commercialPriceDescription="Price agreed with the customer."
-              finalPrice={job.pricing?.finalPrice}
-              onFinalPriceChange={(finalPrice) =>
-                updateJobSection("pricing", {
-                  ...job.pricing,
-                  finalPrice,
-                })
-              }
-              showFinalPrice
-              packagePrice={packagePrice}
-              packageLabourHours={packageLabourHours}
-              packageName={selectedPackage?.name}
-              bedrooms={job.property?.bedrooms}
-              bathrooms={job.property?.bathrooms}
-              serviceBreakdown={serviceBreakdown}
-              calculationComplete={calculationComplete}
-            />
-          </FormSection>
+          {/* Internal Notes */}
 
           <FormSection title="Internal Notes">
             <InternalNotesFields
@@ -339,11 +367,15 @@ export default function CreateJob() {
             />
           </FormSection>
 
+          {/* Error */}
+
           {error && (
             <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
               <p className="text-sm font-medium text-red-700">{error}</p>
             </div>
           )}
+
+          {/* Actions */}
 
           <div className="flex flex-col-reverse gap-3 pb-8 sm:flex-row sm:justify-end">
             <Link

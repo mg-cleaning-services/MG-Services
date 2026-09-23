@@ -76,23 +76,25 @@ export default function useAdminDashboard() {
 
     return jobs
       .filter((job) => {
-        if (!job.schedule?.date) return false;
+        if (!job.schedule?.serviceDate) {
+          return false;
+        }
 
         if (job.status === "completed" || job.status === "cancelled") {
           return false;
         }
 
-        const jobDate = new Date(`${job.schedule.date}T00:00:00`);
+        const jobDate = new Date(`${job.schedule.serviceDate}T00:00:00`);
 
         return jobDate >= today;
       })
       .sort((a, b) => {
         const dateA = new Date(
-          `${a.schedule.date}T${a.schedule.startTime || "00:00"}`,
+          `${a.schedule.serviceDate}T${a.schedule.startTime || "00:00"}`,
         );
 
         const dateB = new Date(
-          `${b.schedule.date}T${b.schedule.startTime || "00:00"}`,
+          `${b.schedule.serviceDate}T${b.schedule.startTime || "00:00"}`,
         );
 
         return dateA - dateB;

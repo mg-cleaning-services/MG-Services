@@ -16,6 +16,8 @@ import PreferredScheduleFields from "@/components/admin/forms/request/PreferredS
 import PropertyConditionFields from "@/components/admin/forms/request/PropertyConditionFields";
 import TeamPlanningFields from "@/components/admin/forms/request/TeamPlanningFields";
 
+import DetailSectionNavigation from "@/components/admin/navigation/DetailSectionNavigation";
+
 import useRequestDetail from "@/hooks/useRequestDetail";
 
 export default function RequestDetail() {
@@ -58,8 +60,8 @@ export default function RequestDetail() {
   if (loading) {
     return (
       <main className="min-h-screen bg-gray-50">
-        <section className="mx-auto max-w-4xl px-6 py-16">
-          <p className="text-gray-600">Loading request...</p>
+        <section className="mx-auto max-w-5xl px-6 py-16">
+          <p className="text-gray-500">Loading request...</p>
         </section>
       </main>
     );
@@ -68,12 +70,12 @@ export default function RequestDetail() {
   if (loadError) {
     return (
       <main className="min-h-screen bg-gray-50">
-        <section className="mx-auto max-w-4xl px-6 py-16">
+        <section className="mx-auto max-w-5xl px-6 py-16">
           <h1 className="text-3xl font-bold text-gray-900">
             Could not load request
           </h1>
 
-          <p className="mt-3 text-gray-600">{loadError}</p>
+          <p className="mt-3 text-gray-500">{loadError}</p>
 
           <Link
             to="/admin/requests"
@@ -89,7 +91,7 @@ export default function RequestDetail() {
   if (!request) {
     return (
       <main className="min-h-screen bg-gray-50">
-        <section className="mx-auto max-w-4xl px-6 py-16">
+        <section className="mx-auto max-w-5xl px-6 py-16">
           <h1 className="text-3xl font-bold text-gray-900">
             Request not found
           </h1>
@@ -110,143 +112,228 @@ export default function RequestDetail() {
   const canConvert =
     request.status !== "converted" && request.status !== "closed";
 
+  const navigationSections = [
+    { id: "customer", label: "Customer" },
+    { id: "property", label: "Property" },
+    { id: "property-condition", label: "Condition" },
+    { id: "service", label: "Service" },
+    { id: "service-location", label: "Service Location" },
+
+    ...(!isConverted
+      ? [
+          { id: "access", label: "Access" },
+          {
+            id: "preferred-schedule",
+            label: "Preferred Schedule",
+          },
+          { id: "schedule", label: "Schedule" },
+          { id: "pricing", label: "Pricing" },
+          { id: "team", label: "Team" },
+        ]
+      : []),
+  ];
+
   return (
     <main className="min-h-screen bg-gray-50">
-      <section className="mx-auto max-w-5xl px-6 py-12">
-        <RequestHeader
-          request={request}
-          onStatusChange={(status) => updateRequestField("status", status)}
-        />
+      <section className="mx-auto w-full max-w-[1440px] px-6 pb-12">
+        {/* Sticky context */}
 
-        <div className="mt-10 space-y-8">
+        <div
+          className="
+            sticky top-3 z-30
+            rounded-2xl
+            border border-[#2E7D32]/10
+            bg-white/95
+            px-6 pt-4
+            shadow-sm backdrop-blur
+          "
+        >
+          <RequestHeader
+            request={request}
+            generatedJob={generatedJob}
+            onStatusChange={(status) => updateRequestField("status", status)}
+          />
+
+          <div className="mt-3">
+            <DetailSectionNavigation sections={navigationSections} />
+          </div>
+        </div>
+
+        {/* Detail content */}
+
+        <div className="mx-auto mt-8 max-w-6xl space-y-8">
+          {/* Converted Job */}
+
           {isConverted && generatedJob && (
             <ConvertedJobCard job={generatedJob} />
           )}
 
-          <FormSection title="Customer">
-            <CustomerFields
-              value={request.customer}
-              onChange={(customer) =>
-                updateRequestSection("customer", customer)
-              }
-            />
-          </FormSection>
+          {/* Customer */}
 
-          <FormSection title="Property">
-            <PropertyCharacteristicsFields
-              value={request.property}
-              onChange={(property) =>
-                updateRequestSection("property", property)
-              }
-            />
-          </FormSection>
+          <div id="customer" className="scroll-mt-35">
+            <FormSection title="Customer">
+              <CustomerFields
+                value={request.customer}
+                onChange={(customer) =>
+                  updateRequestSection("customer", customer)
+                }
+              />
+            </FormSection>
+          </div>
 
-          <FormSection title="Property Condition">
-            <PropertyConditionFields
-              condition={request.condition}
-              notes={request.notes}
-              onConditionChange={(condition) =>
-                updateRequestField("condition", condition)
-              }
-              onNotesChange={(notes) => updateRequestField("notes", notes)}
-            />
-          </FormSection>
+          {/* Property */}
 
-          <FormSection title="Service">
-            <CleaningServiceFields
-              value={request.service}
-              onChange={(service) => updateRequestSection("service", service)}
-            />
-          </FormSection>
+          <div id="property" className="scroll-mt-35">
+            <FormSection title="Property">
+              <PropertyCharacteristicsFields
+                value={request.property}
+                onChange={(property) =>
+                  updateRequestSection("property", property)
+                }
+              />
+            </FormSection>
+          </div>
 
-          <FormSection title="Service Location">
-            <ServiceLocationFields
-              value={jobLocation}
-              onChange={setJobLocation}
-            />
-          </FormSection>
+          {/* Property Condition */}
 
-          <FormSection title="Customer Preferred Schedule">
-            <PreferredScheduleFields
-              value={request.schedule}
-              onChange={(schedule) =>
-                updateRequestSection("schedule", schedule)
-              }
-            />
-          </FormSection>
+          <div id="property-condition" className="scroll-mt-35">
+            <FormSection title="Property Condition">
+              <PropertyConditionFields
+                condition={request.condition}
+                notes={request.notes}
+                onConditionChange={(condition) =>
+                  updateRequestField("condition", condition)
+                }
+                onNotesChange={(notes) => updateRequestField("notes", notes)}
+              />
+            </FormSection>
+          </div>
+
+          {/* Service */}
+
+          <div id="service" className="scroll-mt-35">
+            <FormSection title="Service">
+              <CleaningServiceFields
+                value={request.service}
+                onChange={(service) => updateRequestSection("service", service)}
+              />
+            </FormSection>
+          </div>
+
+          {/* Service Location */}
+
+          <div id="service-location" className="scroll-mt-35">
+            <FormSection title="Service Location">
+              <ServiceLocationFields
+                value={jobLocation}
+                onChange={setJobLocation}
+              />
+            </FormSection>
+          </div>
 
           {!isConverted && (
             <>
-              <FormSection title="Service Planning">
-                <ServiceScheduleFields
-                  value={request.schedule}
-                  onChange={(schedule) =>
-                    updateRequestSection("schedule", schedule)
-                  }
-                />
-              </FormSection>
+              {/* Access */}
 
-              <FormSection title="Estimate & Quote">
-                <ServicePricingFields
-                  estimatedPrice={request.estimation?.price}
-                  estimatedLabourHours={request.estimation?.labourHours}
-                  commercialPrice={request.pricing?.quotedPrice}
-                  onCommercialPriceChange={(quotedPrice) =>
-                    updateRequestSection("pricing", {
-                      ...request.pricing,
-                      quotedPrice,
-                    })
-                  }
-                  commercialPriceLabel="Quoted price"
-                  commercialPriceDescription="Price offered to the customer."
-                  packagePrice={packagePrice}
-                  packageLabourHours={packageLabourHours}
-                  packageName={selectedPackage?.name}
-                  bedrooms={request.property?.bedrooms}
-                  bathrooms={request.property?.bathrooms}
-                  serviceBreakdown={serviceBreakdown}
-                  calculationComplete={calculationComplete}
-                />
-              </FormSection>
+              <div id="access" className="scroll-mt-35">
+                <FormSection title="Access">
+                  <AccessFields value={jobAccess} onChange={setJobAccess} />
+                </FormSection>
+              </div>
 
-              <FormSection title="Team Planning">
-                <TeamPlanningFields
-                  employees={activeEmployees}
-                  checkingConflicts={checkingConflicts}
-                  assignmentLoadingId={assignmentLoadingId}
-                  isEmployeeAssigned={isEmployeeAssigned}
-                  getEmployeeJobConflicts={getEmployeeJobConflicts}
-                  onToggleAssignment={toggleRequestAssignment}
-                />
-              </FormSection>
+              {/* Preferred Schedule */}
 
-              <FormSection title="Access Information">
-                <AccessFields value={jobAccess} onChange={setJobAccess} />
-              </FormSection>
+              <div id="preferred-schedule" className="scroll-mt-35">
+                <FormSection title="Preferred Schedule">
+                  <PreferredScheduleFields
+                    value={request.schedule}
+                    onChange={(schedule) =>
+                      updateRequestSection("schedule", schedule)
+                    }
+                  />
+                </FormSection>
+              </div>
+
+              {/* Schedule */}
+
+              <div id="schedule" className="scroll-mt-35">
+                <FormSection title="Schedule">
+                  <ServiceScheduleFields
+                    value={request.schedule}
+                    onChange={(schedule) =>
+                      updateRequestSection("schedule", schedule)
+                    }
+                  />
+                </FormSection>
+              </div>
+
+              {/* Pricing */}
+
+              <div id="pricing" className="scroll-mt-35">
+                <FormSection title="Pricing">
+                  <ServicePricingFields
+                    estimatedPrice={request.estimation?.price}
+                    estimatedLabourHours={request.estimation?.labourHours}
+                    commercialPrice={request.pricing?.quotedPrice}
+                    onCommercialPriceChange={(quotedPrice) =>
+                      updateRequestSection("pricing", {
+                        ...request.pricing,
+                        quotedPrice,
+                      })
+                    }
+                    commercialPriceLabel="Quoted price"
+                    commercialPriceDescription="Price offered to the customer."
+                    packagePrice={packagePrice}
+                    packageLabourHours={packageLabourHours}
+                    packageName={selectedPackage?.name}
+                    bedrooms={request.property?.bedrooms}
+                    bathrooms={request.property?.bathrooms}
+                    serviceBreakdown={serviceBreakdown}
+                    calculationComplete={calculationComplete}
+                  />
+                </FormSection>
+              </div>
+
+              {/* Team */}
+
+              <div id="team" className="scroll-mt-35">
+                <FormSection title="Team">
+                  <TeamPlanningFields
+                    employees={activeEmployees}
+                    checkingConflicts={checkingConflicts}
+                    assignmentLoadingId={assignmentLoadingId}
+                    isEmployeeAssigned={isEmployeeAssigned}
+                    getEmployeeJobConflicts={getEmployeeJobConflicts}
+                    onToggleAssignment={toggleRequestAssignment}
+                  />
+                </FormSection>
+              </div>
             </>
           )}
-        </div>
 
-        <div className="mt-10 flex flex-wrap justify-end gap-3">
-          <button
-            type="button"
-            disabled={saving}
-            onClick={saveRequest}
-            className="rounded-xl border border-gray-300 bg-white px-5 py-3 font-medium text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {saving ? "Saving..." : "Save Changes"}
-          </button>
+          {/* Actions */}
 
-          {canConvert && (
+          <div className="flex flex-wrap justify-end gap-3 pt-2">
             <button
               type="button"
-              disabled={converting}
-              onClick={convertToJob}
-              className="rounded-xl bg-gray-900 px-6 py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={saving}
+              onClick={saveRequest}
+              className="rounded-xl border border-gray-300 bg-white px-5 py-3 font-medium text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {converting ? "Converting..." : "Convert to Job"}
+              {saving ? "Saving..." : "Save Changes"}
             </button>
-          )}
+
+            {canConvert && (
+              <button
+                type="button"
+                disabled={converting}
+                onClick={convertToJob}
+                className="rounded-xl bg-gray-900 px-6 py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {converting ? "Converting..." : "Convert to Job"}
+              </button>
+            )}
+          </div>
         </div>
       </section>
     </main>

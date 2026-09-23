@@ -48,15 +48,7 @@ export default function AdminSidebar({ profile }) {
   }
 
   return (
-    <aside
-      className="
-        sticky top-0 z-40
-        border-b border-[#2E7D32]/10
-        bg-white/95 backdrop-blur
-        lg:relative lg:min-h-screen lg:w-64
-        lg:border-b-0 lg:border-r
-      "
-    >
+    <aside className="sticky top-0 z-40 border-b border-[#2E7D32]/10 bg-white/95 backdrop-blur lg:h-screen lg:w-64 lg:shrink-0 lg:self-start lg:border-b-0 lg:border-r">
       {/* User */}
       <div className="border-b border-gray-100 px-4 py-4 lg:px-6">
         <p className="font-semibold text-gray-900">

@@ -15,24 +15,29 @@ export default function useJobCommunication(job) {
 
   const cleanerCardRef = useRef(null);
 
-  function sendJobToCleaner(employee) {
+  async function sendJobToCleaner(employee) {
     if (!employee?.phone) {
       alert("This employee does not have a phone number.");
       return;
     }
 
-    const message = buildCleanerJobMessage(job);
+    try {
+      const message = await buildCleanerJobMessage(job);
 
-    const whatsappUrl = createWhatsAppUrl(employee.phone, message);
+      const whatsappUrl = createWhatsAppUrl(employee.phone, message);
 
-    if (!whatsappUrl) {
-      return;
+      if (!whatsappUrl) {
+        return;
+      }
+
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      console.error("Error preparing cleaner WhatsApp message:", error);
+      alert("Unable to prepare the cleaner message.");
     }
-
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   }
 
-  function sendCleanerToCustomer(employee) {
+  async function sendCleanerToCustomer(employee) {
     if (!employee) {
       return;
     }
@@ -42,15 +47,20 @@ export default function useJobCommunication(job) {
       return;
     }
 
-    const message = buildCustomerCleanerMessage(job, employee);
+    try {
+      const message = await buildCustomerCleanerMessage(job, employee);
 
-    const whatsappUrl = createWhatsAppUrl(job.customer.phone, message);
+      const whatsappUrl = createWhatsAppUrl(job.customer.phone, message);
 
-    if (!whatsappUrl) {
-      return;
+      if (!whatsappUrl) {
+        return;
+      }
+
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      console.error("Error preparing customer WhatsApp message:", error);
+      alert("Unable to prepare the customer message.");
     }
-
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   }
 
   async function downloadCleanerCard(employee) {

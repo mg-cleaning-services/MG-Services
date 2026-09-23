@@ -28,6 +28,7 @@ function mapRequestFromDatabase(request) {
     service: {
       requestType: request.request_type,
       packageId: request.package_id || "",
+      packageName: request.service_packages?.name || "",
       selectedServices: request.selected_services || [],
       extras: request.extras || [],
 
@@ -192,10 +193,18 @@ function mapRequestToDatabase(request) {
 |--------------------------------------------------------------------------
 */
 
+const requestRelations = `
+  *,
+  service_packages (
+    id,
+    name
+  )
+`;
+
 export async function getRequests() {
   const { data, error } = await supabase
     .from("requests")
-    .select("*")
+    .select(requestRelations)
     .order("created_at", {
       ascending: false,
     });
@@ -216,7 +225,7 @@ export async function getRequests() {
 export async function getRequestById(id) {
   const { data, error } = await supabase
     .from("requests")
-    .select("*")
+    .select(requestRelations)
     .eq("id", id)
     .single();
 

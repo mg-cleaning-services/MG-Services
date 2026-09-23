@@ -1,43 +1,56 @@
-import { getPackageById, getServiceById } from "@/services/cleaningService";
+import { getServiceById } from "@/services/cleaningService";
 
 function cleanPhoneNumber(phone = "") {
   return phone.replace(/\D/g, "");
 }
 
-function getJobServiceNames(job) {
-  const names = [];
+async function getJobAdditionalServices(job) {
+  const selectedServiceIds =
+    job.service?.requestType === "custom"
+      ? job.service?.selectedServices || []
+      : job.service?.extras || [];
 
-  if (job.service.requestType === "package") {
-    const cleaningPackage = getPackageById(job.service.packageId);
+  const quantityServiceIds = Object.keys(job.service?.serviceQuantities || {});
 
-    if (cleaningPackage) {
-      names.push(cleaningPackage.name);
-    }
-  }
+  const serviceIds = [
+    ...new Set([...selectedServiceIds, ...quantityServiceIds]),
+  ];
 
-  if (job.service.requestType === "custom") {
-    job.service.selectedServices?.forEach((serviceId) => {
-      const service = getServiceById(serviceId);
+  const services = await Promise.all(
+    serviceIds.map(async (serviceId) => {
+      const service = await getServiceById(serviceId);
 
-      if (service) {
-        names.push(service.name);
+      if (!service) {
+        return null;
       }
-    });
-  }
 
-  job.service.extras?.forEach((serviceId) => {
-    const service = getServiceById(serviceId);
+      const quantity = Math.max(
+        1,
+        Number(job.service?.serviceQuantities?.[serviceId] || 1),
+      );
 
-    if (service) {
-      names.push(service.name);
-    }
-  });
+      return {
+        id: service.id,
+        name: service.name,
+        quantity,
+        unit: service.unit,
+      };
+    }),
+  );
 
-  return names;
+  return services.filter(Boolean);
 }
 
-export function buildCleanerJobMessage(job) {
-  const services = getJobServiceNames(job);
+function formatServiceQuantity(service) {
+  if (service.quantity <= 1) {
+    return service.name;
+  }
+
+  return `${service.name} × ${service.quantity}`;
+}
+
+export async function buildCleanerJobMessage(job) {
+  const additionalServices = await getJobAdditionalServices(job);
 
   const address = [
     job.location?.address,
@@ -53,12 +66,13 @@ export function buildCleanerJobMessage(job) {
     "",
     `Job: ${job.jobCode || job.id}`,
     `Client: ${job.customer.firstName} ${job.customer.lastName}`,
+    job.customer?.phone ? `Phone: ${job.customer.phone}` : null,
     "",
     `Date: ${job.schedule.serviceDate}`,
     `Start time: ${job.schedule.startTime}`,
     job.schedule.endTime ? `End time: ${job.schedule.endTime}` : null,
-    job.schedule.estimatedLabourHours != null
-      ? `Estimated labour: ${job.schedule.estimatedLabourHours} hours`
+    job.estimation?.labourHours != null
+      ? `Estimated labour: ${job.estimation.labourHours} hours`
       : null,
     "",
     `Address: ${address}`,
@@ -66,11 +80,19 @@ export function buildCleanerJobMessage(job) {
     `Property: ${job.property.propertyType}`,
     `Bedrooms: ${job.property.bedrooms}`,
     `Bathrooms: ${job.property.bathrooms}`,
+    job.property?.floors != null ? `Floors: ${job.property.floors}` : null,
     `Pets: ${job.property.pets || "Not specified"}`,
     "",
-    `Services: ${
-      services.length > 0 ? services.join(", ") : "Cleaning service"
-    }`,
+    job.service?.packageName
+      ? `Package: ${job.service.packageName}`
+      : "Package: Custom cleaning",
+    "",
+    "Additional services:",
+    additionalServices.length > 0
+      ? additionalServices
+          .map((service) => `• ${formatServiceQuantity(service)}`)
+          .join("\n")
+      : "• None",
     "",
     job.notes?.cleaningPriorities
       ? `Cleaning priorities: ${job.notes.cleaningPriorities}`
@@ -90,15 +112,9 @@ export function buildCleanerJobMessage(job) {
     .join("\n");
 }
 
-export function buildCustomerCleanerMessage(job, employee) {
-  const customerName = job.customer.firstName || "there";
-
-  const profileUrl = employee.slug
-    ? `${window.location.origin}/team/${employee.slug}`
-    : null;
-
+export async function buildCustomerCleanerMessage(job, employee) {
   return [
-    `Hi ${customerName},`,
+    `Hi ${job.customer.firstName || "there"},`,
     "",
     "Your cleaner for your upcoming MG Cleaning service has been assigned.",
     "",
@@ -110,14 +126,15 @@ export function buildCustomerCleanerMessage(job, employee) {
         }`
       : null,
     "",
+    job.service?.packageName
+      ? `Service: ${job.service.packageName}`
+      : "Service: Custom cleaning",
     `Date: ${job.schedule.serviceDate}`,
     job.schedule.endTime
       ? `Time: ${job.schedule.startTime} - ${job.schedule.endTime}`
       : `Time: ${job.schedule.startTime}`,
     "",
     "We've prepared an introduction card so you can get to know the person who will be looking after your home.",
-    "",
-    profileUrl ? `Learn more about ${employee.name}: ${profileUrl}` : null,
     "",
     "If you have any questions before your service, please contact us.",
     "",

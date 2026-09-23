@@ -49,6 +49,7 @@ function mapJobFromDatabase(job) {
     service: {
       requestType: job.request_type,
       packageId: job.package_id || "",
+      packageName: job.service_packages?.name || "",
       selectedServices: job.selected_services || [],
       extras: job.extras || [],
       serviceQuantities: job.service_quantities || {},
@@ -230,6 +231,10 @@ const jobRelations = `
   *,
   requests (
     request_code
+  ),
+  service_packages (
+    id,
+    name
   ),
   job_assignments (
     employee_id,

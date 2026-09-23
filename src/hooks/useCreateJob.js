@@ -199,7 +199,6 @@ export default function useCreateJob() {
   */
 
   const {
-    jobConflictsByEmployee,
     setJobConflictsByEmployee,
     checkingConflicts,
     getEmployeeJobConflicts,
