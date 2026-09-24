@@ -83,6 +83,7 @@ export default function CandidateApplication() {
         token,
 
         name: application.name,
+        role: application.role,
         location: application.location,
         years: application.years,
 
