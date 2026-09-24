@@ -4,6 +4,7 @@ import {
   ClipboardList,
   BriefcaseBusiness,
   Users,
+  UserRoundSearch,
   ExternalLink,
 } from "lucide-react";
 
@@ -30,6 +31,11 @@ const navigation = [
     name: "Team",
     to: "/admin/team",
     icon: Users,
+  },
+  {
+    name: "Candidates",
+    to: "/admin/candidates",
+    icon: UserRoundSearch,
   },
 ];
 

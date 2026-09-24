@@ -20,6 +20,10 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import CreateEmployee from "@/pages/admin/CreateEmployee";
 import EmployeeDetail from "@/pages/admin/EmployeeDetail";
 
+import CandidateApplication from "@/pages/CandidateApplication";
+import AdminCandidates from "@/pages/admin/AdminCandidates";
+import CandidateDetail from "@/pages/admin/CandidateDetail";
+
 function App() {
   return (
     <Router>
@@ -31,6 +35,7 @@ function App() {
         <Route path="/team/:slug" element={<EmployeeProfile />} />
         <Route path="/request-service" element={<RequestService />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/apply" element={<CandidateApplication />} />
 
         {/* Admin */}
         <Route
@@ -53,6 +58,9 @@ function App() {
           <Route path="team" element={<AdminTeam />} />
           <Route path="team/new" element={<CreateEmployee />} />
           <Route path="team/:id" element={<EmployeeDetail />} />
+
+          <Route path="/admin/candidates" element={<AdminCandidates />} />
+          <Route path="/admin/candidates/:id" element={<CandidateDetail />} />
         </Route>
 
         {/* 404 */}
