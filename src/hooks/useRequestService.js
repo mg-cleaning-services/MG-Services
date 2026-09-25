@@ -6,6 +6,7 @@ import {
 } from "@/services/cleaningService";
 
 import { createRequest } from "@/services/requestService";
+import { isValidPhone } from "@/utils/phone";
 
 const initialPropertyDetails = {
   propertyType: "",
@@ -206,7 +207,7 @@ export default function useRequestService() {
   const hasRequiredContactDetails =
     Boolean(customerDetails.firstName?.trim()) &&
     Boolean(customerDetails.lastName?.trim()) &&
-    Boolean(customerDetails.phone?.trim()) &&
+    isValidPhone(customerDetails.phone) &&
     Boolean(customerDetails.preferredContact);
 
   const hasRequiredEmail =

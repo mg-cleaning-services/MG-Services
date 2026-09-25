@@ -1,5 +1,6 @@
 import FormInput from "../ui/FormInput";
 import FormSelect from "../ui/FormSelect";
+import PhoneInput from "../ui/PhoneInput";
 
 export default function CustomerFields({ value, onChange }) {
   function updateField(field, fieldValue) {
@@ -23,10 +24,11 @@ export default function CustomerFields({ value, onChange }) {
         onChange={(fieldValue) => updateField("lastName", fieldValue)}
       />
 
-      <FormInput
+      <PhoneInput
         label="Phone"
         value={value.phone}
         onChange={(fieldValue) => updateField("phone", fieldValue)}
+        defaultCountry="AU"
       />
 
       <FormInput

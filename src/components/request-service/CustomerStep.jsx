@@ -1,3 +1,5 @@
+import PhoneInput from "@/components/admin/forms/ui/PhoneInput";
+
 const contactOptions = [
   {
     value: "whatsapp",
@@ -51,12 +53,12 @@ export default function CustomerStep({ value, onFieldChange }) {
           placeholder="Smith"
         />
 
-        <CustomerInput
+        <PhoneInput
           label="Phone number"
-          type="tel"
           value={value.phone}
           onChange={(newValue) => onFieldChange("phone", newValue)}
-          placeholder="04XX XXX XXX"
+          defaultCountry="AU"
+          required
         />
 
         <CustomerInput

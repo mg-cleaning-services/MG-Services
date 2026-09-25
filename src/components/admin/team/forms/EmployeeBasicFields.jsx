@@ -1,3 +1,5 @@
+import PhoneInput from "@/components/admin/forms/ui/PhoneInput";
+
 export default function EmployeeBasicFields({ form, onChange }) {
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -85,23 +87,19 @@ export default function EmployeeBasicFields({ form, onChange }) {
       </div>
 
       {/* Phone */}
-      <div>
-        <label
-          htmlFor="phone"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
-        >
-          Phone
-        </label>
-
-        <input
-          id="phone"
-          name="phone"
-          type="tel"
-          value={form.phone}
-          onChange={onChange}
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
-        />
-      </div>
+      <PhoneInput
+        label="Phone"
+        value={form.phone}
+        onChange={(phone) =>
+          onChange({
+            target: {
+              name: "phone",
+              value: phone,
+            },
+          })
+        }
+        defaultCountry="AU"
+      />
 
       {/* Email */}
       <div>

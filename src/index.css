@@ -135,3 +135,27 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.PhoneInput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.PhoneInputCountry {
+  margin-right: 0.25rem;
+}
+
+.PhoneInputInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+}
+
+.PhoneInputInput::placeholder {
+  color: rgb(26 26 26 / 0.35);
+}
