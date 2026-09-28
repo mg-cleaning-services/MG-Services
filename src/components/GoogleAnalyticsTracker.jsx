@@ -5,7 +5,8 @@ export default function GoogleAnalyticsTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("GA4 PAGE VIEW:", location.pathname);
+    if (location.pathname.startsWith("/admin")) return;
+    if (location.pathname === "/login") return;
 
     if (typeof window.gtag !== "function") return;
 
