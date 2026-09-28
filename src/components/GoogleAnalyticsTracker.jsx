@@ -5,6 +5,8 @@ export default function GoogleAnalyticsTracker() {
   const location = useLocation();
 
   useEffect(() => {
+    console.log("GA4 PAGE VIEW:", location.pathname);
+
     if (typeof window.gtag !== "function") return;
 
     window.gtag("event", "page_view", {
