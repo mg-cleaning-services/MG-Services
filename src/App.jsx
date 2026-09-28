@@ -5,6 +5,7 @@ import AdminTeam from "@/pages/admin/AdminTeam";
 import PageNotFound from "@/lib/PageNotFound";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Toaster } from "@/components/ui/toaster";
+import GoogleAnalyticsTracker from "@/components/GoogleAnalyticsTracker";
 
 import EmployeeProfile from "@/pages/EmployeeProfile";
 import RequestService from "@/pages/RequestService";
@@ -28,6 +29,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <GoogleAnalyticsTracker />
 
       <Routes>
         {/* Public */}
