@@ -48,6 +48,22 @@ export default defineConfig({
           },
         ],
       },
+
+      workbox: {
+        navigateFallbackDenylist: [
+          /^\/sitemap\.xml$/,
+          /^\/robots\.txt$/,
+          /^\/favicon\.png$/,
+          /^\/og-image\.jpg$/,
+          /^\/manifest\.webmanifest$/,
+          /^\/sw\.js$/,
+          /^\/workbox-.*\.js$/,
+          /^\/registerSW\.js$/,
+          /^\/assets\//,
+          /^\/images\//,
+          /^\/pwa-.*\.png$/,
+        ],
+      },
     }),
   ],
 
