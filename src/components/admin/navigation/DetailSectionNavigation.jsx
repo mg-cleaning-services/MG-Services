@@ -57,7 +57,7 @@ export default function DetailSectionNavigation({ sections }) {
   }
 
   return (
-    <nav className="rounded-5">
+    <nav>
       <div className="flex gap-1 overflow-x-auto scrollbar-hide lg:justify-center">
         {sections.map((section) => {
           const active = activeSection === section.id;

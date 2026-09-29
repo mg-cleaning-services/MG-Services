@@ -63,44 +63,97 @@ export default function useJobCommunication(job) {
     }
   }
 
-  async function downloadCleanerCard(employee) {
+  async function generateCleanerCard(employee) {
     if (!employee?.id) {
-      return;
+      return null;
     }
 
+    const fullEmployee = await getEmployeeById(employee.id);
+
+    if (!fullEmployee) {
+      console.error("Employee not found.");
+      return null;
+    }
+
+    setIntroductionEmployee(fullEmployee);
+
+    await new Promise((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(resolve)),
+    );
+
+    if (!cleanerCardRef.current) {
+      return null;
+    }
+
+    const dataUrl = await toPng(cleanerCardRef.current, {
+      cacheBust: true,
+      pixelRatio: 2,
+    });
+
+    const employeeName = fullEmployee.name.toLowerCase().replace(/\s+/g, "-");
+
+    const fileName = `${employeeName}-mg-cleaning.png`;
+    const blob = dataUrlToBlob(dataUrl);
+
+    return {
+      fullEmployee,
+      fileName,
+      blob,
+    };
+  }
+
+  async function downloadCleanerCard(employee) {
     try {
-      const fullEmployee = await getEmployeeById(employee.id);
+      const card = await generateCleanerCard(employee);
 
-      if (!fullEmployee) {
-        console.error("Employee not found.");
+      if (!card) {
         return;
       }
 
-      setIntroductionEmployee(fullEmployee);
-
-      await new Promise((resolve) =>
-        requestAnimationFrame(() => requestAnimationFrame(resolve)),
-      );
-
-      if (!cleanerCardRef.current) {
-        return;
-      }
-
-      const dataUrl = await toPng(cleanerCardRef.current, {
-        cacheBust: true,
-        pixelRatio: 2,
-      });
+      const objectUrl = URL.createObjectURL(card.blob);
 
       const link = document.createElement("a");
 
-      const employeeName = fullEmployee.name.toLowerCase().replace(/\s+/g, "-");
+      link.href = objectUrl;
+      link.download = card.fileName;
 
-      link.download = `${employeeName}-mg-cleaning.png`;
-      link.href = dataUrl;
-
+      document.body.appendChild(link);
       link.click();
+      link.remove();
+
+      URL.revokeObjectURL(objectUrl);
     } catch (error) {
-      console.error("Error generating cleaner introduction:", error);
+      console.error("Error downloading cleaner introduction:", error);
+    }
+  }
+
+  async function shareCleanerCard(employee) {
+    try {
+      const card = await generateCleanerCard(employee);
+
+      if (!card) {
+        return;
+      }
+
+      const file = new File([card.blob], card.fileName, {
+        type: "image/png",
+      });
+
+      if (!navigator.share || !navigator.canShare?.({ files: [file] })) {
+        alert("Sharing images is not supported on this device.");
+        return;
+      }
+
+      await navigator.share({
+        files: [file],
+        title: `${card.fullEmployee.name} - MG Cleaning`,
+      });
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        return;
+      }
+
+      console.error("Error sharing cleaner introduction:", error);
     }
   }
 
@@ -121,6 +174,25 @@ export default function useJobCommunication(job) {
     sendJobToCleaner,
     sendCleanerToCustomer,
     downloadCleanerCard,
+    shareCleanerCard,
     clearIntroductionEmployee,
   };
+}
+
+function dataUrlToBlob(dataUrl) {
+  const [header, data] = dataUrl.split(",");
+
+  const mimeMatch = header.match(/data:(.*?);base64/);
+  const mimeType = mimeMatch?.[1] || "image/png";
+
+  const binary = atob(data);
+  const bytes = new Uint8Array(binary.length);
+
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return new Blob([bytes], {
+    type: mimeType,
+  });
 }

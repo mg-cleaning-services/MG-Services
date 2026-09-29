@@ -11,6 +11,7 @@ export default function TeamAssignmentFields({
   onAddEmployee,
   onRemoveEmployee,
   onDownloadIntroduction,
+  onShareIntroduction,
   onSendToCustomer,
   onSendJob,
 }) {
@@ -166,13 +167,29 @@ export default function TeamAssignmentFields({
 
                       {/* Job actions */}
                       <div className="mt-5 flex flex-wrap gap-3">
-                        <button
-                          type="button"
-                          onClick={() => onDownloadIntroduction(employee)}
-                          className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-                        >
-                          Download Introduction
-                        </button>
+                        <details className="relative">
+                          <summary className="cursor-pointer list-none rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
+                            Introduction
+                          </summary>
+
+                          <div className="absolute bottom-full left-0 z-20 mb-2 min-w-40 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+                            <button
+                              type="button"
+                              onClick={() => onShareIntroduction(employee)}
+                              className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50"
+                            >
+                              Share
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => onDownloadIntroduction(employee)}
+                              className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50"
+                            >
+                              Download
+                            </button>
+                          </div>
+                        </details>
 
                         <button
                           type="button"

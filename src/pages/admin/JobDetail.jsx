@@ -61,6 +61,7 @@ export default function JobDetail() {
     sendJobToCleaner,
     sendCleanerToCustomer,
     downloadCleanerCard,
+    shareCleanerCard,
     clearIntroductionEmployee,
   } = useJobCommunication(job);
 
@@ -119,7 +120,7 @@ export default function JobDetail() {
 
         <div
           className="
-            sticky top-3 z-30
+            sticky top-[60px] z-30 lg:top-3
             rounded-2xl
             border border-[#2E7D32]/10
             bg-white/95
@@ -254,6 +255,7 @@ export default function JobDetail() {
                 onAddEmployee={addEmployee}
                 onRemoveEmployee={handleRemoveEmployee}
                 onDownloadIntroduction={downloadCleanerCard}
+                onShareIntroduction={shareCleanerCard}
                 onSendToCustomer={sendCleanerToCustomer}
                 onSendJob={sendJobToCleaner}
               />
