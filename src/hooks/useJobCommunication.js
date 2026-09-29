@@ -77,6 +77,7 @@ export default function useJobCommunication(job) {
 
     setIntroductionEmployee(fullEmployee);
 
+    // Wait for React to render the introduction card.
     await new Promise((resolve) =>
       requestAnimationFrame(() => requestAnimationFrame(resolve)),
     );
@@ -84,6 +85,12 @@ export default function useJobCommunication(job) {
     if (!cleanerCardRef.current) {
       return null;
     }
+
+    // Wait until all images inside the card are loaded and decoded.
+    await waitForImages(cleanerCardRef.current);
+
+    // Give the browser one final frame to paint the loaded images.
+    await new Promise((resolve) => requestAnimationFrame(resolve));
 
     const dataUrl = await toPng(cleanerCardRef.current, {
       cacheBust: true,
@@ -93,6 +100,7 @@ export default function useJobCommunication(job) {
     const employeeName = fullEmployee.name.toLowerCase().replace(/\s+/g, "-");
 
     const fileName = `${employeeName}-mg-cleaning.png`;
+
     const blob = dataUrlToBlob(dataUrl);
 
     return {
@@ -177,6 +185,46 @@ export default function useJobCommunication(job) {
     shareCleanerCard,
     clearIntroductionEmployee,
   };
+}
+
+/**
+ * Wait until every image inside the cleaner card has finished loading
+ * and, when supported, has been decoded by the browser.
+ */
+async function waitForImages(container) {
+  const images = Array.from(container.querySelectorAll("img"));
+
+  if (images.length === 0) {
+    return;
+  }
+
+  await Promise.all(
+    images.map(async (img) => {
+      // The image has not finished loading yet.
+      if (!img.complete) {
+        await new Promise((resolve) => {
+          const finish = () => {
+            img.removeEventListener("load", finish);
+            img.removeEventListener("error", finish);
+            resolve();
+          };
+
+          img.addEventListener("load", finish, { once: true });
+          img.addEventListener("error", finish, { once: true });
+        });
+      }
+
+      // Ask the browser to finish decoding the image before capture.
+      if (typeof img.decode === "function") {
+        try {
+          await img.decode();
+        } catch {
+          // Some browsers may reject decode() even when the image
+          // is already usable, so this should not stop generation.
+        }
+      }
+    }),
+  );
 }
 
 function dataUrlToBlob(dataUrl) {
