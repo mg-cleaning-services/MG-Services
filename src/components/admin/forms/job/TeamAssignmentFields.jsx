@@ -1,3 +1,4 @@
+import { useState } from "react";
 import EmployeeAvailabilitySelect from "@/components/admin/team/EmployeeAvailabilitySelect";
 
 export default function TeamAssignmentFields({
@@ -15,6 +16,24 @@ export default function TeamAssignmentFields({
   onSendToCustomer,
   onSendJob,
 }) {
+  const [openIntroductionMenu, setOpenIntroductionMenu] = useState(null);
+
+  function toggleIntroductionMenu(employeeId) {
+    setOpenIntroductionMenu((current) =>
+      current === employeeId ? null : employeeId,
+    );
+  }
+
+  function handleShareIntroduction(employee) {
+    setOpenIntroductionMenu(null);
+    onShareIntroduction(employee);
+  }
+
+  function handleDownloadIntroduction(employee) {
+    setOpenIntroductionMenu(null);
+    onDownloadIntroduction(employee);
+  }
+
   return (
     <>
       <p className="text-sm text-gray-500">
@@ -71,19 +90,19 @@ export default function TeamAssignmentFields({
               }
 
               const conflicts = getEmployeeJobConflicts?.(employee.id) || [];
-
               const hasConflict = conflicts.length > 0;
+              const introductionMenuOpen = openIntroductionMenu === employee.id;
 
               return (
                 <div
                   key={employee.id}
-                  className={`overflow-hidden rounded-2xl border bg-white ${
+                  className={`rounded-2xl border bg-white ${
                     hasConflict ? "border-red-300" : "border-gray-200"
                   }`}
                 >
                   {/* Conflict warning */}
                   {hasConflict && (
-                    <div className="border-b border-red-200 bg-red-50 px-5 py-3">
+                    <div className="rounded-t-2xl border-b border-red-200 bg-red-50 px-5 py-3">
                       <p className="text-sm font-medium text-red-700">
                         Schedule conflict
                       </p>
@@ -102,7 +121,7 @@ export default function TeamAssignmentFields({
 
                   <div className="flex flex-col sm:flex-row">
                     {/* Employee photo */}
-                    <div className="h-44 w-full shrink-0 sm:h-auto sm:w-40">
+                    <div className="h-44 w-full shrink-0 overflow-hidden rounded-t-2xl sm:h-auto sm:w-40 sm:rounded-l-2xl sm:rounded-tr-none">
                       {employee.photo ? (
                         <img
                           src={employee.photo}
@@ -167,29 +186,41 @@ export default function TeamAssignmentFields({
 
                       {/* Job actions */}
                       <div className="mt-5 flex flex-wrap gap-3">
-                        <details className="relative">
-                          <summary className="cursor-pointer list-none rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
+                        {/* Introduction */}
+                        <div className="relative">
+                          <button
+                            type="button"
+                            onClick={() => toggleIntroductionMenu(employee.id)}
+                            aria-expanded={introductionMenuOpen}
+                            className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                          >
                             Introduction
-                          </summary>
+                          </button>
 
-                          <div className="absolute bottom-full left-0 z-20 mb-2 min-w-40 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
-                            <button
-                              type="button"
-                              onClick={() => onShareIntroduction(employee)}
-                              className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50"
-                            >
-                              Share
-                            </button>
+                          {introductionMenuOpen && (
+                            <div className="absolute bottom-full left-0 z-40 mb-2 min-w-40 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleShareIntroduction(employee)
+                                }
+                                className="block w-full px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                              >
+                                Share
+                              </button>
 
-                            <button
-                              type="button"
-                              onClick={() => onDownloadIntroduction(employee)}
-                              className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50"
-                            >
-                              Download
-                            </button>
-                          </div>
-                        </details>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleDownloadIntroduction(employee)
+                                }
+                                className="block w-full border-t border-gray-100 px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                              >
+                                Download
+                              </button>
+                            </div>
+                          )}
+                        </div>
 
                         <button
                           type="button"
