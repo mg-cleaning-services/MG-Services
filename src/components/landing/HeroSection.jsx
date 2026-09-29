@@ -14,7 +14,7 @@ const trustBadges = [
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${HERO_IMG})` }}
@@ -22,33 +22,78 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
+        {/* Logo */}
+        <motion.img
+          src="images/logo.png"
+          alt="MG Cleaning Services"
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-[#2E7D32] text-sm font-semibold tracking-[0.2em] uppercase mb-6"
-        >
-          Melbourne&apos;s Trusted Home Cleaning
-        </motion.p>
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="
+  w-52 sm:w-60 md:w-72 lg:w-80
+  h-auto mx-auto
+  mb-5 md:mb-6
+  drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)]
+"
+        />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+        {/* Slogan */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading text-white leading-[1.1] mb-8"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative max-w-4xl mx-auto mb-7"
         >
-          Cleaning your home starts with trusting who walks through your door.
-        </motion.h1>
+          {/* Very subtle contrast behind slogan */}
+          <div
+            className="
+      absolute
+      inset-x-6 inset-y-1
+      bg-black/15
+      blur-xl
+      rounded-[50%]
+      pointer-events-none
+    "
+          />
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          <h1
+            className="
+      relative
+      text-[2.15rem] sm:text-5xl md:text-6xl lg:text-[4rem]
+      font-heading
+      text-white
+      leading-[0.95]
+      tracking-[-0.02em]
+      [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]
+    "
+          >
+            Cleaning your home starts with trusting who walks through your door.
+          </h1>
+        </motion.div>
+
+        {/* Trust positioning */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="text-lg md:text-xl text-white/70 font-light max-w-2xl mx-auto mb-10 leading-relaxed"
+          transition={{ duration: 0.6, delay: 0.55 }}
+          className="flex items-center justify-center gap-3 mb-10"
         >
-          Professional residential cleaning across Melbourne with a human-first
-          approach.
-        </motion.p>
+          <span className="hidden sm:block h-px w-8 bg-[#4CAF50]/60" />
+
+          <p
+            className="
+    text-[#66BB6A]
+    text-[11px] sm:text-xs
+    font-semibold
+    tracking-[0.22em]
+    uppercase
+  "
+          >
+            Melbourne&apos;s Trusted Home Cleaning
+          </p>
+
+          <span className="hidden sm:block h-px w-8 bg-[#4CAF50]/60" />
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,6 +107,7 @@ export default function HeroSection() {
           >
             Request a Cleaning
           </Link>
+
           <a
             href="#team"
             className="border border-white/30 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/10 transition-all duration-300 w-full sm:w-auto"
@@ -81,7 +127,7 @@ export default function HeroSection() {
               key={badge.label}
               className="flex items-center gap-2.5 text-white/80"
             >
-              <badge.icon className="w-5 h-5 text-[#2E7D32]" />
+              <badge.icon className="w-5 h-5 text-[#4CAF50]" />
               <span className="text-sm font-medium">{badge.label}</span>
             </div>
           ))}
