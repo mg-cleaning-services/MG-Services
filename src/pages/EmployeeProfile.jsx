@@ -169,7 +169,7 @@ export default function EmployeeProfile() {
       <section className="bg-[#1F3B2D] text-white">
         <div className="mx-auto max-w-5xl px-6 py-16 text-center lg:px-8 lg:py-24">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/50">
-            MG Cleaning Melbourne
+            MG Cleaning Services
           </p>
 
           <h2 className="mt-4 font-heading text-3xl leading-tight md:text-5xl">

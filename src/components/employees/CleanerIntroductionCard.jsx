@@ -242,7 +242,7 @@ export default function CleanerIntroductionCard({ employee, job }) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-lg font-heading font-semibold">
-              MG Cleaning Melbourne
+              MG Cleaning Services
             </p>
 
             <p className="mt-1 text-[13px] text-white/55">

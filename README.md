@@ -1,6 +1,6 @@
-# MG Cleaning Melbourne
+# MG Cleaning Services
 
-Modern web platform for MG Cleaning Melbourne, designed to provide a professional digital presence, generate customer leads, showcase the cleaning team, and provide an internal management system for the business.
+Modern web platform for MG Cleaning Services, designed to provide a professional digital presence, generate customer leads, showcase the cleaning team, and provide an internal management system for the business.
 
 The platform is being developed as a custom React application with a scalable architecture for future features such as online booking, payments, customer reviews, scheduling, and analytics.
 

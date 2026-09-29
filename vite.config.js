@@ -17,7 +17,7 @@ export default defineConfig({
       registerType: "autoUpdate",
 
       manifest: {
-        name: "MG Cleaning Melbourne",
+        name: "MG Cleaning Services",
         short_name: "MG Cleaning",
         description:
           "Professional cleaning services in Melbourne with a trusted and personal approach.",

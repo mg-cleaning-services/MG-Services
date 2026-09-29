@@ -138,7 +138,7 @@ export async function buildCustomerCleanerMessage(job, employee) {
     "",
     "If you have any questions before your service, please contact us.",
     "",
-    "MG Cleaning Melbourne",
+    "MG Cleaning Services",
   ]
     .filter((line) => line !== null)
     .join("\n");
