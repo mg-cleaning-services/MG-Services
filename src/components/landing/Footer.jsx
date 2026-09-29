@@ -13,9 +13,9 @@ const quickLinks = [
 const serviceLinks = [
   "Regular Cleaning",
   "Deep Cleaning",
+  "Premium Cleaning",
+  "Deluxe Cleaning",
   "End of Lease Cleaning",
-  "Carpet Cleaning",
-  "Airbnb Cleaning",
 ];
 
 export default function Footer() {

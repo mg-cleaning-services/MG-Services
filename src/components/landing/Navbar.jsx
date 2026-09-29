@@ -78,7 +78,7 @@ export default function Navbar() {
                   useSolidNavbar ? "text-[#1A1A1A]/60" : "text-white/70"
                 }`}
               >
-                Cleaning Melbourne
+                Cleaning Services
               </span>
             </Link>
 
