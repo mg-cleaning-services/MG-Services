@@ -22,54 +22,74 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
-        {/* Logo */}
-        <motion.img
-          src="images/logo.png"
-          alt="MG Cleaning Services"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
+        {/* Brand + Slogan */}
+        <div
           className="
-  w-52 sm:w-60 md:w-72 lg:w-80
-  h-auto mx-auto
-  mb-5 md:mb-6
-  drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)]
-"
-        />
-
-        {/* Slogan */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative max-w-4xl mx-auto mb-7"
+    flex flex-col
+    md:flex-row
+    items-center
+    justify-center
+    gap-6 md:gap-10 lg:gap-14
+    mb-8
+  "
         >
-          {/* Very subtle contrast behind slogan */}
-          <div
+          {/* Logo */}
+          <motion.img
+            src="images/logo.png"
+            alt="MG Cleaning Services"
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
             className="
-      absolute
-      inset-x-6 inset-y-1
-      bg-black/15
-      blur-xl
-      rounded-[50%]
-      pointer-events-none
+      w-52 sm:w-60 md:w-64 lg:w-72
+      h-auto
+      shrink-0
+      drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)]
     "
           />
 
-          <h1
+          {/* Slogan */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
             className="
       relative
-      text-[2.15rem] sm:text-5xl md:text-6xl lg:text-[4rem]
-      font-heading
-      text-white
-      leading-[0.95]
-      tracking-[-0.02em]
-      [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]
+      max-w-2xl
+      text-center md:text-left
     "
           >
-            Cleaning your home starts with trusting who walks through your door.
-          </h1>
-        </motion.div>
+            {/* Subtle contrast behind slogan */}
+            <div
+              className="
+        absolute
+        inset-x-4 inset-y-1
+        bg-black/15
+        blur-xl
+        rounded-[50%]
+        pointer-events-none
+      "
+            />
+
+            <h1
+              className="
+        relative
+        text-[2.15rem]
+        sm:text-5xl
+        md:text-5xl
+        lg:text-[3.6rem]
+        font-heading
+        text-white
+        leading-[0.95]
+        tracking-[-0.02em]
+        [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]
+      "
+            >
+              Cleaning your home starts with trusting who walks through your
+              door.
+            </h1>
+          </motion.div>
+        </div>
 
         {/* Trust positioning */}
         <motion.div
