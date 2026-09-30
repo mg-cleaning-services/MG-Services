@@ -1,29 +1,37 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "@/pages/Home";
-import AdminTeam from "@/pages/admin/AdminTeam";
-import PageNotFound from "@/lib/PageNotFound";
+// Global components — se cargan normalmente
 import ScrollToTop from "@/components/ScrollToTop";
 import { Toaster } from "@/components/ui/toaster";
 import GoogleAnalyticsTracker from "@/components/GoogleAnalyticsTracker";
-
-import EmployeeProfile from "@/pages/EmployeeProfile";
-import RequestService from "@/pages/RequestService";
-import AdminRequests from "@/pages/admin/AdminRequests";
-import RequestDetail from "@/pages/admin/RequestDetail";
-import AdminJobs from "@/pages/admin/AdminJobs";
-import JobDetail from "@/pages/admin/JobDetail";
-import AdminDashboard from "@/pages/admin/AdminDashboard";
-import AdminLayout from "@/components/admin/AdminLayout";
-import CreateJob from "@/pages/admin/CreateJob";
-import Login from "@/pages/Login";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import CreateEmployee from "@/pages/admin/CreateEmployee";
-import EmployeeDetail from "@/pages/admin/EmployeeDetail";
 
-import CandidateApplication from "@/pages/CandidateApplication";
-import AdminCandidates from "@/pages/admin/AdminCandidates";
-import CandidateDetail from "@/pages/admin/CandidateDetail";
+// Public pages
+const Home = lazy(() => import("@/pages/Home"));
+const EmployeeProfile = lazy(() => import("@/pages/EmployeeProfile"));
+const RequestService = lazy(() => import("@/pages/RequestService"));
+const Login = lazy(() => import("@/pages/Login"));
+const CandidateApplication = lazy(() => import("@/pages/CandidateApplication"));
+
+// Admin layout
+const AdminLayout = lazy(() => import("@/components/admin/AdminLayout"));
+
+// Admin pages
+const AdminDashboard = lazy(() => import("@/pages/admin/AdminDashboard"));
+const AdminRequests = lazy(() => import("@/pages/admin/AdminRequests"));
+const RequestDetail = lazy(() => import("@/pages/admin/RequestDetail"));
+const AdminJobs = lazy(() => import("@/pages/admin/AdminJobs"));
+const CreateJob = lazy(() => import("@/pages/admin/CreateJob"));
+const JobDetail = lazy(() => import("@/pages/admin/JobDetail"));
+const AdminTeam = lazy(() => import("@/pages/admin/AdminTeam"));
+const CreateEmployee = lazy(() => import("@/pages/admin/CreateEmployee"));
+const EmployeeDetail = lazy(() => import("@/pages/admin/EmployeeDetail"));
+const AdminCandidates = lazy(() => import("@/pages/admin/AdminCandidates"));
+const CandidateDetail = lazy(() => import("@/pages/admin/CandidateDetail"));
+
+// 404
+const PageNotFound = lazy(() => import("@/lib/PageNotFound"));
 
 function App() {
   return (
@@ -31,43 +39,45 @@ function App() {
       <ScrollToTop />
       <GoogleAnalyticsTracker />
 
-      <Routes>
-        {/* Public */}
-        <Route path="/" element={<Home />} />
-        <Route path="/team/:slug" element={<EmployeeProfile />} />
-        <Route path="/request-service" element={<RequestService />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/apply" element={<CandidateApplication />} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          {/* Public */}
+          <Route path="/" element={<Home />} />
+          <Route path="/team/:slug" element={<EmployeeProfile />} />
+          <Route path="/request-service" element={<RequestService />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/apply" element={<CandidateApplication />} />
 
-        {/* Admin */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute requiredRole="admin">
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
+          {/* Admin */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AdminDashboard />} />
 
-          <Route path="requests" element={<AdminRequests />} />
-          <Route path="requests/:id" element={<RequestDetail />} />
+            <Route path="requests" element={<AdminRequests />} />
+            <Route path="requests/:id" element={<RequestDetail />} />
 
-          <Route path="jobs" element={<AdminJobs />} />
-          <Route path="jobs/new" element={<CreateJob />} />
-          <Route path="jobs/:id" element={<JobDetail />} />
+            <Route path="jobs" element={<AdminJobs />} />
+            <Route path="jobs/new" element={<CreateJob />} />
+            <Route path="jobs/:id" element={<JobDetail />} />
 
-          <Route path="team" element={<AdminTeam />} />
-          <Route path="team/new" element={<CreateEmployee />} />
-          <Route path="team/:id" element={<EmployeeDetail />} />
+            <Route path="team" element={<AdminTeam />} />
+            <Route path="team/new" element={<CreateEmployee />} />
+            <Route path="team/:id" element={<EmployeeDetail />} />
 
-          <Route path="/admin/candidates" element={<AdminCandidates />} />
-          <Route path="/admin/candidates/:id" element={<CandidateDetail />} />
-        </Route>
+            <Route path="candidates" element={<AdminCandidates />} />
+            <Route path="candidates/:id" element={<CandidateDetail />} />
+          </Route>
 
-        {/* 404 */}
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+          {/* 404 */}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Suspense>
 
       <Toaster />
     </Router>

@@ -53,7 +53,7 @@ export default defineConfig({
         navigateFallbackDenylist: [
           /^\/sitemap\.xml$/,
           /^\/robots\.txt$/,
-          /^\/favicon\.png$/,
+          /^\/favicon\.webp$/,
           /^\/og-image\.jpg$/,
           /^\/manifest\.webmanifest$/,
           /^\/sw\.js$/,

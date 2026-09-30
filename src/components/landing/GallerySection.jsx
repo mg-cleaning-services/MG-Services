@@ -3,17 +3,17 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
   {
-    src: "images/cleaning1.png",
+    src: "/images/cleaning1.png",
     alt: "Kitchen before and after cleaning",
     label: "Kitchen Transformation",
   },
   {
-    src: "images/cleaning2.png",
+    src: "/images/cleaning2.png",
     alt: "Bathroom before and after cleaning",
     label: "Bathroom Revival",
   },
   {
-    src: "images/cleaning3.png",
+    src: "/images/cleaning3.png",
     alt: "Living room before and after cleaning",
     label: "Living Room Refresh",
   },

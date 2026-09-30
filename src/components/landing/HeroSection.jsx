@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Shield, Clock, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const HERO_IMG = "images/hero.png";
+const HERO_IMG = "/images/hero.webp";
 
 const trustBadges = [
   { icon: ShieldCheck, label: "Police Checked" },
@@ -23,29 +23,15 @@ export default function HeroSection() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
         {/* Brand + Slogan */}
-        <div
-          className="
-    flex flex-col
-    md:flex-row
-    items-center
-    justify-center
-    gap-6 md:gap-10 lg:gap-14
-    mb-8
-  "
-        >
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-14 mb-8">
           {/* Logo */}
           <motion.img
-            src="images/logo.png"
+            src="/images/logo.webp"
             alt="MG Cleaning Services"
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="
-      w-52 sm:w-60 md:w-64 lg:w-72
-      h-auto
-      shrink-0
-      drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)]
-    "
+            className="w-52 sm:w-60 md:w-64 lg:w-72 h-auto shrink-0 drop-shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
           />
 
           {/* Slogan */}
@@ -53,38 +39,12 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="
-      relative
-      max-w-2xl
-      text-center md:text-left
-    "
+            className="relative max-w-2xl text-center md:text-left"
           >
             {/* Subtle contrast behind slogan */}
-            <div
-              className="
-        absolute
-        inset-x-4 inset-y-1
-        bg-black/15
-        blur-xl
-        rounded-[50%]
-        pointer-events-none
-      "
-            />
+            <div className="absolute inset-x-4 inset-y-1 bg-black/15 blur-xl rounded-[50%] pointer-events-none" />
 
-            <h1
-              className="
-        relative
-        text-[2.15rem]
-        sm:text-5xl
-        md:text-5xl
-        lg:text-[3.6rem]
-        font-heading
-        text-white
-        leading-[0.95]
-        tracking-[-0.02em]
-        [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]
-      "
-            >
+            <h1 className="relative text-[2.15rem] sm:text-5xl md:text-5xl lg:text-[3.6rem] font-heading text-white leading-[0.95] tracking-[-0.02em] [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]">
               Cleaning your home starts with trusting who walks through your
               door.
             </h1>
@@ -100,15 +60,7 @@ export default function HeroSection() {
         >
           <span className="hidden sm:block h-px w-8 bg-[#4CAF50]/60" />
 
-          <p
-            className="
-    text-[#66BB6A]
-    text-[11px] sm:text-xs
-    font-semibold
-    tracking-[0.22em]
-    uppercase
-  "
-          >
+          <p className="text-[#66BB6A] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase">
             Melbourne&apos;s Trusted Home Cleaning
           </p>
 

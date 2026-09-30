@@ -4,27 +4,27 @@ import { Instagram } from "lucide-react";
 
 const posts = [
   {
-    src: "images/igm1.png",
+    src: "/images/igm1.png",
     alt: "Clean bedroom",
   },
   {
-    src: "images/igm2.png",
+    src: "/images/igm2.png",
     alt: "Eco cleaning products",
   },
   {
-    src: "images/igm3.png",
+    src: "/images/igm3.png",
     alt: "Sparkling kitchen",
   },
   {
-    src: "images/igm1.png",
+    src: "/images/igm1.png",
     alt: "Kitchen transformation",
   },
   {
-    src: "images/igm2.png",
+    src: "/images/igm2.png",
     alt: "Bathroom revival",
   },
   {
-    src: "images/igm3.png",
+    src: "/images/igm3.png",
     alt: "Living room refresh",
   },
 ];

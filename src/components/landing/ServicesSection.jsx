@@ -87,26 +87,7 @@ export default function ServicesSection() {
                     duration: 0.6,
                     delay: index * 0.08,
                   }}
-                  className="
-                    group
-                    flex
-                    w-full
-                    flex-col
-                    overflow-hidden
-                    rounded-3xl
-                    border
-                    border-[#2E7D32]/10
-                    bg-white
-                    text-left
-                    transition-all
-                    duration-300
-                    hover:-translate-y-1
-                    hover:border-[#2E7D32]/30
-                    hover:shadow-xl
-                    hover:shadow-[#2E7D32]/5
-                    md:w-[calc(50%-0.75rem)]
-                    lg:w-[calc(33.333%-1rem)]
-                  "
+                  className="group flex w-full flex-col overflow-hidden rounded-3xl border border-[#2E7D32]/10 bg-white text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#2E7D32]/30 hover:shadow-xl hover:shadow-[#2E7D32]/5 md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                 >
                   <div className="relative h-52 w-full overflow-hidden bg-[#E8F5E9]">
                     {cleaningPackage.image_url ? (
