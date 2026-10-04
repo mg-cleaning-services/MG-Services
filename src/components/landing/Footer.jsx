@@ -109,7 +109,7 @@ export default function Footer() {
                   className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
                   <Mail className="w-4 h-4 text-[#4CAF50]" />
-                  hello@mgcleaningmelbourne.com.au
+                  Maximilianoguerramorales@gmail.com
                 </a>
               </li>
             </ul>
