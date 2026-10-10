@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, Shield, Clock, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,24 @@ const trustBadges = [
   { icon: Leaf, label: "Eco Friendly Products" },
 ];
 
+const slogans = [
+  "Your space, our care. We clean it like it’s our own.",
+  "More than clean, we create comfort.",
+  "A cleaner space, a better feeling. Because every detail matters.",
+];
+
+const SLOGAN_INTERVAL = 5000;
+
 export default function HeroSection() {
+  const [activeSlogan, setActiveSlogan] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlogan((prev) => (prev + 1) % slogans.length);
+    }, SLOGAN_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
       <div
@@ -39,15 +56,51 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative max-w-2xl text-center md:text-left"
+            className="relative w-full max-w-2xl text-center md:text-left"
           >
-            {/* Subtle contrast behind slogan */}
-            <div className="absolute inset-x-4 inset-y-1 bg-black/15 blur-xl rounded-[50%] pointer-events-none" />
+            <div className="relative grid items-center">
+              {/* Reserve space to prevent layout shifts */}
+              <h1
+                aria-hidden="true"
+                className="invisible col-start-1 row-start-1 text-[2.15rem] sm:text-5xl md:text-5xl lg:text-[3.6rem] font-heading leading-[0.95] tracking-[-0.02em]"
+              >
+                {slogans.reduce((a, b) => (a.length >= b.length ? a : b))}
+              </h1>
 
-            <h1 className="relative text-[2.15rem] sm:text-5xl md:text-5xl lg:text-[3.6rem] font-heading text-white leading-[0.95] tracking-[-0.02em] [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]">
-              Cleaning your home starts with trusting who walks through your
-              door.
-            </h1>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeSlogan}
+                  initial={{
+                    opacity: 0,
+                    y: 18,
+                    filter: "blur(4px)",
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: -18,
+                    filter: "blur(4px)",
+                  }}
+                  transition={{
+                    duration: 0.65,
+                    ease: "easeInOut",
+                  }}
+                  className="relative col-start-1 row-start-1"
+                >
+                  {/* Background follows the slogan animation */}
+                  <div className="absolute inset-x-4 inset-y-1 bg-black/15 blur-xl rounded-[50%] pointer-events-none" />
+
+                  {/* Slogan text */}
+                  <h1 className="relative text-[2.15rem] sm:text-5xl md:text-5xl lg:text-[3.6rem] font-heading text-white leading-[0.95] tracking-[-0.02em] [text-shadow:0_2px_5px_rgba(0,0,0,0.55)]">
+                    {slogans[activeSlogan]}
+                  </h1>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
 
