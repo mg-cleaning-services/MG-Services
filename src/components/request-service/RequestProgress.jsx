@@ -34,26 +34,26 @@ export default function RequestProgress({ currentStep }) {
   return (
     <div className="mb-7 md:mb-9">
       {/* MOBILE */}
-      <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-4 md:hidden">
+      <div className="rounded-2xl border border-brand/10 bg-white p-4 md:hidden">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2E7D32]">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
               Step {current.shortNumber}
             </p>
 
-            <p className="mt-1 font-heading text-xl text-[#1A1A1A]">
+            <p className="mt-1 font-heading text-xl text-ink">
               {current.label}
             </p>
           </div>
 
-          <p className="text-sm font-medium text-[#1A1A1A]/40">
+          <p className="text-sm font-medium text-ink/40">
             {currentStep} / {steps.length}
           </p>
         </div>
 
-        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#E8F5E9]">
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-brand-soft">
           <div
-            className="h-full rounded-full bg-[#2E7D32] transition-all duration-500"
+            className="h-full rounded-full bg-brand transition-all duration-500"
             style={{
               width: `${(currentStep / steps.length) * 100}%`,
             }}
@@ -65,11 +65,11 @@ export default function RequestProgress({ currentStep }) {
       <div className="hidden md:block">
         <div className="relative mx-auto max-w-4xl">
           {/* BACKGROUND LINE */}
-          <div className="absolute left-[8%] right-[8%] top-5 h-px bg-[#2E7D32]/10" />
+          <div className="absolute left-[8%] right-[8%] top-5 h-px bg-brand/10" />
 
           {/* ACTIVE LINE */}
           <div
-            className="absolute left-[8%] top-5 h-px bg-[#2E7D32] transition-all duration-500"
+            className="absolute left-[8%] top-5 h-px bg-brand transition-all duration-500"
             style={{
               width: `${progress * 0.84}%`,
             }}
@@ -86,10 +86,10 @@ export default function RequestProgress({ currentStep }) {
                   <div
                     className={`flex h-10 w-10 items-center justify-center rounded-full border text-xs font-bold transition-all duration-300 ${
                       completed
-                        ? "border-[#2E7D32] bg-[#2E7D32] text-white"
+                        ? "border-brand bg-brand text-white"
                         : active
-                          ? "border-[#2E7D32] bg-white text-[#2E7D32] shadow-md shadow-[#2E7D32]/10"
-                          : "border-[#2E7D32]/10 bg-[#F9FAF9] text-[#1A1A1A]/30"
+                          ? "border-brand bg-white text-brand shadow-md shadow-brand/10"
+                          : "border-brand/10 bg-surface text-ink/30"
                     }`}
                   >
                     {completed ? "✓" : step.shortNumber}
@@ -98,10 +98,10 @@ export default function RequestProgress({ currentStep }) {
                   <p
                     className={`mt-3 text-sm font-semibold transition-colors ${
                       active
-                        ? "text-[#1A1A1A]"
+                        ? "text-ink"
                         : completed
-                          ? "text-[#2E7D32]"
-                          : "text-[#1A1A1A]/35"
+                          ? "text-brand"
+                          : "text-ink/35"
                     }`}
                   >
                     {step.label}

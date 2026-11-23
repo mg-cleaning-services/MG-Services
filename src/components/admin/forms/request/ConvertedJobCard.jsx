@@ -30,7 +30,7 @@ export default function ConvertedJobCard({ job }) {
 
         <Link
           to={`/admin/jobs/${job.id}`}
-          className="rounded-xl bg-[#2E7D32] px-5 py-3 text-sm font-medium text-white"
+          className="rounded-xl bg-brand px-5 py-3 text-sm font-medium text-white"
         >
           View Job →
         </Link>

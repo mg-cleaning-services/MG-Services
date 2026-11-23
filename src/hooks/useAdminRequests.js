@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { getRequests, updateRequestStatus } from "@/services/requestService";
+import { notifyError } from "@/lib/notify";
 
 export default function useAdminRequests() {
   const [requests, setRequests] = useState([]);
@@ -98,7 +99,7 @@ export default function useAdminRequests() {
     } catch (error) {
       console.error("Could not update request status:", error);
 
-      alert("Could not update the request status. Please try again.");
+      notifyError("Could not update the request status. Please try again.");
     }
   }
 

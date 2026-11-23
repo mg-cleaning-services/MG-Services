@@ -24,13 +24,13 @@ export default function CleanerIntroductionCard({ employee, job }) {
   const years = Number(employee?.years) || 0;
 
   return (
-    <div className="w-[700px] overflow-hidden rounded-3xl bg-[#EEF2EC] text-[#1A1A1A]">
+    <div className="w-[700px] overflow-hidden rounded-3xl bg-[#EEF2EC] text-ink">
       {/* Brand Header */}
       <div className="bg-[#143718] px-10 pb-9 pt-8 text-white">
         <div className="flex items-start justify-between">
           <div>
             <div className="text-3xl font-heading font-bold">
-              MG<span className="text-[#4CAF50]">.</span>
+              MG<span className="text-brand-bright">.</span>
             </div>
 
             <p className="mt-1 text-[13px] uppercase tracking-[0.24em] text-white/65">
@@ -61,12 +61,12 @@ export default function CleanerIntroductionCard({ employee, job }) {
                 className="h-48 w-48 rounded-[28px] object-cover"
               />
             ) : (
-              <div className="flex h-48 w-48 items-center justify-center rounded-[28px] bg-[#E8F5E9] text-5xl font-heading text-[#2E7D32]">
+              <div className="flex h-48 w-48 items-center justify-center rounded-[28px] bg-brand-soft text-5xl font-heading text-brand">
                 {getInitials(employee?.name)}
               </div>
             )}
 
-            <div className="absolute -bottom-3 -right-3 flex h-12 w-12 items-center justify-center rounded-2xl border-4 border-[#1A1D1B] bg-[#2E7D32] text-white">
+            <div className="absolute -bottom-3 -right-3 flex h-12 w-12 items-center justify-center rounded-2xl border-4 border-[#1A1D1B] bg-brand text-white">
               <Check size={23} strokeWidth={2.5} />
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function CleanerIntroductionCard({ employee, job }) {
           <div className="mt-8">
             <SectionLabel>Meet {firstName}</SectionLabel>
 
-            <p className="mt-4 text-[17px] leading-8 text-[#1A1A1A]/75">
+            <p className="mt-4 text-[17px] leading-8 text-ink/75">
               {employee.bio}
             </p>
           </div>
@@ -226,11 +226,11 @@ export default function CleanerIntroductionCard({ employee, job }) {
 
         {/* Trust */}
         <div className="mt-8 flex items-center gap-4 rounded-2xl bg-[#DDEBDD] px-6 py-5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#2E7D32] text-white">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white">
             <Check size={17} strokeWidth={2.5} />
           </div>
 
-          <p className="text-[16px] leading-6 text-[#1A1A1A]/75">
+          <p className="text-[16px] leading-6 text-ink/75">
             <span className="font-semibold text-[#1B3D1E]">{firstName}</span>{" "}
             has been personally assigned to your service by MG Cleaning.
           </p>
@@ -251,7 +251,7 @@ export default function CleanerIntroductionCard({ employee, job }) {
           </div>
 
           <div className="flex items-center gap-2.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#2E7D32]" />
+            <div className="h-2.5 w-2.5 rounded-full bg-brand" />
 
             <p className="text-[13px] font-medium text-white/60">Melbourne</p>
           </div>
@@ -263,7 +263,7 @@ export default function CleanerIntroductionCard({ employee, job }) {
 
 function SectionLabel({ children }) {
   return (
-    <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-[#2E7D32]">
+    <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-brand">
       {children}
     </p>
   );
@@ -300,7 +300,7 @@ function ProfileRow({ icon, title, children, last = false }) {
         </p>
       </div>
 
-      <p className="text-[16px] leading-7 text-[#1A1A1A]/75">{children}</p>
+      <p className="text-[16px] leading-7 text-ink/75">{children}</p>
     </div>
   );
 }

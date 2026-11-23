@@ -38,7 +38,7 @@ export default function AdminJobs() {
 
           <Link
             to="/admin/jobs/new"
-            className="inline-flex items-center justify-center rounded-xl bg-[#2E7D32] px-5 py-3 font-semibold text-white transition hover:bg-[#256B29]"
+            className="inline-flex items-center justify-center rounded-xl bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brand-dark"
           >
             + Create Job
           </Link>

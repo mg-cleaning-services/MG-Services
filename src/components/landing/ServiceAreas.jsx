@@ -29,13 +29,13 @@ export default function ServiceAreas() {
           transition={{ duration: 0.7 }}
           className="text-center mb-20"
         >
-          <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="text-brand text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             Service Areas
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-[#1A1A1A] mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-ink mb-6">
             Serving Melbourne's inner suburbs
           </h2>
-          <p className="text-lg text-[#1A1A1A]/60 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-ink/60 max-w-2xl mx-auto leading-relaxed">
             We're proud to serve communities across Melbourne's most vibrant
             neighbourhoods.
           </p>
@@ -49,12 +49,12 @@ export default function ServiceAreas() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-[#2E7D32]/5 hover:border-[#2E7D32]/20 transition-all duration-500 hover:shadow-lg hover:shadow-[#2E7D32]/5 hover:-translate-y-0.5 flex items-center gap-3 group cursor-default"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-brand/5 hover:border-brand/20 transition-all duration-500 hover:shadow-lg hover:shadow-brand/5 hover:-translate-y-0.5 flex items-center gap-3 group cursor-default"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#E8F5E9] flex items-center justify-center flex-shrink-0 group-hover:bg-[#2E7D32] transition-colors duration-500">
-                <MapPin className="w-4 h-4 text-[#2E7D32] group-hover:text-white transition-colors duration-500" />
+              <div className="w-10 h-10 rounded-xl bg-brand-soft flex items-center justify-center flex-shrink-0 group-hover:bg-brand transition-colors duration-500">
+                <MapPin className="w-4 h-4 text-brand group-hover:text-white transition-colors duration-500" />
               </div>
-              <span className="font-medium text-[#1A1A1A] text-sm">{area}</span>
+              <span className="font-medium text-ink text-sm">{area}</span>
             </motion.div>
           ))}
         </div>

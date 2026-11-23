@@ -7,6 +7,7 @@ import {
 
 import { createRequest } from "@/services/requestService";
 import { isValidPhone } from "@/utils/phone";
+import { notifyError } from "@/lib/notify";
 
 const initialPropertyDetails = {
   propertyType: "",
@@ -383,7 +384,7 @@ export default function useRequestService() {
     } catch (error) {
       console.error("Could not create request:", error);
 
-      alert("We couldn't send your cleaning request. Please try again.");
+      notifyError("We couldn't send your cleaning request. Please try again.");
 
       return null;
     } finally {

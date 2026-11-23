@@ -98,7 +98,7 @@ export default function ServiceDetailsDialog({
           className="max-h-[92vh] cursor-grab overflow-y-auto active:cursor-grabbing"
         >
           {/* IMAGE */}
-          <div className="relative h-48 overflow-hidden bg-[#E8F5E9] sm:h-56">
+          <div className="relative h-48 overflow-hidden bg-brand-soft sm:h-56">
             {activePackage.image_url ? (
               <img
                 src={activePackage.image_url}
@@ -108,7 +108,7 @@ export default function ServiceDetailsDialog({
               />
             ) : (
               <div className="flex h-full items-center justify-center">
-                <Sparkles className="h-10 w-10 text-[#2E7D32]/35" />
+                <Sparkles className="h-10 w-10 text-brand/35" />
               </div>
             )}
 
@@ -123,7 +123,7 @@ export default function ServiceDetailsDialog({
               }}
               onPointerDown={(event) => event.stopPropagation()}
               aria-label="Previous cleaning package"
-              className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-white/90 text-[#1A1A1A] shadow-md backdrop-blur transition hover:bg-white"
+              className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-white/90 text-ink shadow-md backdrop-blur transition hover:bg-white"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
@@ -137,7 +137,7 @@ export default function ServiceDetailsDialog({
               }}
               onPointerDown={(event) => event.stopPropagation()}
               aria-label="Next cleaning package"
-              className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-white/90 text-[#1A1A1A] shadow-md backdrop-blur transition hover:bg-white"
+              className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-white/90 text-ink shadow-md backdrop-blur transition hover:bg-white"
             >
               <ArrowRight className="h-5 w-5" />
             </button>
@@ -167,13 +167,13 @@ export default function ServiceDetailsDialog({
 
           {/* CONTENT */}
           <div className="p-5 sm:p-7">
-            <p className="mx-auto max-w-4xl text-center text-base leading-relaxed text-[#1A1A1A]/65">
+            <p className="mx-auto max-w-4xl text-center text-base leading-relaxed text-ink/65">
               {activePackage.web_description || activePackage.description}
             </p>
 
             {includedServices.length > 0 ? (
               <div className="mt-6">
-                <p className="mb-4 text-center text-sm font-semibold uppercase tracking-[0.12em] text-[#2E7D32]">
+                <p className="mb-4 text-center text-sm font-semibold uppercase tracking-[0.12em] text-brand">
                   What's included
                 </p>
 
@@ -182,13 +182,13 @@ export default function ServiceDetailsDialog({
                   {includedServices.map((service) => (
                     <div
                       key={service.id}
-                      className="flex items-start gap-2.5 rounded-xl bg-[#F9FAF9] p-3"
+                      className="flex items-start gap-2.5 rounded-xl bg-surface p-3"
                     >
-                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#E8F5E9]">
-                        <Check className="h-3 w-3 text-[#2E7D32]" />
+                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-soft">
+                        <Check className="h-3 w-3 text-brand" />
                       </div>
 
-                      <span className="text-sm leading-relaxed text-[#1A1A1A]/75">
+                      <span className="text-sm leading-relaxed text-ink/75">
                         {service.name}
                       </span>
                     </div>
@@ -196,8 +196,8 @@ export default function ServiceDetailsDialog({
                 </div>
               </div>
             ) : (
-              <div className="mx-auto mt-6 max-w-2xl rounded-2xl bg-[#F9FAF9] p-5 text-center">
-                <p className="text-sm leading-relaxed text-[#1A1A1A]/65">
+              <div className="mx-auto mt-6 max-w-2xl rounded-2xl bg-surface p-5 text-center">
+                <p className="text-sm leading-relaxed text-ink/65">
                   The cleaning scope for this package is confirmed according to
                   the property and service requirements.
                 </p>
@@ -217,8 +217,8 @@ export default function ServiceDetailsDialog({
                   aria-label={`View ${cleaningPackage.name}`}
                   className={`h-2.5 cursor-pointer rounded-full transition-all ${
                     index === activeIndex
-                      ? "w-7 bg-[#2E7D32]"
-                      : "w-2.5 bg-[#2E7D32]/20 hover:bg-[#2E7D32]/40"
+                      ? "w-7 bg-brand"
+                      : "w-2.5 bg-brand/20 hover:bg-brand/40"
                   }`}
                 />
               ))}
@@ -232,7 +232,7 @@ export default function ServiceDetailsDialog({
               <button
                 type="button"
                 onClick={handleRequestService}
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[#2E7D32] px-8 py-4 font-semibold text-white transition hover:bg-[#256428]"
+                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 font-semibold text-white transition hover:bg-[#256428]"
               >
                 Request this service
                 <ArrowRight className="h-4 w-4" />

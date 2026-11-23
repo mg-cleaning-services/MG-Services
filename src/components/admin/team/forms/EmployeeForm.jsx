@@ -44,12 +44,12 @@ export default function EmployeeForm({
         <EmployeeManagementFields form={form} onChange={handleChange} />
       )}
 
-      <div className="flex justify-end gap-3 border-t border-[#1A1A1A]/10 pt-6">
+      <div className="flex justify-end gap-3 border-t border-ink/10 pt-6">
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-xl border border-[#1A1A1A]/10 px-5 py-2.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-gray-50"
+            className="rounded-xl border border-ink/10 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50"
           >
             Cancel
           </button>
@@ -57,7 +57,7 @@ export default function EmployeeForm({
 
         <button
           type="submit"
-          className="rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+          className="rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
         >
           {submitLabel}
         </button>

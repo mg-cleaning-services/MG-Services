@@ -31,27 +31,27 @@ export default function AdminTeam() {
   } = useAdminTeam();
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] py-16">
+    <main className="min-h-screen bg-surface py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
               Administration
             </p>
 
-            <h1 className="text-4xl font-heading text-[#1A1A1A] md:text-5xl">
+            <h1 className="text-4xl font-heading text-ink md:text-5xl">
               Team
             </h1>
 
-            <p className="mt-3 text-[#1A1A1A]/60">
+            <p className="mt-3 text-ink/60">
               Manage your cleaning team and employee profiles.
             </p>
           </div>
 
           <Link
             to="/admin/team/new"
-            className="inline-flex items-center justify-center rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+            className="inline-flex items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
           >
             Add Employee
           </Link>
@@ -59,8 +59,8 @@ export default function AdminTeam() {
 
         {/* Loading */}
         {loading && (
-          <div className="mb-8 rounded-2xl border border-[#2E7D32]/10 bg-white p-6">
-            <p className="text-sm text-[#1A1A1A]/60">Loading employees...</p>
+          <div className="mb-8 rounded-2xl border border-brand/10 bg-white p-6">
+            <p className="text-sm text-ink/60">Loading employees...</p>
           </div>
         )}
 
@@ -75,26 +75,26 @@ export default function AdminTeam() {
           <>
             {/* Stats */}
             <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
-                <p className="text-sm text-[#1A1A1A]/50">Total Employees</p>
+              <div className="rounded-2xl border border-brand/10 bg-white p-5">
+                <p className="text-sm text-ink/50">Total Employees</p>
 
-                <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                <p className="mt-1 text-3xl font-heading text-ink">
                   {stats.totalEmployees}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
-                <p className="text-sm text-[#1A1A1A]/50">Active Employees</p>
+              <div className="rounded-2xl border border-brand/10 bg-white p-5">
+                <p className="text-sm text-ink/50">Active Employees</p>
 
-                <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                <p className="mt-1 text-3xl font-heading text-ink">
                   {stats.activeEmployees}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
-                <p className="text-sm text-[#1A1A1A]/50">Public Profiles</p>
+              <div className="rounded-2xl border border-brand/10 bg-white p-5">
+                <p className="text-sm text-ink/50">Public Profiles</p>
 
-                <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                <p className="mt-1 text-3xl font-heading text-ink">
                   {stats.publicProfiles}
                 </p>
               </div>
@@ -115,13 +115,13 @@ export default function AdminTeam() {
             {/* Results */}
             {employees.length > 0 && (
               <div className="mb-4 flex items-center justify-between">
-                <p className="text-sm text-[#1A1A1A]/50">
+                <p className="text-sm text-ink/50">
                   Showing{" "}
-                  <span className="font-medium text-[#1A1A1A]">
+                  <span className="font-medium text-ink">
                     {filteredEmployees.length}
                   </span>{" "}
                   of{" "}
-                  <span className="font-medium text-[#1A1A1A]">
+                  <span className="font-medium text-ink">
                     {employees.length}
                   </span>{" "}
                   employees
@@ -144,18 +144,18 @@ export default function AdminTeam() {
 
             {/* No employees */}
             {employees.length === 0 && (
-              <div className="rounded-3xl border border-dashed border-[#2E7D32]/20 bg-white px-6 py-16 text-center">
-                <h2 className="text-xl font-heading text-[#1A1A1A]">
+              <div className="rounded-3xl border border-dashed border-brand/20 bg-white px-6 py-16 text-center">
+                <h2 className="text-xl font-heading text-ink">
                   No employees yet
                 </h2>
 
-                <p className="mt-2 text-sm text-[#1A1A1A]/50">
+                <p className="mt-2 text-sm text-ink/50">
                   Add your first employee to start building the team.
                 </p>
 
                 <Link
                   to="/admin/team/new"
-                  className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+                  className="mt-6 inline-flex items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
                 >
                   Add Employee
                 </Link>
@@ -164,12 +164,12 @@ export default function AdminTeam() {
 
             {/* No filter results */}
             {employees.length > 0 && filteredEmployees.length === 0 && (
-              <div className="rounded-3xl border border-dashed border-[#2E7D32]/20 bg-white px-6 py-16 text-center">
-                <h2 className="text-xl font-heading text-[#1A1A1A]">
+              <div className="rounded-3xl border border-dashed border-brand/20 bg-white px-6 py-16 text-center">
+                <h2 className="text-xl font-heading text-ink">
                   No matching employees
                 </h2>
 
-                <p className="mt-2 text-sm text-[#1A1A1A]/50">
+                <p className="mt-2 text-sm text-ink/50">
                   Try changing your search or filters.
                 </p>
               </div>

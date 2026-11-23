@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function EmployeeAdminCard({ employee, onDelete }) {
   return (
-    <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
+    <div className="rounded-2xl border border-brand/10 bg-white p-5">
       <div className="flex flex-col gap-5 md:flex-row md:items-center">
         {/* Employee */}
         <div className="flex flex-1 items-center gap-4">
@@ -13,30 +13,30 @@ export default function EmployeeAdminCard({ employee, onDelete }) {
               className="h-16 w-16 rounded-xl object-cover"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#E8F5E9] text-xl font-semibold text-[#2E7D32]">
+            <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-brand-soft text-xl font-semibold text-brand">
               {employee.name?.charAt(0)?.toUpperCase() || "?"}
             </div>
           )}
 
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="font-heading text-lg text-[#1A1A1A]">
+              <h2 className="font-heading text-lg text-ink">
                 {employee.name}
               </h2>
 
               {employee.employeeCode && (
-                <span className="text-xs text-[#1A1A1A]/40">
+                <span className="text-xs text-ink/40">
                   {employee.employeeCode}
                 </span>
               )}
             </div>
 
-            <p className="text-sm text-[#2E7D32]">
+            <p className="text-sm text-brand">
               {employee.role || "Role not set"}
             </p>
 
             {employee.location && (
-              <p className="text-sm text-[#1A1A1A]/50">{employee.location}</p>
+              <p className="text-sm text-ink/50">{employee.location}</p>
             )}
           </div>
         </div>
@@ -46,7 +46,7 @@ export default function EmployeeAdminCard({ employee, onDelete }) {
           <span
             className={`rounded-full px-3 py-1.5 text-xs font-medium ${
               employee.publicProfile
-                ? "bg-[#E8F5E9] text-[#2E7D32]"
+                ? "bg-brand-soft text-brand"
                 : "bg-gray-100 text-gray-500"
             }`}
           >
@@ -56,7 +56,7 @@ export default function EmployeeAdminCard({ employee, onDelete }) {
           <span
             className={`rounded-full px-3 py-1.5 text-xs font-medium ${
               employee.status === "active"
-                ? "bg-[#E8F5E9] text-[#2E7D32]"
+                ? "bg-brand-soft text-brand"
                 : "bg-gray-100 text-gray-500"
             }`}
           >
@@ -68,7 +68,7 @@ export default function EmployeeAdminCard({ employee, onDelete }) {
         <div className="flex gap-2">
           <Link
             to={`/admin/team/${employee.id}`}
-            className="rounded-xl border border-[#2E7D32]/20 px-4 py-2 text-sm font-medium text-[#2E7D32] transition-colors hover:bg-[#E8F5E9]"
+            className="rounded-xl border border-brand/20 px-4 py-2 text-sm font-medium text-brand transition-colors hover:bg-brand-soft"
           >
             Edit
           </Link>

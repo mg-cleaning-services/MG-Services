@@ -3,15 +3,15 @@ export default function PropertyStep({ value, onFieldChange }) {
     <div>
       {/* STEP HEADER */}
       <div className="max-w-2xl">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
           Property Details
         </p>
 
-        <h2 className="font-heading text-2xl leading-tight text-[#1A1A1A] md:text-3xl">
+        <h2 className="font-heading text-2xl leading-tight text-ink md:text-3xl">
           Tell us about your property
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-[#1A1A1A]/60 md:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-ink/60 md:text-base">
           This helps us understand the size of the job and prepare a more
           accurate recommendation.
         </p>
@@ -129,12 +129,12 @@ export default function PropertyStep({ value, onFieldChange }) {
       </div>
 
       {/* PETS */}
-      <div className="mt-8 border-t border-[#2E7D32]/10 pt-7">
-        <p className="text-sm font-semibold text-[#1A1A1A]">
+      <div className="mt-8 border-t border-brand/10 pt-7">
+        <p className="text-sm font-semibold text-ink">
           Are there pets at the property?
         </p>
 
-        <p className="mt-1 text-sm text-[#1A1A1A]/50">
+        <p className="mt-1 text-sm text-ink/50">
           This helps our team prepare before arriving.
         </p>
 
@@ -152,8 +152,8 @@ export default function PropertyStep({ value, onFieldChange }) {
                 onClick={() => onFieldChange("pets", option.value)}
                 className={`min-w-24 rounded-xl border px-5 py-3 text-sm font-semibold transition-all duration-300 ${
                   selected
-                    ? "border-[#2E7D32] bg-[#E8F5E9] text-[#2E7D32]"
-                    : "border-[#2E7D32]/10 bg-white text-[#1A1A1A]/60 hover:border-[#2E7D32]/30"
+                    ? "border-brand bg-brand-soft text-brand"
+                    : "border-brand/10 bg-white text-ink/60 hover:border-brand/30"
                 }`}
               >
                 {option.label}
@@ -169,14 +169,14 @@ export default function PropertyStep({ value, onFieldChange }) {
 function SelectField({ label, value, onChange, options }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
+      <label className="mb-2 block text-sm font-medium text-ink/70">
         {label}
       </label>
 
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
+        className="w-full rounded-xl border border-brand/10 bg-surface px-4 py-3.5 text-sm text-ink outline-none transition-all duration-300 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/5"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -191,7 +191,7 @@ function SelectField({ label, value, onChange, options }) {
 function TextField({ label, value, onChange, placeholder }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
+      <label className="mb-2 block text-sm font-medium text-ink/70">
         {label}
       </label>
 
@@ -200,7 +200,7 @@ function TextField({ label, value, onChange, placeholder }) {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 placeholder:text-[#1A1A1A]/30 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
+        className="w-full rounded-xl border border-brand/10 bg-surface px-4 py-3.5 text-sm text-ink outline-none transition-all duration-300 placeholder:text-ink/30 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/5"
       />
     </div>
   );

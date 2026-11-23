@@ -154,7 +154,7 @@ export default function EmployeeAvailabilitySelect({
                         {isSelected && !hasConflict && (
                           <Check
                             size={17}
-                            className="shrink-0 text-[#2E7D32]"
+                            className="shrink-0 text-brand"
                           />
                         )}
                       </div>

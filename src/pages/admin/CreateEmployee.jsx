@@ -9,22 +9,22 @@ export default function CreateEmployee() {
   const { saving, saveError, createNewEmployee } = useCreateEmployee();
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+    <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
       <div className="mx-auto max-w-5xl">
-        <Link to="/admin/team" className="text-sm font-medium text-[#2E7D32]">
+        <Link to="/admin/team" className="text-sm font-medium text-brand">
           ← Back to Team
         </Link>
 
         <header className="mt-8 mb-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
             Employee
           </p>
 
-          <h1 className="mt-2 text-4xl font-heading text-[#1A1A1A]">
+          <h1 className="mt-2 text-4xl font-heading text-ink">
             Add Employee
           </h1>
 
-          <p className="mt-3 text-[#1A1A1A]/60">
+          <p className="mt-3 text-ink/60">
             Create a new employee profile.
           </p>
         </header>
@@ -35,7 +35,7 @@ export default function CreateEmployee() {
           </div>
         )}
 
-        <section className="rounded-2xl border border-[#1A1A1A]/10 bg-white p-6 md:p-8">
+        <section className="rounded-2xl border border-ink/10 bg-white p-6 md:p-8">
           <EmployeeForm
             onSubmit={createNewEmployee}
             onCancel={() => navigate("/admin/team")}

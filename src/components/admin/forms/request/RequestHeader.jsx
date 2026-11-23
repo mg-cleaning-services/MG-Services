@@ -30,7 +30,7 @@ export default function RequestHeader({
 
             <Link
               to={`/admin/jobs/${generatedJob.id}`}
-              className="font-semibold text-[#2E7D32] hover:underline"
+              className="font-semibold text-brand hover:underline"
             >
               {generatedJob.jobCode || "Created Job"} →
             </Link>

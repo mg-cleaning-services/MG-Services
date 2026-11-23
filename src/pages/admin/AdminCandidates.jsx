@@ -205,7 +205,7 @@ export default function AdminCandidates() {
 
   function getStatusClasses(value) {
     if (value === "approved") {
-      return "bg-[#E8F5E9] text-[#2E7D32]";
+      return "bg-brand-soft text-brand";
     }
 
     if (value === "rejected") {
@@ -221,20 +221,20 @@ export default function AdminCandidates() {
 
   return (
     <>
-      <main className="min-h-screen bg-[#F9FAF9] py-16">
+      <main className="min-h-screen bg-surface py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           {/* Header */}
           <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
                 Administration
               </p>
 
-              <h1 className="text-4xl font-heading text-[#1A1A1A] md:text-5xl">
+              <h1 className="text-4xl font-heading text-ink md:text-5xl">
                 Candidates
               </h1>
 
-              <p className="mt-3 text-[#1A1A1A]/60">
+              <p className="mt-3 text-ink/60">
                 Review candidate applications and manage recruitment
                 invitations.
               </p>
@@ -243,7 +243,7 @@ export default function AdminCandidates() {
             <button
               type="button"
               onClick={openInviteModal}
-              className="inline-flex items-center justify-center rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+              className="inline-flex items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
             >
               Invite Candidate
             </button>
@@ -251,8 +251,8 @@ export default function AdminCandidates() {
 
           {/* Loading */}
           {loading && (
-            <div className="mb-8 rounded-2xl border border-[#2E7D32]/10 bg-white p-6">
-              <p className="text-sm text-[#1A1A1A]/60">Loading candidates...</p>
+            <div className="mb-8 rounded-2xl border border-brand/10 bg-white p-6">
+              <p className="text-sm text-ink/60">Loading candidates...</p>
             </div>
           )}
 
@@ -267,43 +267,43 @@ export default function AdminCandidates() {
             <>
               {/* Stats */}
               <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
-                  <p className="text-sm text-[#1A1A1A]/50">
+                <div className="rounded-2xl border border-brand/10 bg-white p-5">
+                  <p className="text-sm text-ink/50">
                     Pending Applications
                   </p>
 
-                  <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                  <p className="mt-1 text-3xl font-heading text-ink">
                     {stats.submitted}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
-                  <p className="text-sm text-[#1A1A1A]/50">Approved</p>
+                <div className="rounded-2xl border border-brand/10 bg-white p-5">
+                  <p className="text-sm text-ink/50">Approved</p>
 
-                  <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                  <p className="mt-1 text-3xl font-heading text-ink">
                     {stats.approved}
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
-                  <p className="text-sm text-[#1A1A1A]/50">Rejected</p>
+                <div className="rounded-2xl border border-brand/10 bg-white p-5">
+                  <p className="text-sm text-ink/50">Rejected</p>
 
-                  <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                  <p className="mt-1 text-3xl font-heading text-ink">
                     {stats.rejected}
                   </p>
                 </div>
               </div>
 
               {/* Filters */}
-              <div className="mb-8 rounded-2xl border border-[#2E7D32]/10 bg-white p-4">
+              <div className="mb-8 rounded-2xl border border-brand/10 bg-white p-4">
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => setStatus("submitted")}
                     className={`rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
                       status === "submitted"
-                        ? "bg-[#2E7D32] text-white"
-                        : "text-[#1A1A1A]/60 hover:bg-[#F9FAF9]"
+                        ? "bg-brand text-white"
+                        : "text-ink/60 hover:bg-surface"
                     }`}
                   >
                     Pending ({stats.submitted})
@@ -314,8 +314,8 @@ export default function AdminCandidates() {
                     onClick={() => setStatus("approved")}
                     className={`rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
                       status === "approved"
-                        ? "bg-[#2E7D32] text-white"
-                        : "text-[#1A1A1A]/60 hover:bg-[#F9FAF9]"
+                        ? "bg-brand text-white"
+                        : "text-ink/60 hover:bg-surface"
                     }`}
                   >
                     Approved ({stats.approved})
@@ -326,8 +326,8 @@ export default function AdminCandidates() {
                     onClick={() => setStatus("rejected")}
                     className={`rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
                       status === "rejected"
-                        ? "bg-[#2E7D32] text-white"
-                        : "text-[#1A1A1A]/60 hover:bg-[#F9FAF9]"
+                        ? "bg-brand text-white"
+                        : "text-ink/60 hover:bg-surface"
                     }`}
                   >
                     Rejected ({stats.rejected})
@@ -338,8 +338,8 @@ export default function AdminCandidates() {
                     onClick={() => setStatus("all")}
                     className={`rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
                       status === "all"
-                        ? "bg-[#2E7D32] text-white"
-                        : "text-[#1A1A1A]/60 hover:bg-[#F9FAF9]"
+                        ? "bg-brand text-white"
+                        : "text-ink/60 hover:bg-surface"
                     }`}
                   >
                     All ({stats.total})
@@ -350,13 +350,13 @@ export default function AdminCandidates() {
               {/* Results */}
               {applications.length > 0 && (
                 <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm text-[#1A1A1A]/50">
+                  <p className="text-sm text-ink/50">
                     Showing{" "}
-                    <span className="font-medium text-[#1A1A1A]">
+                    <span className="font-medium text-ink">
                       {filteredApplications.length}
                     </span>{" "}
                     of{" "}
-                    <span className="font-medium text-[#1A1A1A]">
+                    <span className="font-medium text-ink">
                       {applications.length}
                     </span>{" "}
                     applications
@@ -370,12 +370,12 @@ export default function AdminCandidates() {
                   {filteredApplications.map((application) => (
                     <div
                       key={application.id}
-                      className="rounded-2xl border border-[#2E7D32]/10 bg-white p-5"
+                      className="rounded-2xl border border-brand/10 bg-white p-5"
                     >
                       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                         <div className="flex min-w-0 items-center gap-4">
                           {/* Candidate avatar placeholder */}
-                          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#E8F5E9] text-xl font-heading text-[#2E7D32]">
+                          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-soft text-xl font-heading text-brand">
                             {application.name
                               ?.trim()
                               ?.charAt(0)
@@ -384,7 +384,7 @@ export default function AdminCandidates() {
 
                           <div className="min-w-0">
                             <div className="flex flex-wrap items-center gap-2">
-                              <h2 className="text-lg font-heading text-[#1A1A1A]">
+                              <h2 className="text-lg font-heading text-ink">
                                 {application.name}
                               </h2>
 
@@ -397,19 +397,19 @@ export default function AdminCandidates() {
                               </span>
                             </div>
 
-                            <p className="mt-1 text-sm text-[#1A1A1A]/60">
+                            <p className="mt-1 text-sm text-ink/60">
                               {application.location || "Location not provided"}
                               {" · "}
                               {application.years ?? 0} years experience
                             </p>
 
                             {application.email && (
-                              <p className="mt-1 truncate text-sm text-[#1A1A1A]/45">
+                              <p className="mt-1 truncate text-sm text-ink/45">
                                 {application.email}
                               </p>
                             )}
 
-                            <p className="mt-2 text-xs text-[#1A1A1A]/40">
+                            <p className="mt-2 text-xs text-ink/40">
                               Submitted {formatDate(application.submittedAt)}
                             </p>
                           </div>
@@ -417,7 +417,7 @@ export default function AdminCandidates() {
 
                         <Link
                           to={`/admin/candidates/${application.id}`}
-                          className="inline-flex shrink-0 items-center justify-center rounded-xl border border-[#2E7D32]/20 bg-white px-5 py-2.5 text-sm font-medium text-[#2E7D32] transition-colors hover:bg-[#E8F5E9]"
+                          className="inline-flex shrink-0 items-center justify-center rounded-xl border border-brand/20 bg-white px-5 py-2.5 text-sm font-medium text-brand transition-colors hover:bg-brand-soft"
                         >
                           View Application
                         </Link>
@@ -429,19 +429,19 @@ export default function AdminCandidates() {
 
               {/* No candidates */}
               {applications.length === 0 && (
-                <div className="rounded-3xl border border-dashed border-[#2E7D32]/20 bg-white px-6 py-16 text-center">
-                  <h2 className="text-xl font-heading text-[#1A1A1A]">
+                <div className="rounded-3xl border border-dashed border-brand/20 bg-white px-6 py-16 text-center">
+                  <h2 className="text-xl font-heading text-ink">
                     No candidate applications yet
                   </h2>
 
-                  <p className="mt-2 text-sm text-[#1A1A1A]/50">
+                  <p className="mt-2 text-sm text-ink/50">
                     Invite a candidate to submit their first application.
                   </p>
 
                   <button
                     type="button"
                     onClick={openInviteModal}
-                    className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+                    className="mt-6 inline-flex items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
                   >
                     Invite Candidate
                   </button>
@@ -450,12 +450,12 @@ export default function AdminCandidates() {
 
               {/* No filter results */}
               {applications.length > 0 && filteredApplications.length === 0 && (
-                <div className="rounded-3xl border border-dashed border-[#2E7D32]/20 bg-white px-6 py-16 text-center">
-                  <h2 className="text-xl font-heading text-[#1A1A1A]">
+                <div className="rounded-3xl border border-dashed border-brand/20 bg-white px-6 py-16 text-center">
+                  <h2 className="text-xl font-heading text-ink">
                     No {getStatusLabel(status).toLowerCase()} applications
                   </h2>
 
-                  <p className="mt-2 text-sm text-[#1A1A1A]/50">
+                  <p className="mt-2 text-sm text-ink/50">
                     There are currently no applications with this status.
                   </p>
                 </div>
@@ -479,15 +479,15 @@ export default function AdminCandidates() {
             {!createdInvite ? (
               <>
                 <div className="mb-7">
-                  <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-[#2E7D32]">
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-brand">
                     Candidate Invitation
                   </p>
 
-                  <h2 className="text-2xl font-heading text-[#1A1A1A]">
+                  <h2 className="text-2xl font-heading text-ink">
                     Invite Candidate
                   </h2>
 
-                  <p className="mt-2 text-sm leading-6 text-[#1A1A1A]/55">
+                  <p className="mt-2 text-sm leading-6 text-ink/55">
                     Create a private, single-use application link for a
                     candidate.
                   </p>
@@ -498,10 +498,10 @@ export default function AdminCandidates() {
                     <div>
                       <label
                         htmlFor="candidate-phone"
-                        className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+                        className="mb-2 block text-sm font-medium text-ink"
                       >
                         Candidate phone
-                        <span className="ml-1 font-normal text-[#1A1A1A]/40">
+                        <span className="ml-1 font-normal text-ink/40">
                           (optional)
                         </span>
                       </label>
@@ -512,10 +512,10 @@ export default function AdminCandidates() {
                         value={invitePhone}
                         onChange={(event) => setInvitePhone(event.target.value)}
                         placeholder="61477507874"
-                        className="h-11 w-full rounded-xl border border-[#1A1A1A]/10 px-4 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+                        className="h-11 w-full rounded-xl border border-ink/10 px-4 outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
                       />
 
-                      <p className="mt-2 text-xs leading-5 text-[#1A1A1A]/40">
+                      <p className="mt-2 text-xs leading-5 text-ink/40">
                         If provided, this phone number will be linked to the
                         invitation.
                       </p>
@@ -524,7 +524,7 @@ export default function AdminCandidates() {
                     <div>
                       <label
                         htmlFor="candidate-expiration"
-                        className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+                        className="mb-2 block text-sm font-medium text-ink"
                       >
                         Link expires in
                       </label>
@@ -535,7 +535,7 @@ export default function AdminCandidates() {
                         onChange={(event) =>
                           setInviteExpiresInDays(Number(event.target.value))
                         }
-                        className="h-11 w-full rounded-xl border border-[#1A1A1A]/10 px-4 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+                        className="h-11 w-full rounded-xl border border-ink/10 px-4 outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
                       >
                         <option value={1}>1 day</option>
                         <option value={3}>3 days</option>
@@ -552,12 +552,12 @@ export default function AdminCandidates() {
                     </div>
                   )}
 
-                  <div className="mt-7 flex justify-end gap-3 border-t border-[#1A1A1A]/10 pt-5">
+                  <div className="mt-7 flex justify-end gap-3 border-t border-ink/10 pt-5">
                     <button
                       type="button"
                       onClick={closeInviteModal}
                       disabled={creatingInvite}
-                      className="rounded-xl border border-[#1A1A1A]/10 px-5 py-2.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="rounded-xl border border-ink/10 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Cancel
                     </button>
@@ -565,7 +565,7 @@ export default function AdminCandidates() {
                     <button
                       type="submit"
                       disabled={creatingInvite}
-                      className="rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {creatingInvite ? "Creating..." : "Create Invitation"}
                     </button>
@@ -575,34 +575,34 @@ export default function AdminCandidates() {
             ) : (
               <>
                 <div className="mb-7">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#E8F5E9] text-xl text-[#2E7D32]">
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-brand-soft text-xl text-brand">
                     ✓
                   </div>
 
-                  <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-[#2E7D32]">
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-brand">
                     Invitation Created
                   </p>
 
-                  <h2 className="text-2xl font-heading text-[#1A1A1A]">
+                  <h2 className="text-2xl font-heading text-ink">
                     Candidate link ready
                   </h2>
 
-                  <p className="mt-2 text-sm leading-6 text-[#1A1A1A]/55">
+                  <p className="mt-2 text-sm leading-6 text-ink/55">
                     Send this private link directly to the candidate.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-[#2E7D32]/10 bg-[#F9FAF9] p-4">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#1A1A1A]/40">
+                <div className="rounded-2xl border border-brand/10 bg-surface p-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-ink/40">
                     Application link
                   </p>
 
-                  <p className="break-all text-sm leading-6 text-[#1A1A1A]">
+                  <p className="break-all text-sm leading-6 text-ink">
                     {createdInvite.applicationUrl}
                   </p>
                 </div>
 
-                <div className="mt-4 rounded-2xl bg-[#E8F5E9]/60 px-4 py-3">
+                <div className="mt-4 rounded-2xl bg-brand-soft/60 px-4 py-3">
                   <p className="text-sm text-[#1B3D1E]">
                     This link can be used once and expires on{" "}
                     <span className="font-semibold">
@@ -625,11 +625,11 @@ export default function AdminCandidates() {
                   </div>
                 )}
 
-                <div className="mt-7 flex justify-end gap-3 border-t border-[#1A1A1A]/10 pt-5">
+                <div className="mt-7 flex justify-end gap-3 border-t border-ink/10 pt-5">
                   <button
                     type="button"
                     onClick={closeInviteModal}
-                    className="rounded-xl border border-[#1A1A1A]/10 px-5 py-2.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-gray-50"
+                    className="rounded-xl border border-ink/10 px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-gray-50"
                   >
                     Done
                   </button>
@@ -637,7 +637,7 @@ export default function AdminCandidates() {
                   <button
                     type="button"
                     onClick={handleCopyInviteLink}
-                    className="rounded-xl bg-[#2E7D32] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+                    className="rounded-xl bg-brand px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
                   >
                     {copied ? "Copied ✓" : "Copy Link"}
                   </button>

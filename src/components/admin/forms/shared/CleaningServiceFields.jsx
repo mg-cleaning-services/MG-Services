@@ -347,7 +347,7 @@ export default function CleaningServiceFields({ value, onChange }) {
                   Math.max(1, Number(event.target.value) || 1),
                 )
               }
-              className="h-9 w-16 rounded-lg border border-gray-300 bg-white text-center text-sm font-semibold text-gray-800 outline-none focus:border-[#2E7D32]"
+              className="h-9 w-16 rounded-lg border border-gray-300 bg-white text-center text-sm font-semibold text-gray-800 outline-none focus:border-brand"
             />
 
             <button
@@ -457,7 +457,7 @@ export default function CleaningServiceFields({ value, onChange }) {
                       )}
                     </div>
 
-                    <span className="shrink-0 rounded-full bg-[#2E7D32]/10 px-2.5 py-1 text-xs font-medium text-[#2E7D32]">
+                    <span className="shrink-0 rounded-full bg-brand/10 px-2.5 py-1 text-xs font-medium text-brand">
                       Included
                     </span>
                   </div>

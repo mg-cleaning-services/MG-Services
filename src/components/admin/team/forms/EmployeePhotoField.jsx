@@ -6,11 +6,11 @@ export default function EmployeePhotoField({
   const initials = getInitials(employeeName);
 
   return (
-    <div className="rounded-2xl border border-[#1A1A1A]/10 bg-white p-6">
+    <div className="rounded-2xl border border-ink/10 bg-white p-6">
       <div>
-        <h3 className="font-heading text-lg text-[#1A1A1A]">Employee Photo</h3>
+        <h3 className="font-heading text-lg text-ink">Employee Photo</h3>
 
-        <p className="mt-1 text-sm text-[#1A1A1A]/50">
+        <p className="mt-1 text-sm text-ink/50">
           Used on the public team profile and cleaner introduction card.
         </p>
       </div>
@@ -23,7 +23,7 @@ export default function EmployeePhotoField({
             className="h-28 w-28 shrink-0 rounded-2xl object-cover"
           />
         ) : (
-          <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-2xl bg-[#E8F5E9] text-2xl font-heading text-[#2E7D32]">
+          <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-2xl bg-brand-soft text-2xl font-heading text-brand">
             {initials}
           </div>
         )}
@@ -44,7 +44,7 @@ export default function EmployeePhotoField({
             className="hidden"
           />
 
-          <p className="mt-3 text-xs leading-5 text-[#1A1A1A]/45">
+          <p className="mt-3 text-xs leading-5 text-ink/45">
             JPG, PNG or WebP. Maximum 5 MB.
           </p>
         </div>

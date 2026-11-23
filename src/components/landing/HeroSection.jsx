@@ -111,13 +111,13 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.55 }}
           className="flex items-center justify-center gap-3 mb-10"
         >
-          <span className="hidden sm:block h-px w-8 bg-[#4CAF50]/60" />
+          <span className="hidden sm:block h-px w-8 bg-brand-bright/60" />
 
           <p className="text-[#66BB6A] text-[11px] sm:text-xs font-semibold tracking-[0.22em] uppercase">
             Melbourne&apos;s Trusted Home Cleaning
           </p>
 
-          <span className="hidden sm:block h-px w-8 bg-[#4CAF50]/60" />
+          <span className="hidden sm:block h-px w-8 bg-brand-bright/60" />
         </motion.div>
 
         <motion.div
@@ -128,7 +128,7 @@ export default function HeroSection() {
         >
           <Link
             to="/request-service"
-            className="bg-[#2E7D32] text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-[#256b29] transition-all duration-300 hover:shadow-xl hover:shadow-[#2E7D32]/30 hover:-translate-y-0.5 w-full sm:w-auto"
+            className="bg-brand text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-brand-dark transition-all duration-300 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5 w-full sm:w-auto"
           >
             Request a Cleaning
           </Link>
@@ -152,14 +152,14 @@ export default function HeroSection() {
               key={badge.label}
               className="flex items-center gap-2.5 text-white/80"
             >
-              <badge.icon className="w-5 h-5 text-[#4CAF50]" />
+              <badge.icon className="w-5 h-5 text-brand-bright" />
               <span className="text-sm font-medium">{badge.label}</span>
             </div>
           ))}
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F9FAF9] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-surface to-transparent" />
     </section>
   );
 }

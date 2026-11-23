@@ -144,10 +144,10 @@ export default function CandidateApplication() {
 
   if (validating) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-20">
+      <main className="min-h-screen bg-surface px-6 py-20">
         <div className="mx-auto max-w-3xl">
-          <div className="rounded-3xl border border-[#2E7D32]/10 bg-white p-8 text-center">
-            <p className="text-sm text-[#1A1A1A]/60">
+          <div className="rounded-3xl border border-brand/10 bg-white p-8 text-center">
+            <p className="text-sm text-ink/60">
               Checking your invitation...
             </p>
           </div>
@@ -162,18 +162,18 @@ export default function CandidateApplication() {
 
   if (!validation?.valid) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-20">
+      <main className="min-h-screen bg-surface px-6 py-20">
         <div className="mx-auto max-w-3xl">
           <div className="rounded-3xl border border-red-100 bg-white p-8 text-center md:p-12">
             <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-xl text-red-600">
               !
             </div>
 
-            <h1 className="text-3xl font-heading text-[#1A1A1A]">
+            <h1 className="text-3xl font-heading text-ink">
               Invitation unavailable
             </h1>
 
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#1A1A1A]/60">
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-ink/60">
               This application link is invalid, has expired, or has already been
               used. Please contact MG Cleaning if you need a new invitation.
             </p>
@@ -189,22 +189,22 @@ export default function CandidateApplication() {
 
   if (submittedApplication) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-20">
+      <main className="min-h-screen bg-surface px-6 py-20">
         <div className="mx-auto max-w-3xl">
-          <div className="rounded-3xl border border-[#2E7D32]/10 bg-white p-8 text-center md:p-12">
-            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#E8F5E9] text-xl text-[#2E7D32]">
+          <div className="rounded-3xl border border-brand/10 bg-white p-8 text-center md:p-12">
+            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-brand-soft text-xl text-brand">
               ✓
             </div>
 
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.15em] text-[#2E7D32]">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.15em] text-brand">
               Application Received
             </p>
 
-            <h1 className="text-3xl font-heading text-[#1A1A1A] md:text-4xl">
+            <h1 className="text-3xl font-heading text-ink md:text-4xl">
               Thank you for applying
             </h1>
 
-            <p className="mx-auto mt-4 max-w-lg text-sm leading-6 text-[#1A1A1A]/60">
+            <p className="mx-auto mt-4 max-w-lg text-sm leading-6 text-ink/60">
               Your application has been sent to MG Cleaning for review. We will
               contact you if we need any additional information.
             </p>
@@ -219,26 +219,26 @@ export default function CandidateApplication() {
   // ==========================================================
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] px-6 py-16 md:py-20">
+    <main className="min-h-screen bg-surface px-6 py-16 md:py-20">
       <div className="mx-auto max-w-4xl">
         <div className="mb-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
             MG Cleaning
           </p>
 
-          <h1 className="text-4xl font-heading text-[#1A1A1A] md:text-5xl">
+          <h1 className="text-4xl font-heading text-ink md:text-5xl">
             Join our team
           </h1>
 
-          <p className="mt-4 max-w-2xl leading-7 text-[#1A1A1A]/60">
+          <p className="mt-4 max-w-2xl leading-7 text-ink/60">
             Complete your details below to submit your application to MG
             Cleaning.
           </p>
         </div>
 
-        <div className="rounded-3xl border border-[#2E7D32]/10 bg-white p-6 shadow-sm md:p-8">
+        <div className="rounded-3xl border border-brand/10 bg-white p-6 shadow-sm md:p-8">
           {validation.phone && (
-            <div className="mb-8 rounded-2xl bg-[#E8F5E9]/60 px-4 py-3">
+            <div className="mb-8 rounded-2xl bg-brand-soft/60 px-4 py-3">
               <p className="text-sm text-[#1B3D1E]">
                 This invitation was created for{" "}
                 <span className="font-semibold">{validation.phone}</span>.

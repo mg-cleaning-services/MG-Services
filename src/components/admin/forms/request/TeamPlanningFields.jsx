@@ -80,7 +80,7 @@ export default function TeamPlanningFields({
               checkingConflicts
             }
             onClick={handleAddEmployee}
-            className="rounded-xl bg-[#2E7D32] px-5 py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 sm:self-start"
+            className="rounded-xl bg-brand px-5 py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 sm:self-start"
           >
             {selectedEmployeeLoading ? "Saving..." : "Add"}
           </button>
@@ -126,7 +126,7 @@ export default function TeamPlanningFields({
                         className="h-12 w-12 shrink-0 rounded-xl object-cover"
                       />
                     ) : (
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#E8F5E9] font-semibold text-[#2E7D32]">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-soft font-semibold text-brand">
                         {getInitials(employee.name)}
                       </div>
                     )}

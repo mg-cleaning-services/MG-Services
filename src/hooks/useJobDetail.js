@@ -13,6 +13,7 @@ import {
 
 import useServiceEstimate from "@/hooks/shared/useServiceEstimate";
 import useJobAvailability from "@/hooks/shared/useJobAvailability";
+import { notifyError } from "@/lib/notify";
 
 export default function useJobDetail() {
   const { id } = useParams();
@@ -317,7 +318,7 @@ export default function useJobDetail() {
     }
 
     if (hasEmployeeJobConflict(selectedEmployeeId)) {
-      alert("This employee already has another job during this time.");
+      notifyError("This employee already has another job during this time.");
 
       return;
     }
@@ -346,7 +347,7 @@ export default function useJobDetail() {
     } catch (error) {
       console.error("Could not assign employee:", error);
 
-      alert("Could not assign this employee.");
+      notifyError("Could not assign this employee.");
     } finally {
       setAssignmentLoading(false);
     }
@@ -381,7 +382,7 @@ export default function useJobDetail() {
     } catch (error) {
       console.error("Could not remove employee:", error);
 
-      alert("Could not remove this employee.");
+      notifyError("Could not remove this employee.");
     } finally {
       setAssignmentLoading(false);
     }

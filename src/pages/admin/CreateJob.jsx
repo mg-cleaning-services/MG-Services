@@ -81,7 +81,7 @@ export default function CreateJob() {
               ← Back to Jobs
             </Link>
 
-            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
               Direct Job
             </p>
 
@@ -389,7 +389,7 @@ export default function CreateJob() {
               type="button"
               disabled={creating}
               onClick={submitJob}
-              className="rounded-xl bg-[#2E7D32] px-6 py-3 font-medium text-white transition hover:bg-[#256b29] disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl bg-brand px-6 py-3 font-medium text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {creating ? "Creating Job..." : "Create Job"}
             </button>

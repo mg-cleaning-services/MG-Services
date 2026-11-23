@@ -40,13 +40,13 @@ export default function HowItWorks() {
           transition={{ duration: 0.7 }}
           className="text-center mb-20"
         >
-          <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="text-brand text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             How It Works
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-[#1A1A1A] mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-ink mb-6">
             Simple from request to clean
           </h2>
-          <p className="text-lg text-[#1A1A1A]/60 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-ink/60 max-w-2xl mx-auto leading-relaxed">
             Send us what you need. We review the details personally, confirm the
             service with you, and introduce the cleaner assigned to your home.
           </p>
@@ -63,18 +63,18 @@ export default function HowItWorks() {
               className="text-center relative"
             >
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px bg-[#2E7D32]/15" />
+                <div className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-px bg-brand/15" />
               )}
-              <div className="w-20 h-20 rounded-full bg-[#E8F5E9] flex items-center justify-center mx-auto mb-6 relative">
-                <step.icon className="w-8 h-8 text-[#2E7D32]" />
-                <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#2E7D32] text-white text-xs font-bold flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-brand-soft flex items-center justify-center mx-auto mb-6 relative">
+                <step.icon className="w-8 h-8 text-brand" />
+                <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-brand text-white text-xs font-bold flex items-center justify-center">
                   {step.num}
                 </span>
               </div>
-              <h3 className="text-2xl font-heading text-[#1A1A1A] mb-3">
+              <h3 className="text-2xl font-heading text-ink mb-3">
                 {step.title}
               </h3>
-              <p className="text-[#1A1A1A]/60 leading-relaxed max-w-xs mx-auto">
+              <p className="text-ink/60 leading-relaxed max-w-xs mx-auto">
                 {step.desc}
               </p>
             </motion.div>

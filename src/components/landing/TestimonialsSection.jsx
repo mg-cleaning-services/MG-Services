@@ -40,13 +40,13 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.7 }}
           className="text-center mb-20"
         >
-          <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="text-brand text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             Testimonials
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-[#1A1A1A] mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-ink mb-6">
             Trusted by Melbourne families
           </h2>
-          <p className="text-lg text-[#1A1A1A]/60 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-ink/60 max-w-2xl mx-auto leading-relaxed">
             Don't take our word for it. Hear from the people who've invited us
             into their homes.
           </p>
@@ -60,23 +60,23 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="bg-[#F9FAF9] rounded-3xl p-8 border border-[#2E7D32]/5 relative"
+              className="bg-surface rounded-3xl p-8 border border-brand/5 relative"
             >
-              <Quote className="w-10 h-10 text-[#2E7D32]/10 absolute top-6 right-6" />
+              <Quote className="w-10 h-10 text-brand/10 absolute top-6 right-6" />
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: t.rating }).map((_, j) => (
                   <Star
                     key={j}
-                    className="w-4 h-4 fill-[#2E7D32] text-[#2E7D32]"
+                    className="w-4 h-4 fill-brand text-brand"
                   />
                 ))}
               </div>
-              <p className="text-[#1A1A1A]/70 leading-relaxed mb-6 text-[0.95rem]">
+              <p className="text-ink/70 leading-relaxed mb-6 text-[0.95rem]">
                 "{t.text}"
               </p>
               <div>
-                <p className="font-semibold text-[#1A1A1A] text-sm">{t.name}</p>
-                <p className="text-xs text-[#1A1A1A]/50">{t.location}</p>
+                <p className="font-semibold text-ink text-sm">{t.name}</p>
+                <p className="text-xs text-ink/50">{t.location}</p>
               </div>
             </motion.div>
           ))}

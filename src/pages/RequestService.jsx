@@ -140,27 +140,27 @@ export default function RequestService() {
   }, [currentStep]);
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] pt-20 text-[#1A1A1A]">
+    <main className="min-h-screen bg-surface pt-20 text-ink">
       <Navbar />
 
       {/* PAGE INTRO */}
       <section className="px-6 pb-8 pt-14 md:pb-10 md:pt-20">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
             Request a Cleaning
           </p>
 
-          <h1 className="font-heading text-4xl leading-tight text-[#1A1A1A] md:text-5xl lg:text-6xl">
+          <h1 className="font-heading text-4xl leading-tight text-ink md:text-5xl lg:text-6xl">
             Tell us about your home
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#1A1A1A]/60 md:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-ink/60 md:text-lg">
             A few simple steps help us understand what you need. We'll review
             everything personally before confirming your service.
           </p>
 
-          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-[#1A1A1A]/45">
-            <ShieldCheck className="h-4 w-4 text-[#2E7D32]" />
+          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-ink/45">
+            <ShieldCheck className="h-4 w-4 text-brand" />
 
             <span>No payment required. This is not a confirmed booking.</span>
           </div>
@@ -172,7 +172,7 @@ export default function RequestService() {
         <div className="mx-auto max-w-6xl">
           {!submitted && <RequestProgress currentStep={currentStep} />}
 
-          <div className="overflow-hidden rounded-3xl border border-[#2E7D32]/10 bg-white shadow-xl shadow-[#2E7D32]/5">
+          <div className="overflow-hidden rounded-3xl border border-brand/10 bg-white shadow-xl shadow-brand/5">
             {submitted ? (
               <div className="p-6 md:p-10 lg:p-12">
                 <RequestSuccess
@@ -244,14 +244,14 @@ export default function RequestService() {
                 </div>
 
                 {/* WIZARD NAVIGATION */}
-                <div className="flex items-center justify-between border-t border-[#2E7D32]/10 bg-[#F9FAF9]/60 px-6 py-5 md:px-10 lg:px-12">
+                <div className="flex items-center justify-between border-t border-brand/10 bg-surface/60 px-6 py-5 md:px-10 lg:px-12">
                   <div>
                     {currentStep > 1 && (
                       <button
                         type="button"
                         onClick={previousStep}
                         disabled={submitting}
-                        className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-[#1A1A1A]/60 transition-all hover:bg-white hover:text-[#1A1A1A] disabled:opacity-50"
+                        className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-ink/60 transition-all hover:bg-white hover:text-ink disabled:opacity-50"
                       >
                         <ArrowLeft className="h-4 w-4" />
                         Back
@@ -264,7 +264,7 @@ export default function RequestService() {
                       type="button"
                       onClick={nextStep}
                       disabled={!canContinueCurrentStep}
-                      className="rounded-full bg-[#2E7D32] px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#256b29] hover:shadow-lg hover:shadow-[#2E7D32]/20 disabled:cursor-not-allowed disabled:translate-y-0 disabled:bg-[#1A1A1A]/10 disabled:text-[#1A1A1A]/30 disabled:shadow-none"
+                      className="rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/20 disabled:cursor-not-allowed disabled:translate-y-0 disabled:bg-ink/10 disabled:text-ink/30 disabled:shadow-none"
                     >
                       Continue →
                     </button>
@@ -282,7 +282,7 @@ export default function RequestService() {
           )}
 
           {/* BOTTOM REASSURANCE */}
-          <p className="mx-auto mt-6 max-w-xl text-center text-xs leading-relaxed text-[#1A1A1A]/40">
+          <p className="mx-auto mt-6 max-w-xl text-center text-xs leading-relaxed text-ink/40">
             MG Cleaning will review your request and contact you before
             confirming any service.
           </p>

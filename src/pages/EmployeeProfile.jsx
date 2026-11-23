@@ -10,11 +10,11 @@ export default function EmployeeProfile() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] pt-20">
+      <main className="min-h-screen bg-surface pt-20">
         <Navbar />
 
         <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center px-6">
-          <p className="text-[#1A1A1A]/60">Loading employee profile...</p>
+          <p className="text-ink/60">Loading employee profile...</p>
         </div>
       </main>
     );
@@ -22,18 +22,18 @@ export default function EmployeeProfile() {
 
   if (error || !employee) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] pt-20">
+      <main className="min-h-screen bg-surface pt-20">
         <Navbar />
 
         <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center px-6">
           <div className="text-center">
-            <h1 className="font-heading text-3xl text-[#1A1A1A]">
+            <h1 className="font-heading text-3xl text-ink">
               Employee profile not available
             </h1>
 
             <Link
               to="/"
-              className="mt-6 inline-block font-medium text-[#2E7D32]"
+              className="mt-6 inline-block font-medium text-brand"
             >
               Back to MG Cleaning
             </Link>
@@ -53,7 +53,7 @@ export default function EmployeeProfile() {
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Employee photo */}
             <div className="relative">
-              <div className="aspect-[4/5] max-h-[680px] overflow-hidden rounded-[2rem] bg-[#E8F5E9]">
+              <div className="aspect-[4/5] max-h-[680px] overflow-hidden rounded-[2rem] bg-brand-soft">
                 <img
                   src={employee.photo}
                   alt={employee.name}
@@ -63,11 +63,11 @@ export default function EmployeeProfile() {
 
               {/* Experience card */}
               <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/95 px-5 py-4 shadow-lg backdrop-blur-sm md:right-auto">
-                <p className="font-heading text-2xl text-[#1A1A1A]">
+                <p className="font-heading text-2xl text-ink">
                   {employee.years}+ years
                 </p>
 
-                <p className="text-sm text-[#1A1A1A]/55">
+                <p className="text-sm text-ink/55">
                   Professional experience
                 </p>
               </div>
@@ -75,18 +75,18 @@ export default function EmployeeProfile() {
 
             {/* Employee introduction */}
             <div className="lg:py-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
                 Meet your cleaner
               </p>
 
-              <h1 className="mt-4 font-heading text-5xl leading-[0.95] text-[#1A1A1A] md:text-6xl lg:text-7xl">
+              <h1 className="mt-4 font-heading text-5xl leading-[0.95] text-ink md:text-6xl lg:text-7xl">
                 {employee.name}
               </h1>
 
-              <p className="mt-5 text-xl text-[#1A1A1A]/55">{employee.role}</p>
+              <p className="mt-5 text-xl text-ink/55">{employee.role}</p>
 
               {employee.tagline && (
-                <p className="mt-8 text-2xl leading-relaxed text-[#1A1A1A]/85 md:text-3xl">
+                <p className="mt-8 text-2xl leading-relaxed text-ink/85 md:text-3xl">
                   “{employee.tagline}”
                 </p>
               )}
@@ -96,7 +96,7 @@ export default function EmployeeProfile() {
                 {employee.specialties?.map((specialty) => (
                   <span
                     key={specialty}
-                    className="rounded-full bg-[#E8F5E9] px-4 py-2 text-sm font-medium text-[#2E7D32]"
+                    className="rounded-full bg-brand-soft px-4 py-2 text-sm font-medium text-brand"
                   >
                     {specialty}
                   </span>
@@ -104,12 +104,12 @@ export default function EmployeeProfile() {
               </div>
 
               {/* MG trust */}
-              <div className="mt-10 border-t border-[#1A1A1A]/10 pt-8">
-                <p className="text-sm font-semibold text-[#2E7D32]">
+              <div className="mt-10 border-t border-ink/10 pt-8">
+                <p className="text-sm font-semibold text-brand">
                   MG Cleaning Team Member
                 </p>
 
-                <p className="mt-2 max-w-lg text-sm leading-6 text-[#1A1A1A]/55">
+                <p className="mt-2 max-w-lg text-sm leading-6 text-ink/55">
                   Part of our trusted cleaning team, selected to provide
                   professional and reliable service to our clients.
                 </p>
@@ -122,15 +122,15 @@ export default function EmployeeProfile() {
       {/* ABOUT */}
       <section className="mx-auto max-w-5xl px-6 py-16 lg:px-8 lg:py-24">
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
             About me
           </p>
 
-          <h2 className="mt-3 font-heading text-3xl text-[#1A1A1A] md:text-5xl">
+          <h2 className="mt-3 font-heading text-3xl text-ink md:text-5xl">
             A little about {employee.name.split(" ")[0]}
           </h2>
 
-          <p className="mt-6 text-lg leading-8 text-[#1A1A1A]/65 md:text-xl">
+          <p className="mt-6 text-lg leading-8 text-ink/65 md:text-xl">
             {employee.bio}
           </p>
         </div>
@@ -201,7 +201,7 @@ export default function EmployeeProfile() {
         <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#2E7D32] transition-all hover:gap-3"
+            className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-all hover:gap-3"
           >
             <span aria-hidden="true">←</span>
             Back to MG Cleaning
@@ -219,9 +219,9 @@ function ProfileDetail({ title, description, items = [] }) {
 
   return (
     <article className="rounded-3xl border border-black/5 bg-white p-7 md:p-9">
-      <h3 className="font-heading text-2xl text-[#1A1A1A]">{title}</h3>
+      <h3 className="font-heading text-2xl text-ink">{title}</h3>
 
-      <p className="mt-3 text-sm leading-6 text-[#1A1A1A]/50">{description}</p>
+      <p className="mt-3 text-sm leading-6 text-ink/50">{description}</p>
 
       <div className="mt-6 flex flex-wrap gap-2">
         {items.map((item) => (

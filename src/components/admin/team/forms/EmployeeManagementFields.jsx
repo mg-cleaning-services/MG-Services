@@ -1,12 +1,12 @@
 export default function EmployeeManagementFields({ form, onChange }) {
   return (
     <section>
-      <h3 className="text-lg font-heading text-[#1A1A1A] mb-4">Management</h3>
+      <h3 className="text-lg font-heading text-ink mb-4">Management</h3>
 
       <div>
         <label
           htmlFor="employee-status"
-          className="block text-sm font-medium text-[#1A1A1A] mb-2"
+          className="block text-sm font-medium text-ink mb-2"
         >
           Status
         </label>
@@ -16,7 +16,7 @@ export default function EmployeeManagementFields({ form, onChange }) {
           name="status"
           value={form.status}
           onChange={onChange}
-          className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full h-11 px-4 rounded-xl border border-ink/10 outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         >
           <option value="active">Active</option>
 
@@ -30,10 +30,10 @@ export default function EmployeeManagementFields({ form, onChange }) {
           name="publicProfile"
           checked={form.publicProfile}
           onChange={onChange}
-          className="w-4 h-4 accent-[#2E7D32]"
+          className="w-4 h-4 accent-brand"
         />
 
-        <span className="text-sm text-[#1A1A1A]">
+        <span className="text-sm text-ink">
           Show this employee on the public team section
         </span>
       </label>

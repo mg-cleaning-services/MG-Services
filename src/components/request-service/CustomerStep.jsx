@@ -23,15 +23,15 @@ export default function CustomerStep({ value, onFieldChange }) {
     <div>
       {/* STEP HEADER */}
       <div className="max-w-2xl">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
           Contact Details
         </p>
 
-        <h2 className="font-heading text-2xl leading-tight text-[#1A1A1A] md:text-3xl">
+        <h2 className="font-heading text-2xl leading-tight text-ink md:text-3xl">
           How can we contact you?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-[#1A1A1A]/60 md:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-ink/60 md:text-base">
           We'll use these details to discuss your request, answer any questions
           and confirm the service with you.
         </p>
@@ -71,12 +71,12 @@ export default function CustomerStep({ value, onFieldChange }) {
       </div>
 
       {/* CONTACT PREFERENCE */}
-      <div className="mt-8 border-t border-[#2E7D32]/10 pt-7">
-        <p className="text-sm font-semibold text-[#1A1A1A]">
+      <div className="mt-8 border-t border-brand/10 pt-7">
+        <p className="text-sm font-semibold text-ink">
           How would you prefer us to contact you?
         </p>
 
-        <p className="mt-1 text-sm text-[#1A1A1A]/50">
+        <p className="mt-1 text-sm text-ink/50">
           Choose the easiest way for us to get in touch.
         </p>
 
@@ -91,19 +91,19 @@ export default function CustomerStep({ value, onFieldChange }) {
                 onClick={() => onFieldChange("preferredContact", option.value)}
                 className={`rounded-2xl border p-5 text-left transition-all duration-300 ${
                   selected
-                    ? "border-[#2E7D32] bg-[#E8F5E9]"
-                    : "border-[#2E7D32]/10 bg-[#F9FAF9] hover:border-[#2E7D32]/30"
+                    ? "border-brand bg-brand-soft"
+                    : "border-brand/10 bg-surface hover:border-brand/30"
                 }`}
               >
                 <p
                   className={`font-semibold ${
-                    selected ? "text-[#2E7D32]" : "text-[#1A1A1A]"
+                    selected ? "text-brand" : "text-ink"
                   }`}
                 >
                   {option.title}
                 </p>
 
-                <p className="mt-1.5 text-sm leading-relaxed text-[#1A1A1A]/50">
+                <p className="mt-1.5 text-sm leading-relaxed text-ink/50">
                   {option.description}
                 </p>
               </button>
@@ -113,8 +113,8 @@ export default function CustomerStep({ value, onFieldChange }) {
       </div>
 
       {/* INFORMATION */}
-      <div className="mt-8 rounded-2xl border border-[#2E7D32]/10 bg-[#E8F5E9]/50 p-5">
-        <p className="text-sm leading-relaxed text-[#1A1A1A]/60">
+      <div className="mt-8 rounded-2xl border border-brand/10 bg-brand-soft/50 p-5">
+        <p className="text-sm leading-relaxed text-ink/60">
           Sending this request does not confirm a booking. MG Cleaning will
           contact you to review the details, recommend the appropriate service
           if needed, and confirm availability.
@@ -127,7 +127,7 @@ export default function CustomerStep({ value, onFieldChange }) {
 function CustomerInput({ label, value, onChange, type = "text", placeholder }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-[#1A1A1A]/70">
+      <label className="mb-2 block text-sm font-medium text-ink/70">
         {label}
       </label>
 
@@ -136,7 +136,7 @@ function CustomerInput({ label, value, onChange, type = "text", placeholder }) {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-[#2E7D32]/10 bg-[#F9FAF9] px-4 py-3.5 text-sm text-[#1A1A1A] outline-none transition-all duration-300 placeholder:text-[#1A1A1A]/30 focus:border-[#2E7D32] focus:bg-white focus:ring-4 focus:ring-[#2E7D32]/5"
+        className="w-full rounded-xl border border-brand/10 bg-surface px-4 py-3.5 text-sm text-ink outline-none transition-all duration-300 placeholder:text-ink/30 focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/5"
       />
     </div>
   );

@@ -7,7 +7,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
       <div>
         <label
           htmlFor="name"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+          className="mb-2 block text-sm font-medium text-ink"
         >
           Name *
         </label>
@@ -19,7 +19,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
           required
           value={form.name}
           onChange={onChange}
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full rounded-xl border border-ink/10 px-4 py-3 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         />
       </div>
 
@@ -27,7 +27,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
       <div>
         <label
           htmlFor="role"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+          className="mb-2 block text-sm font-medium text-ink"
         >
           Role *
         </label>
@@ -40,7 +40,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
           value={form.role}
           onChange={onChange}
           placeholder="Cleaner"
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full rounded-xl border border-ink/10 px-4 py-3 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         />
       </div>
 
@@ -48,7 +48,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
       <div>
         <label
           htmlFor="location"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+          className="mb-2 block text-sm font-medium text-ink"
         >
           Location *
         </label>
@@ -61,7 +61,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
           value={form.location}
           onChange={onChange}
           placeholder="Melbourne"
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full rounded-xl border border-ink/10 px-4 py-3 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         />
       </div>
 
@@ -69,7 +69,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
       <div>
         <label
           htmlFor="years"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+          className="mb-2 block text-sm font-medium text-ink"
         >
           Years of Experience *
         </label>
@@ -82,7 +82,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
           required
           value={form.years}
           onChange={onChange}
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full rounded-xl border border-ink/10 px-4 py-3 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         />
       </div>
 
@@ -105,7 +105,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
       <div>
         <label
           htmlFor="email"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+          className="mb-2 block text-sm font-medium text-ink"
         >
           Email
         </label>
@@ -116,7 +116,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
           type="email"
           value={form.email}
           onChange={onChange}
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full rounded-xl border border-ink/10 px-4 py-3 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         />
       </div>
 
@@ -124,7 +124,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
       <div className="md:col-span-2">
         <label
           htmlFor="tagline"
-          className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+          className="mb-2 block text-sm font-medium text-ink"
         >
           Profile Tagline
         </label>
@@ -136,7 +136,7 @@ export default function EmployeeBasicFields({ form, onChange }) {
           value={form.tagline}
           onChange={onChange}
           placeholder="Reliable, friendly and detail-oriented cleaner"
-          className="w-full rounded-xl border border-[#1A1A1A]/10 px-4 py-3 outline-none transition focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+          className="w-full rounded-xl border border-ink/10 px-4 py-3 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
         />
       </div>
     </div>

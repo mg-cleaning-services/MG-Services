@@ -57,11 +57,11 @@ export default function InstagramFeed() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="text-brand text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             Follow Us
           </p>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-[#1A1A1A] mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-ink mb-6">
             @mgcleaning_melbourne
           </h2>
         </motion.div>
@@ -102,7 +102,7 @@ export default function InstagramFeed() {
                 />
               )}
 
-              <div className="absolute inset-0 bg-[#2E7D32]/0 group-hover:bg-[#2E7D32]/30 transition-colors duration-500 flex items-center justify-center">
+              <div className="absolute inset-0 bg-brand/0 group-hover:bg-brand/30 transition-colors duration-500 flex items-center justify-center">
                 <Instagram className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </motion.a>
@@ -120,7 +120,7 @@ export default function InstagramFeed() {
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#2E7D32] font-semibold hover:underline"
+            className="inline-flex items-center gap-2 text-brand font-semibold hover:underline"
           >
             <Instagram className="w-5 h-5" />
             Follow us on Instagram

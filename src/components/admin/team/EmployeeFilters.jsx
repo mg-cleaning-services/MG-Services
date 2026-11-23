@@ -9,13 +9,13 @@ export default function EmployeeFilters({
   locations,
 }) {
   return (
-    <div className="mb-8 rounded-2xl border border-[#2E7D32]/10 bg-white p-5">
+    <div className="mb-8 rounded-2xl border border-brand/10 bg-white p-5">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Search */}
         <div>
           <label
             htmlFor="employee-search"
-            className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+            className="mb-2 block text-sm font-medium text-ink"
           >
             Search
           </label>
@@ -26,7 +26,7 @@ export default function EmployeeFilters({
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search employees..."
-            className="h-11 w-full rounded-xl border border-[#1A1A1A]/10 bg-white px-4 text-sm outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+            className="h-11 w-full rounded-xl border border-ink/10 bg-white px-4 text-sm outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
           />
         </div>
 
@@ -34,7 +34,7 @@ export default function EmployeeFilters({
         <div>
           <label
             htmlFor="employee-role"
-            className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+            className="mb-2 block text-sm font-medium text-ink"
           >
             Role
           </label>
@@ -43,7 +43,7 @@ export default function EmployeeFilters({
             id="employee-role"
             value={role}
             onChange={(event) => onRoleChange(event.target.value)}
-            className="h-11 w-full rounded-xl border border-[#1A1A1A]/10 bg-white px-4 text-sm outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+            className="h-11 w-full rounded-xl border border-ink/10 bg-white px-4 text-sm outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
           >
             <option value="all">All roles</option>
 
@@ -59,7 +59,7 @@ export default function EmployeeFilters({
         <div>
           <label
             htmlFor="employee-location"
-            className="mb-2 block text-sm font-medium text-[#1A1A1A]"
+            className="mb-2 block text-sm font-medium text-ink"
           >
             Location
           </label>
@@ -68,7 +68,7 @@ export default function EmployeeFilters({
             id="employee-location"
             value={location}
             onChange={(event) => onLocationChange(event.target.value)}
-            className="h-11 w-full rounded-xl border border-[#1A1A1A]/10 bg-white px-4 text-sm outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+            className="h-11 w-full rounded-xl border border-ink/10 bg-white px-4 text-sm outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
           >
             <option value="all">All locations</option>
 

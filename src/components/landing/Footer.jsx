@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="text-3xl font-heading font-bold mb-4">
-              MG<span className="text-[#4CAF50]">.</span>
+              MG<span className="text-brand-bright">.</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
               Professional residential cleaning across Melbourne. Built on
@@ -99,7 +99,7 @@ export default function Footer() {
                   href="tel:+61424584774"
                   className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
-                  <Phone className="w-4 h-4 text-[#4CAF50]" />
+                  <Phone className="w-4 h-4 text-brand-bright" />
                   +61 424584774
                 </a>
               </li>
@@ -108,7 +108,7 @@ export default function Footer() {
                   href="mailto:hello@mgcleaningmelbourne.com.au"
                   className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
-                  <Mail className="w-4 h-4 text-[#4CAF50]" />
+                  <Mail className="w-4 h-4 text-brand-bright" />
                   Maximilianoguerramorales@gmail.com
                 </a>
               </li>

@@ -12,7 +12,7 @@ export default function EmployeeCard({ employee, index = 0 }) {
     >
       <Link
         to={`/team/${employee.slug}`}
-        className="block h-full bg-white rounded-3xl overflow-hidden border border-[#2E7D32]/5 hover:border-[#2E7D32]/15 transition-all duration-500 hover:shadow-xl hover:shadow-[#2E7D32]/5 hover:-translate-y-1 group"
+        className="block h-full bg-white rounded-3xl overflow-hidden border border-brand/5 hover:border-brand/15 transition-all duration-500 hover:shadow-xl hover:shadow-brand/5 hover:-translate-y-1 group"
       >
         <div className="aspect-[4/5] overflow-hidden">
           <img
@@ -23,15 +23,15 @@ export default function EmployeeCard({ employee, index = 0 }) {
         </div>
 
         <div className="p-6">
-          <h3 className="text-lg font-heading text-[#1A1A1A] mb-1">
+          <h3 className="text-lg font-heading text-ink mb-1">
             {employee.name}
           </h3>
 
-          <p className="text-sm text-[#2E7D32] font-medium mb-1">
+          <p className="text-sm text-brand font-medium mb-1">
             {employee.role}
           </p>
 
-          <p className="text-xs text-[#1A1A1A]/50 mb-4">
+          <p className="text-xs text-ink/50 mb-4">
             {employee.years} years experience ·{" "}
             {(employee.languages ?? []).join(", ")}
           </p>
@@ -42,14 +42,14 @@ export default function EmployeeCard({ employee, index = 0 }) {
               .map((item) => (
                 <span
                   key={item}
-                  className="px-3 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] text-xs font-medium"
+                  className="px-3 py-1 rounded-full bg-brand-soft text-brand text-xs font-medium"
                 >
                   {item}
                 </span>
               ))}
           </div>
 
-          <p className="text-sm text-[#1A1A1A]/50 leading-relaxed">
+          <p className="text-sm text-ink/50 leading-relaxed">
             {employee.tagline}
           </p>
         </div>

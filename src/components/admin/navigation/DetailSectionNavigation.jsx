@@ -71,8 +71,8 @@ export default function DetailSectionNavigation({ sections }) {
                 "relative shrink-0 rounded-t-lg px-3 py-3",
                 "text-sm font-medium transition",
                 active
-                  ? "text-[#2E7D32]"
-                  : "text-[#1A1A1A]/55 hover:bg-[#F9FAF9] hover:text-[#1A1A1A]",
+                  ? "text-brand"
+                  : "text-ink/55 hover:bg-surface hover:text-ink",
               ].join(" ")}
             >
               {section.label}
@@ -80,7 +80,7 @@ export default function DetailSectionNavigation({ sections }) {
               <span
                 className={[
                   "absolute bottom-0 left-3 right-3",
-                  "h-0.5 rounded-full bg-[#2E7D32]",
+                  "h-0.5 rounded-full bg-brand",
                   "transition-opacity",
                   active ? "opacity-100" : "opacity-0",
                 ].join(" ")}

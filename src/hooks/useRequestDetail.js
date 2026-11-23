@@ -19,6 +19,7 @@ import {
 
 import useServiceEstimate from "@/hooks/shared/useServiceEstimate";
 import useJobAvailability from "@/hooks/shared/useJobAvailability";
+import { notifyError, notifySuccess } from "@/lib/notify";
 
 const initialJobLocation = {
   address: "",
@@ -289,7 +290,7 @@ export default function useRequestDetail() {
     } catch (error) {
       console.error("Could not update request assignment:", error);
 
-      alert("Could not update the team assignment. Please try again.");
+      notifyError("Could not update the team assignment. Please try again.");
     } finally {
       setAssignmentLoadingId(null);
     }
@@ -313,13 +314,13 @@ export default function useRequestDetail() {
 
       setRequest(updatedRequest);
 
-      alert("Request updated successfully.");
+      notifySuccess("Request updated successfully.");
 
       return updatedRequest;
     } catch (error) {
       console.error("Could not update request:", error);
 
-      alert("Could not save the request. Please try again.");
+      notifyError("Could not save the request. Please try again.");
 
       throw error;
     } finally {
@@ -344,7 +345,7 @@ export default function useRequestDetail() {
       !jobLocation.address.trim() ||
       !jobLocation.suburb.trim()
     ) {
-      alert(
+      notifyError(
         "Please enter the service date, start time, end time, estimated labour hours, street address and suburb.",
       );
 
@@ -354,13 +355,13 @@ export default function useRequestDetail() {
     const estimatedLabourHours = Number(request.estimation.labourHours);
 
     if (!Number.isFinite(estimatedLabourHours) || estimatedLabourHours <= 0) {
-      alert("Estimated labour hours must be greater than zero.");
+      notifyError("Estimated labour hours must be greater than zero.");
 
       return null;
     }
 
     if (request.schedule.endTime <= request.schedule.startTime) {
-      alert("End time must be later than start time.");
+      notifyError("End time must be later than start time.");
 
       return null;
     }
@@ -378,7 +379,7 @@ export default function useRequestDetail() {
     );
 
     if (conflictingAssignments.length > 0) {
-      alert(
+      notifyError(
         "One or more planned employees now have a conflicting job. Please review the team before converting this request.",
       );
 
@@ -431,7 +432,7 @@ export default function useRequestDetail() {
     } catch (error) {
       console.error("Could not convert request to job:", error);
 
-      alert(error.message || "Could not convert this request to a job.");
+      notifyError(error.message || "Could not convert this request to a job.");
     } finally {
       setConverting(false);
     }

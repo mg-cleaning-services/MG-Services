@@ -19,11 +19,11 @@ export default function EmployeeFormModal({
       <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl p-6 md:p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="text-[#2E7D32] text-sm font-semibold tracking-[0.15em] uppercase mb-2">
+            <p className="text-brand text-sm font-semibold tracking-[0.15em] uppercase mb-2">
               Employee
             </p>
 
-            <h2 className="text-2xl md:text-3xl font-heading text-[#1A1A1A]">
+            <h2 className="text-2xl md:text-3xl font-heading text-ink">
               {isCreating ? "Add Employee" : "Edit Employee"}
             </h2>
           </div>
@@ -31,7 +31,7 @@ export default function EmployeeFormModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-10 h-10 rounded-full hover:bg-gray-100 text-[#1A1A1A]/60 hover:text-[#1A1A1A] transition-colors"
+            className="w-10 h-10 rounded-full hover:bg-gray-100 text-ink/60 hover:text-ink transition-colors"
             aria-label="Close"
           >
             ×

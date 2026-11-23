@@ -19,9 +19,9 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+      <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <p className="text-[#1A1A1A]/60">Loading dashboard...</p>
+          <p className="text-ink/60">Loading dashboard...</p>
         </div>
       </main>
     );
@@ -29,31 +29,31 @@ export default function AdminDashboard() {
 
   if (loadError) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+      <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <h1 className="text-3xl font-heading text-[#1A1A1A]">
+          <h1 className="text-3xl font-heading text-ink">
             Could not load dashboard
           </h1>
 
-          <p className="mt-3 text-[#1A1A1A]/60">{loadError}</p>
+          <p className="mt-3 text-ink/60">{loadError}</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+    <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <header className="mb-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
             Admin Dashboard
           </p>
 
-          <h1 className="mt-2 text-4xl font-heading text-[#1A1A1A]">
+          <h1 className="mt-2 text-4xl font-heading text-ink">
             MG Cleaning
           </h1>
 
-          <p className="mt-2 text-[#1A1A1A]/60">
+          <p className="mt-2 text-ink/60">
             Overview of requests, jobs and team activity.
           </p>
         </header>

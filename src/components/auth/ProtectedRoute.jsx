@@ -59,7 +59,7 @@ export default function ProtectedRoute({ children, requiredRole }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F9FAF9]">
+      <div className="flex min-h-screen items-center justify-center bg-surface">
         <p className="text-gray-600">Checking access...</p>
       </div>
     );

@@ -53,9 +53,9 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F9FAF9] px-4">
+    <main className="min-h-screen flex items-center justify-center bg-surface px-4">
       <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-sm">
-        <h1 className="text-3xl font-bold text-[#1A1A1A]">MG Cleaning</h1>
+        <h1 className="text-3xl font-bold text-ink">MG Cleaning</h1>
 
         <p className="mt-2 text-gray-600">Sign in to your account</p>
 
@@ -89,7 +89,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-[#2E7D32] px-4 py-3 font-semibold text-white hover:bg-[#256b29] disabled:opacity-60"
+            className="w-full rounded-xl bg-brand px-4 py-3 font-semibold text-white hover:bg-brand-dark disabled:opacity-60"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>

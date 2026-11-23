@@ -20,9 +20,9 @@ export default function EmployeeDetail() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+      <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <p className="text-[#1A1A1A]/60">Loading employee...</p>
+          <p className="text-ink/60">Loading employee...</p>
         </div>
       </main>
     );
@@ -30,17 +30,17 @@ export default function EmployeeDetail() {
 
   if (loadError || !employee) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+      <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <Link to="/admin/team" className="text-sm font-medium text-[#2E7D32]">
+          <Link to="/admin/team" className="text-sm font-medium text-brand">
             ← Back to Team
           </Link>
 
-          <h1 className="mt-8 text-3xl font-heading text-[#1A1A1A]">
+          <h1 className="mt-8 text-3xl font-heading text-ink">
             Employee not found
           </h1>
 
-          <p className="mt-3 text-[#1A1A1A]/60">
+          <p className="mt-3 text-ink/60">
             {loadError || "This employee does not exist."}
           </p>
         </div>
@@ -49,22 +49,22 @@ export default function EmployeeDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] px-6 py-10 lg:px-10">
+    <main className="min-h-screen bg-surface px-6 py-10 lg:px-10">
       <div className="mx-auto max-w-5xl">
-        <Link to="/admin/team" className="text-sm font-medium text-[#2E7D32]">
+        <Link to="/admin/team" className="text-sm font-medium text-brand">
           ← Back to Team
         </Link>
 
         <header className="mt-8 mb-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
             {employee.employeeCode || "Employee"}
           </p>
 
-          <h1 className="mt-2 text-4xl font-heading text-[#1A1A1A]">
+          <h1 className="mt-2 text-4xl font-heading text-ink">
             {employee.name}
           </h1>
 
-          <p className="mt-3 text-[#1A1A1A]/60">
+          <p className="mt-3 text-ink/60">
             Edit employee information and public profile.
           </p>
         </header>
@@ -75,7 +75,7 @@ export default function EmployeeDetail() {
           </div>
         )}
 
-        <section className="rounded-2xl border border-[#1A1A1A]/10 bg-white p-6 md:p-8">
+        <section className="rounded-2xl border border-ink/10 bg-white p-6 md:p-8">
           <EmployeeForm
             employee={employee}
             onSubmit={saveEmployee}

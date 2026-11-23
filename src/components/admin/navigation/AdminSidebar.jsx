@@ -67,7 +67,7 @@ export default function AdminSidebar({ profile }) {
       {/* =========================================================
           MOBILE HEADER
       ========================================================= */}
-      <header className="sticky top-0 z-50 border-b border-[#2E7D32]/10 bg-white/95 backdrop-blur lg:hidden">
+      <header className="sticky top-0 z-50 border-b border-brand/10 bg-white/95 backdrop-blur lg:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           {/* User */}
           <div className="min-w-0">
@@ -108,8 +108,8 @@ export default function AdminSidebar({ profile }) {
                       [
                         "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition",
                         isActive
-                          ? "bg-[#E8F5E9] text-[#2E7D32]"
-                          : "text-gray-600 hover:bg-[#F9FAF9] hover:text-gray-900",
+                          ? "bg-brand-soft text-brand"
+                          : "text-gray-600 hover:bg-surface hover:text-gray-900",
                       ].join(" ")
                     }
                   >
@@ -125,7 +125,7 @@ export default function AdminSidebar({ profile }) {
                 <Link
                   to="/"
                   onClick={closeMenu}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-500 transition hover:bg-[#F9FAF9] hover:text-[#2E7D32]"
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-500 transition hover:bg-surface hover:text-brand"
                 >
                   <ExternalLink size={18} />
 
@@ -148,7 +148,7 @@ export default function AdminSidebar({ profile }) {
       {/* =========================================================
           DESKTOP SIDEBAR
       ========================================================= */}
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 self-start border-r border-[#2E7D32]/10 bg-white/95 backdrop-blur lg:block">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 self-start border-r border-brand/10 bg-white/95 backdrop-blur lg:block">
         {/* User */}
         <div className="border-b border-gray-100 px-6 py-5">
           <p className="font-semibold text-gray-900">
@@ -171,8 +171,8 @@ export default function AdminSidebar({ profile }) {
                 [
                   "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition",
                   isActive
-                    ? "bg-[#E8F5E9] text-[#2E7D32]"
-                    : "text-[#1A1A1A]/60 hover:bg-[#F9FAF9] hover:text-[#1A1A1A]",
+                    ? "bg-brand-soft text-brand"
+                    : "text-ink/60 hover:bg-surface hover:text-ink",
                 ].join(" ")
               }
             >
@@ -187,7 +187,7 @@ export default function AdminSidebar({ profile }) {
         <div className="absolute bottom-6 w-64 px-4">
           <Link
             to="/"
-            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#1A1A1A]/50 transition hover:bg-[#F9FAF9] hover:text-[#2E7D32]"
+            className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-ink/50 transition hover:bg-surface hover:text-brand"
           >
             <ExternalLink size={18} />
 

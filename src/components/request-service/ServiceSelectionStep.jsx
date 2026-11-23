@@ -92,15 +92,15 @@ export default function ServiceSelectionStep({
     <div>
       {/* STEP HEADER */}
       <div className="max-w-2xl">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
           Cleaning Service
         </p>
 
-        <h2 className="font-heading text-2xl leading-tight text-[#1A1A1A] md:text-3xl">
+        <h2 className="font-heading text-2xl leading-tight text-ink md:text-3xl">
           What kind of cleaning are you looking for?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-[#1A1A1A]/60 md:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-ink/60 md:text-base">
           Choose one of our cleaning packages, build your own service, or tell
           us if you're not sure. We'll help you find the right option.
         </p>
@@ -109,11 +109,11 @@ export default function ServiceSelectionStep({
       {/* PACKAGES */}
       <div className="mt-10">
         <div className="mb-5">
-          <p className="text-sm font-semibold text-[#1A1A1A]">
+          <p className="text-sm font-semibold text-ink">
             Choose one cleaning package
           </p>
 
-          <p className="mt-1 text-sm text-[#1A1A1A]/45">
+          <p className="mt-1 text-sm text-ink/45">
             Select one option. You can change your selection at any time.
           </p>
         </div>
@@ -162,12 +162,12 @@ export default function ServiceSelectionStep({
                   onClick={() => onSelectPackage(cleaningPackage.id)}
                   className={`group relative flex shrink-0 basis-[86%] snap-start flex-col overflow-hidden rounded-3xl border text-left transition-all duration-300 sm:basis-[62%] md:basis-[44%] lg:basis-[31%] ${
                     selected
-                      ? "border-[#2E7D32] bg-[#2E7D32] shadow-xl shadow-[#2E7D32]/15"
-                      : "border-[#2E7D32]/10 bg-white hover:-translate-y-0.5 hover:border-[#2E7D32]/30 hover:shadow-lg hover:shadow-[#2E7D32]/5"
+                      ? "border-brand bg-brand shadow-xl shadow-brand/15"
+                      : "border-brand/10 bg-white hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5"
                   }`}
                 >
                   {/* IMAGE */}
-                  <div className="relative h-44 w-full shrink-0 overflow-hidden bg-[#E8F5E9]">
+                  <div className="relative h-44 w-full shrink-0 overflow-hidden bg-brand-soft">
                     {cleaningPackage.image_url ? (
                       <img
                         src={cleaningPackage.image_url}
@@ -177,7 +177,7 @@ export default function ServiceSelectionStep({
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">
-                        <Sparkles className="h-7 w-7 text-[#2E7D32]/40" />
+                        <Sparkles className="h-7 w-7 text-brand/40" />
                       </div>
                     )}
 
@@ -188,8 +188,8 @@ export default function ServiceSelectionStep({
                     <div
                       className={`absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur-md transition ${
                         selected
-                          ? "border-white/60 bg-[#2E7D32] text-white"
-                          : "border-white/60 bg-white/80 text-[#1A1A1A]/40"
+                          ? "border-white/60 bg-brand text-white"
+                          : "border-white/60 bg-white/80 text-ink/40"
                       }`}
                     >
                       {selected ? (
@@ -205,7 +205,7 @@ export default function ServiceSelectionStep({
                     <div>
                       <h3
                         className={`font-heading text-xl ${
-                          selected ? "text-white" : "text-[#1A1A1A]"
+                          selected ? "text-white" : "text-ink"
                         }`}
                       >
                         {cleaningPackage.name}
@@ -213,7 +213,7 @@ export default function ServiceSelectionStep({
 
                       <p
                         className={`mt-3 min-h-[66px] text-sm leading-relaxed ${
-                          selected ? "text-white/70" : "text-[#1A1A1A]/55"
+                          selected ? "text-white/70" : "text-ink/55"
                         }`}
                       >
                         {cleaningPackage.web_description ||
@@ -231,19 +231,19 @@ export default function ServiceSelectionStep({
                           >
                             <div
                               className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
-                                selected ? "bg-white/15" : "bg-[#E8F5E9]"
+                                selected ? "bg-white/15" : "bg-brand-soft"
                               }`}
                             >
                               <Check
                                 className={`h-3 w-3 ${
-                                  selected ? "text-white" : "text-[#2E7D32]"
+                                  selected ? "text-white" : "text-brand"
                                 }`}
                               />
                             </div>
 
                             <span
                               className={`text-sm ${
-                                selected ? "text-white/80" : "text-[#1A1A1A]/65"
+                                selected ? "text-white/80" : "text-ink/65"
                               }`}
                             >
                               {service.name}
@@ -259,7 +259,7 @@ export default function ServiceSelectionStep({
                         className={`mt-5 rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                           selected
                             ? "bg-white/10 text-white/75"
-                            : "bg-[#E8F5E9]/70 text-[#1A1A1A]/60"
+                            : "bg-brand-soft/70 text-ink/60"
                         }`}
                       >
                         Full vacate cleaning tailored to the property and
@@ -274,7 +274,7 @@ export default function ServiceSelectionStep({
                           className={`relative inline-flex items-center gap-2 overflow-hidden rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-300 ${
                             selected
                               ? "border-white/25 bg-white/10 text-white shadow-[0_0_22px_rgba(255,255,255,0.16)]"
-                              : "border-[#2E7D32]/30 bg-[#E8F5E9] text-[#2E7D32] shadow-[0_0_22px_rgba(46,125,50,0.20)]"
+                              : "border-brand/30 bg-brand-soft text-brand shadow-[0_0_22px_rgba(46,125,50,0.20)]"
                           }`}
                         >
                           <span
@@ -299,7 +299,7 @@ export default function ServiceSelectionStep({
                       className={`mt-6 flex items-center gap-2 border-t pt-4 text-xs font-semibold uppercase tracking-[0.12em] ${
                         selected
                           ? "border-white/15 text-white/75"
-                          : "border-[#1A1A1A]/5 text-[#1A1A1A]/35"
+                          : "border-ink/5 text-ink/35"
                       }`}
                     >
                       {selected ? (
@@ -323,27 +323,27 @@ export default function ServiceSelectionStep({
 
         {/* DRAG / SWIPE HINT */}
         <div className="mt-1 flex items-center justify-center gap-2">
-          <ArrowRight className="h-3.5 w-3.5 text-[#2E7D32]/50" />
+          <ArrowRight className="h-3.5 w-3.5 text-brand/50" />
 
-          <span className="text-xs text-[#1A1A1A]/40">
+          <span className="text-xs text-ink/40">
             Drag or swipe to explore all packages
           </span>
         </div>
       </div>
 
       {/* ALTERNATIVE OPTIONS */}
-      <div className="mt-8 border-t border-[#2E7D32]/10 pt-8">
+      <div className="mt-8 border-t border-brand/10 pt-8">
         <div className="mb-5 flex items-center gap-4">
-          <div className="h-px flex-1 bg-[#2E7D32]/10" />
+          <div className="h-px flex-1 bg-brand/10" />
 
-          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#1A1A1A]/35">
+          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink/35">
             Or
           </span>
 
-          <div className="h-px flex-1 bg-[#2E7D32]/10" />
+          <div className="h-px flex-1 bg-brand/10" />
         </div>
 
-        <p className="mb-4 text-sm text-[#1A1A1A]/50">
+        <p className="mb-4 text-sm text-ink/50">
           Other ways to create your request
         </p>
 
@@ -353,15 +353,15 @@ export default function ServiceSelectionStep({
             onClick={onSelectCustom}
             className={`group flex items-start gap-4 rounded-2xl border p-5 text-left transition-all duration-300 ${
               requestType === "custom"
-                ? "border-[#2E7D32] bg-[#E8F5E9]"
-                : "border-[#2E7D32]/10 bg-white hover:border-[#2E7D32]/25 hover:shadow-md hover:shadow-[#2E7D32]/5"
+                ? "border-brand bg-brand-soft"
+                : "border-brand/10 bg-white hover:border-brand/25 hover:shadow-md hover:shadow-brand/5"
             }`}
           >
             <div
               className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors ${
                 requestType === "custom"
-                  ? "bg-[#2E7D32] text-white"
-                  : "bg-[#E8F5E9] text-[#2E7D32]"
+                  ? "bg-brand text-white"
+                  : "bg-brand-soft text-brand"
               }`}
             >
               <SlidersHorizontal className="h-5 w-5" />
@@ -369,15 +369,15 @@ export default function ServiceSelectionStep({
 
             <div className="flex-1">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="font-semibold text-[#1A1A1A]">
+                <h3 className="font-semibold text-ink">
                   Build my own service
                 </h3>
 
                 <div
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
                     requestType === "custom"
-                      ? "border-[#2E7D32] bg-[#2E7D32]"
-                      : "border-[#1A1A1A]/20"
+                      ? "border-brand bg-brand"
+                      : "border-ink/20"
                   }`}
                 >
                   {requestType === "custom" && (
@@ -386,7 +386,7 @@ export default function ServiceSelectionStep({
                 </div>
               </div>
 
-              <p className="mt-1 text-sm leading-relaxed text-[#1A1A1A]/55">
+              <p className="mt-1 text-sm leading-relaxed text-ink/55">
                 Choose the individual cleaning services you need.
               </p>
             </div>
@@ -397,15 +397,15 @@ export default function ServiceSelectionStep({
             onClick={onSelectUnsure}
             className={`group flex items-start gap-4 rounded-2xl border p-5 text-left transition-all duration-300 ${
               requestType === "unsure"
-                ? "border-[#2E7D32] bg-[#E8F5E9]"
-                : "border-[#2E7D32]/10 bg-white hover:border-[#2E7D32]/25 hover:shadow-md hover:shadow-[#2E7D32]/5"
+                ? "border-brand bg-brand-soft"
+                : "border-brand/10 bg-white hover:border-brand/25 hover:shadow-md hover:shadow-brand/5"
             }`}
           >
             <div
               className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors ${
                 requestType === "unsure"
-                  ? "bg-[#2E7D32] text-white"
-                  : "bg-[#E8F5E9] text-[#2E7D32]"
+                  ? "bg-brand text-white"
+                  : "bg-brand-soft text-brand"
               }`}
             >
               <HelpCircle className="h-5 w-5" />
@@ -413,15 +413,15 @@ export default function ServiceSelectionStep({
 
             <div className="flex-1">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="font-semibold text-[#1A1A1A]">
+                <h3 className="font-semibold text-ink">
                   I'm not sure what I need
                 </h3>
 
                 <div
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${
                     requestType === "unsure"
-                      ? "border-[#2E7D32] bg-[#2E7D32]"
-                      : "border-[#1A1A1A]/20"
+                      ? "border-brand bg-brand"
+                      : "border-ink/20"
                   }`}
                 >
                   {requestType === "unsure" && (
@@ -430,7 +430,7 @@ export default function ServiceSelectionStep({
                 </div>
               </div>
 
-              <p className="mt-1 text-sm leading-relaxed text-[#1A1A1A]/55">
+              <p className="mt-1 text-sm leading-relaxed text-ink/55">
                 Tell us about your home and we'll help recommend the right
                 service.
               </p>
@@ -444,13 +444,13 @@ export default function ServiceSelectionStep({
         <div className="mt-10 space-y-6">
           {/* INCLUDED SERVICES */}
           {includedServices.length > 0 && (
-            <div className="rounded-3xl bg-[#F9FAF9] p-6 md:p-8">
+            <div className="rounded-3xl bg-surface p-6 md:p-8">
               <div>
-                <p className="text-sm font-semibold text-[#1A1A1A]">
+                <p className="text-sm font-semibold text-ink">
                   Included in your package
                 </p>
 
-                <p className="mt-1 text-sm text-[#1A1A1A]/50">
+                <p className="mt-1 text-sm text-ink/50">
                   These services are already included in the package you
                   selected.
                 </p>
@@ -462,17 +462,17 @@ export default function ServiceSelectionStep({
                     key={service.id}
                     className="flex gap-3 rounded-2xl bg-white p-4"
                   >
-                    <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E8F5E9]">
-                      <Check className="h-3.5 w-3.5 text-[#2E7D32]" />
+                    <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-soft">
+                      <Check className="h-3.5 w-3.5 text-brand" />
                     </div>
 
                     <div>
-                      <p className="font-medium text-[#1A1A1A]">
+                      <p className="font-medium text-ink">
                         {service.name}
                       </p>
 
                       {service.description && (
-                        <p className="mt-1 text-sm leading-relaxed text-[#1A1A1A]/50">
+                        <p className="mt-1 text-sm leading-relaxed text-ink/50">
                           {service.description}
                         </p>
                       )}
@@ -487,11 +487,11 @@ export default function ServiceSelectionStep({
           {availableExtras.length > 0 && (
             <div>
               <div>
-                <p className="text-sm font-semibold text-[#1A1A1A]">
+                <p className="text-sm font-semibold text-ink">
                   Add something extra?
                 </p>
 
-                <p className="mt-1 text-sm text-[#1A1A1A]/50">
+                <p className="mt-1 text-sm text-ink/50">
                   Optional services can be added to your selected package.
                 </p>
               </div>
@@ -505,8 +505,8 @@ export default function ServiceSelectionStep({
                       key={service.id}
                       className={`flex cursor-pointer gap-4 rounded-2xl border p-4 transition-all duration-300 ${
                         selected
-                          ? "border-[#2E7D32] bg-[#E8F5E9]"
-                          : "border-[#2E7D32]/10 bg-white hover:border-[#2E7D32]/25"
+                          ? "border-brand bg-brand-soft"
+                          : "border-brand/10 bg-white hover:border-brand/25"
                       }`}
                     >
                       <input
@@ -519,8 +519,8 @@ export default function ServiceSelectionStep({
                       <div
                         className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors ${
                           selected
-                            ? "border-[#2E7D32] bg-[#2E7D32]"
-                            : "border-[#1A1A1A]/20 bg-white"
+                            ? "border-brand bg-brand"
+                            : "border-ink/20 bg-white"
                         }`}
                       >
                         {selected && (
@@ -529,12 +529,12 @@ export default function ServiceSelectionStep({
                       </div>
 
                       <div>
-                        <p className="font-medium text-[#1A1A1A]">
+                        <p className="font-medium text-ink">
                           {service.name}
                         </p>
 
                         {service.description && (
-                          <p className="mt-1 text-sm leading-relaxed text-[#1A1A1A]/50">
+                          <p className="mt-1 text-sm leading-relaxed text-ink/50">
                             {service.description}
                           </p>
                         )}
@@ -552,11 +552,11 @@ export default function ServiceSelectionStep({
       {requestType === "custom" && (
         <div className="mt-10">
           <div>
-            <p className="text-sm font-semibold text-[#1A1A1A]">
+            <p className="text-sm font-semibold text-ink">
               Choose your services
             </p>
 
-            <p className="mt-1 text-sm text-[#1A1A1A]/50">
+            <p className="mt-1 text-sm text-ink/50">
               Select everything you'd like us to include in your cleaning
               request.
             </p>
@@ -571,8 +571,8 @@ export default function ServiceSelectionStep({
                   key={service.id}
                   className={`flex cursor-pointer gap-4 rounded-2xl border p-4 transition-all duration-300 ${
                     selected
-                      ? "border-[#2E7D32] bg-[#E8F5E9]"
-                      : "border-[#2E7D32]/10 bg-white hover:border-[#2E7D32]/25"
+                      ? "border-brand bg-brand-soft"
+                      : "border-brand/10 bg-white hover:border-brand/25"
                   }`}
                 >
                   <input
@@ -585,18 +585,18 @@ export default function ServiceSelectionStep({
                   <div
                     className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors ${
                       selected
-                        ? "border-[#2E7D32] bg-[#2E7D32]"
-                        : "border-[#1A1A1A]/20 bg-white"
+                        ? "border-brand bg-brand"
+                        : "border-ink/20 bg-white"
                     }`}
                   >
                     {selected && <Check className="h-3.5 w-3.5 text-white" />}
                   </div>
 
                   <div>
-                    <p className="font-medium text-[#1A1A1A]">{service.name}</p>
+                    <p className="font-medium text-ink">{service.name}</p>
 
                     {service.description && (
-                      <p className="mt-1 text-sm leading-relaxed text-[#1A1A1A]/50">
+                      <p className="mt-1 text-sm leading-relaxed text-ink/50">
                         {service.description}
                       </p>
                     )}

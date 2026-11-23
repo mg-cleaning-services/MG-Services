@@ -30,7 +30,7 @@ function getStatusLabel(status) {
 
 function getStatusClasses(status) {
   if (status === "approved") {
-    return "bg-[#E8F5E9] text-[#2E7D32]";
+    return "bg-brand-soft text-brand";
   }
 
   if (status === "rejected") {
@@ -43,21 +43,21 @@ function getStatusClasses(status) {
 function ListField({ label, values }) {
   return (
     <div>
-      <p className="mb-2 text-sm font-medium text-[#1A1A1A]">{label}</p>
+      <p className="mb-2 text-sm font-medium text-ink">{label}</p>
 
       {values?.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           {values.map((value) => (
             <span
               key={value}
-              className="rounded-full bg-[#E8F5E9] px-3 py-1.5 text-sm text-[#2E7D32]"
+              className="rounded-full bg-brand-soft px-3 py-1.5 text-sm text-brand"
             >
               {value}
             </span>
           ))}
         </div>
       ) : (
-        <p className="text-sm text-[#1A1A1A]/40">Not provided</p>
+        <p className="text-sm text-ink/40">Not provided</p>
       )}
     </div>
   );
@@ -203,10 +203,10 @@ export default function CandidateDetail() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] py-16">
+      <main className="min-h-screen bg-surface py-16">
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <div className="rounded-2xl border border-[#2E7D32]/10 bg-white p-6">
-            <p className="text-sm text-[#1A1A1A]/60">
+          <div className="rounded-2xl border border-brand/10 bg-white p-6">
+            <p className="text-sm text-ink/60">
               Loading candidate application...
             </p>
           </div>
@@ -217,7 +217,7 @@ export default function CandidateDetail() {
 
   if (error || !candidate) {
     return (
-      <main className="min-h-screen bg-[#F9FAF9] py-16">
+      <main className="min-h-screen bg-surface py-16">
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
           <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
             <p className="text-sm text-red-700">
@@ -227,7 +227,7 @@ export default function CandidateDetail() {
 
           <Link
             to="/admin/candidates"
-            className="mt-6 inline-flex text-sm font-medium text-[#2E7D32]"
+            className="mt-6 inline-flex text-sm font-medium text-brand"
           >
             ← Back to Candidates
           </Link>
@@ -237,12 +237,12 @@ export default function CandidateDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F9FAF9] py-16">
+    <main className="min-h-screen bg-surface py-16">
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
         {/* Back */}
         <Link
           to="/admin/candidates"
-          className="mb-8 inline-flex text-sm font-medium text-[#2E7D32] transition-colors hover:text-[#256628]"
+          className="mb-8 inline-flex text-sm font-medium text-brand transition-colors hover:text-brand-dark"
         >
           ← Back to Candidates
         </Link>
@@ -250,15 +250,15 @@ export default function CandidateDetail() {
         {/* Header */}
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#2E7D32]">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-brand">
               Candidate Application
             </p>
 
-            <h1 className="text-4xl font-heading text-[#1A1A1A] md:text-5xl">
+            <h1 className="text-4xl font-heading text-ink md:text-5xl">
               {candidate.name}
             </h1>
 
-            <p className="mt-3 text-[#1A1A1A]/50">
+            <p className="mt-3 text-ink/50">
               Submitted {formatDate(candidate.submittedAt)}
             </p>
           </div>
@@ -275,7 +275,7 @@ export default function CandidateDetail() {
         <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
           {/* Candidate summary */}
           <div className="space-y-6">
-            <div className="overflow-hidden rounded-3xl border border-[#2E7D32]/10 bg-white">
+            <div className="overflow-hidden rounded-3xl border border-brand/10 bg-white">
               {photoUrl ? (
                 <img
                   src={photoUrl}
@@ -283,20 +283,20 @@ export default function CandidateDetail() {
                   className="aspect-square w-full object-cover"
                 />
               ) : (
-                <div className="flex aspect-square w-full items-center justify-center bg-[#E8F5E9]">
-                  <span className="text-6xl font-heading text-[#2E7D32]">
+                <div className="flex aspect-square w-full items-center justify-center bg-brand-soft">
+                  <span className="text-6xl font-heading text-brand">
                     {candidate.name?.trim()?.charAt(0)?.toUpperCase() || "?"}
                   </span>
                 </div>
               )}
 
               <div className="p-5">
-                <h2 className="text-xl font-heading text-[#1A1A1A]">
+                <h2 className="text-xl font-heading text-ink">
                   {candidate.name}
                 </h2>
 
                 {candidate.tagline && (
-                  <p className="mt-2 text-sm leading-6 text-[#1A1A1A]/55">
+                  <p className="mt-2 text-sm leading-6 text-ink/55">
                     {candidate.tagline}
                   </p>
                 )}
@@ -304,38 +304,38 @@ export default function CandidateDetail() {
             </div>
 
             {/* Contact */}
-            <div className="rounded-3xl border border-[#2E7D32]/10 bg-white p-5">
-              <h2 className="mb-5 text-lg font-heading text-[#1A1A1A]">
+            <div className="rounded-3xl border border-brand/10 bg-white p-5">
+              <h2 className="mb-5 text-lg font-heading text-ink">
                 Contact
               </h2>
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                  <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                     Phone
                   </p>
 
-                  <p className="mt-1 text-sm text-[#1A1A1A]">
+                  <p className="mt-1 text-sm text-ink">
                     {candidate.phone || "Not provided"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                  <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                     Email
                   </p>
 
-                  <p className="mt-1 break-all text-sm text-[#1A1A1A]">
+                  <p className="mt-1 break-all text-sm text-ink">
                     {candidate.email || "Not provided"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                  <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                     Location
                   </p>
 
-                  <p className="mt-1 text-sm text-[#1A1A1A]">
+                  <p className="mt-1 text-sm text-ink">
                     {candidate.location || "Not provided"}
                   </p>
                 </div>
@@ -346,51 +346,51 @@ export default function CandidateDetail() {
           {/* Application */}
           <div className="space-y-6">
             {/* Experience */}
-            <section className="rounded-3xl border border-[#2E7D32]/10 bg-white p-6 md:p-8">
-              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-[#2E7D32]">
+            <section className="rounded-3xl border border-brand/10 bg-white p-6 md:p-8">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-brand">
                 Experience
               </p>
 
-              <h2 className="text-2xl font-heading text-[#1A1A1A]">
+              <h2 className="text-2xl font-heading text-ink">
                 Candidate Profile
               </h2>
 
               <div className="mt-7 grid gap-6 sm:grid-cols-2">
                 <div>
-                  <p className="text-sm text-[#1A1A1A]/50">Applied role</p>
+                  <p className="text-sm text-ink/50">Applied role</p>
 
-                  <p className="mt-1 text-xl font-heading text-[#1A1A1A]">
+                  <p className="mt-1 text-xl font-heading text-ink">
                     {candidate.role || "Not provided"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-sm text-[#1A1A1A]/50">
+                  <p className="text-sm text-ink/50">
                     Years of experience
                   </p>
 
-                  <p className="mt-1 text-3xl font-heading text-[#1A1A1A]">
+                  <p className="mt-1 text-3xl font-heading text-ink">
                     {candidate.years ?? 0}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-7 border-t border-[#1A1A1A]/10 pt-7">
-                <p className="mb-2 text-sm font-medium text-[#1A1A1A]">Bio</p>
+              <div className="mt-7 border-t border-ink/10 pt-7">
+                <p className="mb-2 text-sm font-medium text-ink">Bio</p>
 
-                <p className="whitespace-pre-line text-sm leading-7 text-[#1A1A1A]/60">
+                <p className="whitespace-pre-line text-sm leading-7 text-ink/60">
                   {candidate.bio || "No bio provided."}
                 </p>
               </div>
             </section>
 
             {/* Skills */}
-            <section className="rounded-3xl border border-[#2E7D32]/10 bg-white p-6 md:p-8">
-              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-[#2E7D32]">
+            <section className="rounded-3xl border border-brand/10 bg-white p-6 md:p-8">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.15em] text-brand">
                 Details
               </p>
 
-              <h2 className="text-2xl font-heading text-[#1A1A1A]">
+              <h2 className="text-2xl font-heading text-ink">
                 Skills & Profile
               </h2>
 
@@ -403,39 +403,39 @@ export default function CandidateDetail() {
             </section>
 
             {/* Application metadata */}
-            <section className="rounded-3xl border border-[#2E7D32]/10 bg-white p-6 md:p-8">
-              <h2 className="text-xl font-heading text-[#1A1A1A]">
+            <section className="rounded-3xl border border-brand/10 bg-white p-6 md:p-8">
+              <h2 className="text-xl font-heading text-ink">
                 Application
               </h2>
 
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                  <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                     Submitted
                   </p>
 
-                  <p className="mt-1 text-sm text-[#1A1A1A]">
+                  <p className="mt-1 text-sm text-ink">
                     {formatDate(candidate.submittedAt)}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                  <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                     Status
                   </p>
 
-                  <p className="mt-1 text-sm text-[#1A1A1A]">
+                  <p className="mt-1 text-sm text-ink">
                     {getStatusLabel(candidate.status)}
                   </p>
                 </div>
 
                 {candidate.reviewedAt && (
                   <div>
-                    <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                    <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                       Reviewed
                     </p>
 
-                    <p className="mt-1 text-sm text-[#1A1A1A]">
+                    <p className="mt-1 text-sm text-ink">
                       {formatDate(candidate.reviewedAt)}
                     </p>
                   </div>
@@ -443,13 +443,13 @@ export default function CandidateDetail() {
 
                 {candidate.employeeId && (
                   <div>
-                    <p className="text-xs uppercase tracking-[0.12em] text-[#1A1A1A]/35">
+                    <p className="text-xs uppercase tracking-[0.12em] text-ink/35">
                       Employee
                     </p>
 
                     <Link
                       to={`/admin/team/${candidate.employeeId}`}
-                      className="mt-1 inline-flex text-sm font-medium text-[#2E7D32] hover:text-[#256628]"
+                      className="mt-1 inline-flex text-sm font-medium text-brand hover:text-brand-dark"
                     >
                       View employee profile →
                     </Link>
@@ -460,16 +460,16 @@ export default function CandidateDetail() {
 
             {/* Review actions */}
             {candidate.status === "submitted" && (
-              <section className="rounded-3xl border border-[#2E7D32]/10 bg-white p-6 md:p-8">
-                <p className="text-sm font-semibold uppercase tracking-[0.15em] text-[#2E7D32]">
+              <section className="rounded-3xl border border-brand/10 bg-white p-6 md:p-8">
+                <p className="text-sm font-semibold uppercase tracking-[0.15em] text-brand">
                   Application review
                 </p>
 
-                <h2 className="mt-2 text-2xl font-heading text-[#1A1A1A]">
+                <h2 className="mt-2 text-2xl font-heading text-ink">
                   Review Candidate
                 </h2>
 
-                <p className="mt-3 text-sm leading-6 text-[#1A1A1A]/50">
+                <p className="mt-3 text-sm leading-6 text-ink/50">
                   Approving this candidate will create an active employee using
                   the information provided in this application.
                 </p>
@@ -496,7 +496,7 @@ export default function CandidateDetail() {
                     type="button"
                     onClick={handleApprove}
                     disabled={Boolean(reviewAction)}
-                    className="rounded-xl bg-[#2E7D32] px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-[#256628] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-xl bg-brand px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {reviewAction === "approve"
                       ? "Approving..."
@@ -508,10 +508,10 @@ export default function CandidateDetail() {
 
             {/* Reviewed result */}
             {candidate.status === "approved" && (
-              <section className="rounded-3xl border border-[#2E7D32]/20 bg-[#E8F5E9] p-6 md:p-8">
-                <p className="font-medium text-[#2E7D32]">Candidate approved</p>
+              <section className="rounded-3xl border border-brand/20 bg-brand-soft p-6 md:p-8">
+                <p className="font-medium text-brand">Candidate approved</p>
 
-                <p className="mt-2 text-sm leading-6 text-[#1A1A1A]/60">
+                <p className="mt-2 text-sm leading-6 text-ink/60">
                   This candidate has been converted into an active employee.
                 </p>
               </section>

@@ -142,7 +142,7 @@ export default function RequestDetail() {
           className="
             sticky top-[60px] z-30 lg:top-3
             rounded-2xl
-            border border-[#2E7D32]/10
+            border border-brand/10
             bg-white/95
             px-6 pt-4
             shadow-sm backdrop-blur

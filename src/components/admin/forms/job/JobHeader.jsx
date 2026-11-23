@@ -24,7 +24,7 @@ export default function JobHeader({ job }) {
 
             <Link
               to={`/admin/requests/${job.requestId}`}
-              className="font-semibold text-[#2E7D32] hover:underline"
+              className="font-semibold text-brand hover:underline"
             >
               {job.requestCode || "Original Request"} →
             </Link>

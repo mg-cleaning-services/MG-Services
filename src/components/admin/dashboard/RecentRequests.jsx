@@ -15,20 +15,20 @@ export default function RecentRequests({ requests }) {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#2E7D32]/10 text-left">
-                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/40">
+              <tr className="border-b border-brand/10 text-left">
+                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-ink/40">
                   Request
                 </th>
 
-                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/40">
+                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-ink/40">
                   Customer
                 </th>
 
-                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/40">
+                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-ink/40">
                   Location
                 </th>
 
-                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/40">
+                <th className="pb-3 text-xs font-semibold uppercase tracking-wider text-ink/40">
                   Status
                 </th>
               </tr>
@@ -38,22 +38,22 @@ export default function RecentRequests({ requests }) {
               {requests.map((request) => (
                 <tr
                   key={request.id}
-                  className="border-b border-[#2E7D32]/5 last:border-0"
+                  className="border-b border-brand/5 last:border-0"
                 >
                   <td className="py-4">
                     <Link
                       to={`/admin/requests/${request.id}`}
-                      className="font-semibold text-[#2E7D32] hover:underline"
+                      className="font-semibold text-brand hover:underline"
                     >
                       {request.requestCode || "Request"}
                     </Link>
                   </td>
 
-                  <td className="py-4 text-sm text-[#1A1A1A]">
+                  <td className="py-4 text-sm text-ink">
                     {formatCustomerName(request.customer)}
                   </td>
 
-                  <td className="py-4 text-sm text-[#1A1A1A]/60">
+                  <td className="py-4 text-sm text-ink/60">
                     {request.property?.suburb || "Not provided"}
                   </td>
 
@@ -72,7 +72,7 @@ export default function RecentRequests({ requests }) {
 
 function StatusBadge({ status }) {
   const styles = {
-    new: "bg-[#E8F5E9] text-[#2E7D32]",
+    new: "bg-brand-soft text-brand",
     contacted: "bg-blue-50 text-blue-700",
     "in-discussion": "bg-amber-50 text-amber-700",
     converted: "bg-purple-50 text-purple-700",

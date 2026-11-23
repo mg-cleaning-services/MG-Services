@@ -64,7 +64,7 @@ export default function TeamAssignmentFields({
             !selectedEmployeeId || assignmentLoading || checkingConflicts
           }
           onClick={onAddEmployee}
-          className="rounded-xl bg-[#2E7D32] px-5 py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 sm:self-start"
+          className="rounded-xl bg-brand px-5 py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 sm:self-start"
         >
           {assignmentLoading ? "Saving..." : "Add"}
         </button>
@@ -129,7 +129,7 @@ export default function TeamAssignmentFields({
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        <div className="flex h-full min-h-44 items-center justify-center bg-[#E8F5E9] text-2xl font-semibold text-[#2E7D32]">
+                        <div className="flex h-full min-h-44 items-center justify-center bg-brand-soft text-2xl font-semibold text-brand">
                           {getInitials(employee.name)}
                         </div>
                       )}
@@ -233,7 +233,7 @@ export default function TeamAssignmentFields({
                         <button
                           type="button"
                           onClick={() => onSendJob(employee)}
-                          className="rounded-xl bg-[#2E7D32] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#256628]"
+                          className="rounded-xl bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
                         >
                           Send Job
                         </button>

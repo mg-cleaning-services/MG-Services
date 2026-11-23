@@ -14,34 +14,34 @@ export default function UpcomingJobs({ jobs }) {
             <Link
               key={job.id}
               to={`/admin/jobs/${job.id}`}
-              className="block rounded-2xl border border-[#2E7D32]/10 p-4 transition hover:border-[#2E7D32]/25"
+              className="block rounded-2xl border border-brand/10 p-4 transition hover:border-brand/25"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-semibold text-[#1A1A1A]">
+                  <p className="font-semibold text-ink">
                     {job.jobCode || "Job"}
                   </p>
 
-                  <p className="mt-1 text-sm text-[#1A1A1A]/60">
+                  <p className="mt-1 text-sm text-ink/60">
                     {job.location?.suburb || "Location not set"}
                   </p>
                 </div>
 
                 <div className="text-right">
-                  <p className="text-sm font-medium text-[#1A1A1A]">
+                  <p className="text-sm font-medium text-ink">
                     {formatDate(job.schedule?.date)}
                   </p>
 
-                  <p className="mt-1 text-sm text-[#1A1A1A]/60">
+                  <p className="mt-1 text-sm text-ink/60">
                     {job.schedule?.startTime || "Time not set"}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-4 border-t border-[#2E7D32]/10 pt-3">
-                <p className="text-sm text-[#1A1A1A]/60">
+              <div className="mt-4 border-t border-brand/10 pt-3">
+                <p className="text-sm text-ink/60">
                   Team:{" "}
-                  <span className="font-medium text-[#1A1A1A]">
+                  <span className="font-medium text-ink">
                     {formatTeam(job.team)}
                   </span>
                 </p>

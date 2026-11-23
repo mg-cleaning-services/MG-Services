@@ -3,13 +3,13 @@ import CommaField from "./CommaField";
 export default function EmployeeProfileFields({ form, onChange }) {
   return (
     <section>
-      <h3 className="text-lg font-heading text-[#1A1A1A] mb-4">Profile</h3>
+      <h3 className="text-lg font-heading text-ink mb-4">Profile</h3>
 
       <div className="space-y-4">
         <div>
           <label
             htmlFor="employee-bio"
-            className="block text-sm font-medium text-[#1A1A1A] mb-2"
+            className="block text-sm font-medium text-ink mb-2"
           >
             Bio
           </label>
@@ -20,7 +20,7 @@ export default function EmployeeProfileFields({ form, onChange }) {
             value={form.bio}
             onChange={onChange}
             rows={4}
-            className="w-full px-4 py-3 rounded-xl border border-[#1A1A1A]/10 outline-none resize-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+            className="w-full px-4 py-3 rounded-xl border border-ink/10 outline-none resize-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
           />
         </div>
 

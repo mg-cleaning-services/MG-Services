@@ -10,7 +10,7 @@ export default function CommaField({
     <div>
       <label
         htmlFor={id}
-        className="block text-sm font-medium text-[#1A1A1A] mb-2"
+        className="block text-sm font-medium text-ink mb-2"
       >
         {label}
       </label>
@@ -21,10 +21,10 @@ export default function CommaField({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full h-11 px-4 rounded-xl border border-[#1A1A1A]/10 outline-none focus:border-[#2E7D32]/40 focus:ring-2 focus:ring-[#2E7D32]/10"
+        className="w-full h-11 px-4 rounded-xl border border-ink/10 outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10"
       />
 
-      <p className="text-xs text-[#1A1A1A]/40 mt-1">
+      <p className="text-xs text-ink/40 mt-1">
         Separate values with commas.
       </p>
     </div>

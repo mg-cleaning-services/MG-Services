@@ -9,6 +9,7 @@ import {
 } from "@/services/communicationService";
 
 import { getEmployeeById } from "@/services/employeeService";
+import { notifyError } from "@/lib/notify";
 
 export default function useJobCommunication(job) {
   const [introductionEmployee, setIntroductionEmployee] = useState(null);
@@ -17,7 +18,7 @@ export default function useJobCommunication(job) {
 
   async function sendJobToCleaner(employee) {
     if (!employee?.phone) {
-      alert("This employee does not have a phone number.");
+      notifyError("This employee does not have a phone number.");
       return;
     }
 
@@ -33,7 +34,7 @@ export default function useJobCommunication(job) {
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.error("Error preparing cleaner WhatsApp message:", error);
-      alert("Unable to prepare the cleaner message.");
+      notifyError("Unable to prepare the cleaner message.");
     }
   }
 
@@ -43,7 +44,7 @@ export default function useJobCommunication(job) {
     }
 
     if (!job?.customer?.phone) {
-      alert("This customer does not have a phone number.");
+      notifyError("This customer does not have a phone number.");
       return;
     }
 
@@ -59,7 +60,7 @@ export default function useJobCommunication(job) {
       window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.error("Error preparing customer WhatsApp message:", error);
-      alert("Unable to prepare the customer message.");
+      notifyError("Unable to prepare the customer message.");
     }
   }
 
@@ -148,7 +149,7 @@ export default function useJobCommunication(job) {
       });
 
       if (!navigator.share || !navigator.canShare?.({ files: [file] })) {
-        alert("Sharing images is not supported on this device.");
+        notifyError("Sharing images is not supported on this device.");
         return;
       }
 

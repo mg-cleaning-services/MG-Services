@@ -56,7 +56,7 @@ export default function Navbar() {
         }}
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ${
           useSolidNavbar
-            ? "border-b border-[#2E7D32]/10 bg-white/80 shadow-sm backdrop-blur-xl"
+            ? "border-b border-brand/10 bg-white/80 shadow-sm backdrop-blur-xl"
             : "bg-transparent"
         }`}
       >
@@ -66,16 +66,16 @@ export default function Navbar() {
             <Link to="/" className="flex items-center gap-2">
               <div
                 className={`text-2xl font-heading font-bold transition-colors duration-500 ${
-                  useSolidNavbar ? "text-[#1A1A1A]" : "text-white"
+                  useSolidNavbar ? "text-ink" : "text-white"
                 }`}
               >
                 MG
-                <span className="text-[#2E7D32]">.</span>
+                <span className="text-brand">.</span>
               </div>
 
               <span
                 className={`hidden text-sm font-body font-light uppercase tracking-widest transition-colors duration-500 sm:inline ${
-                  useSolidNavbar ? "text-[#1A1A1A]/60" : "text-white/70"
+                  useSolidNavbar ? "text-ink/60" : "text-white/70"
                 }`}
               >
                 Cleaning Services
@@ -88,8 +88,8 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={getNavHref(link.href)}
-                  className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:text-[#2E7D32] ${
-                    useSolidNavbar ? "text-[#1A1A1A]/70" : "text-white/80"
+                  className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:text-brand ${
+                    useSolidNavbar ? "text-ink/70" : "text-white/80"
                   }`}
                 >
                   {link.label}
@@ -102,7 +102,7 @@ export default function Navbar() {
               <a
                 href="tel:+61424584774"
                 className={`hidden items-center gap-2 text-sm font-medium transition-colors duration-300 md:flex ${
-                  useSolidNavbar ? "text-[#1A1A1A]/70" : "text-white/80"
+                  useSolidNavbar ? "text-ink/70" : "text-white/80"
                 }`}
               >
                 <Phone className="h-4 w-4" />
@@ -112,7 +112,7 @@ export default function Navbar() {
               {!isRequestPage && (
                 <Link
                   to="/request-service"
-                  className="hidden rounded-full bg-[#2E7D32] px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#256b29] hover:shadow-lg hover:shadow-[#2E7D32]/20 lg:inline-flex"
+                  className="hidden rounded-full bg-brand px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/20 lg:inline-flex"
                 >
                   Request a Cleaning
                 </Link>
@@ -122,7 +122,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 className={`p-2 transition-colors lg:hidden ${
-                  useSolidNavbar ? "text-[#1A1A1A]" : "text-white"
+                  useSolidNavbar ? "text-ink" : "text-white"
                 }`}
                 aria-label="Open menu"
               >
@@ -149,16 +149,16 @@ export default function Navbar() {
               <Link
                 to="/"
                 onClick={() => setMenuOpen(false)}
-                className="text-2xl font-heading font-bold text-[#1A1A1A]"
+                className="text-2xl font-heading font-bold text-ink"
               >
                 MG
-                <span className="text-[#2E7D32]">.</span>
+                <span className="text-brand">.</span>
               </Link>
 
               <button
                 type="button"
                 onClick={() => setMenuOpen(false)}
-                className="p-2 text-[#1A1A1A]"
+                className="p-2 text-ink"
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" />
@@ -182,7 +182,7 @@ export default function Navbar() {
                   transition={{
                     delay: index * 0.08,
                   }}
-                  className="text-3xl font-heading text-[#1A1A1A] transition-colors hover:text-[#2E7D32]"
+                  className="text-3xl font-heading text-ink transition-colors hover:text-brand"
                 >
                   {link.label}
                 </motion.a>
@@ -206,7 +206,7 @@ export default function Navbar() {
                   <Link
                     to="/request-service"
                     onClick={() => setMenuOpen(false)}
-                    className="inline-flex rounded-full bg-[#2E7D32] px-8 py-3 text-lg font-semibold text-white"
+                    className="inline-flex rounded-full bg-brand px-8 py-3 text-lg font-semibold text-white"
                   >
                     Request a Cleaning
                   </Link>
