@@ -6,12 +6,12 @@ import { supabase } from "@/lib/supabase"; // Ajusta la ruta a tu proyecto
 const INSTAGRAM_URL = "https://www.instagram.com/mgcleaning_melbourne/";
 
 const fallbackPosts = [
-  { id: "fallback-1", src: "/images/igm1.png", alt: "Clean bedroom" },
-  { id: "fallback-2", src: "/images/igm2.png", alt: "Eco cleaning products" },
-  { id: "fallback-3", src: "/images/igm3.png", alt: "Sparkling kitchen" },
-  { id: "fallback-4", src: "/images/igm1.png", alt: "Kitchen transformation" },
-  { id: "fallback-5", src: "/images/igm2.png", alt: "Bathroom revival" },
-  { id: "fallback-6", src: "/images/igm3.png", alt: "Living room refresh" },
+  { id: "fallback-1", src: "/images/igm1.webp", alt: "Clean bedroom" },
+  { id: "fallback-2", src: "/images/igm2.webp", alt: "Eco cleaning products" },
+  { id: "fallback-3", src: "/images/igm3.webp", alt: "Sparkling kitchen" },
+  { id: "fallback-4", src: "/images/igm1.webp", alt: "Kitchen transformation" },
+  { id: "fallback-5", src: "/images/igm2.webp", alt: "Bathroom revival" },
+  { id: "fallback-6", src: "/images/igm3.webp", alt: "Living room refresh" },
 ];
 
 export default function InstagramFeed() {

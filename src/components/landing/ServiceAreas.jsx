@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 
-const MAP_BG = "images/servicearea.png";
+const MAP_BG = "/images/servicearea.webp";
 
 const areas = [
   "South Yarra",
@@ -19,7 +19,7 @@ export default function ServiceAreas() {
   return (
     <section id="areas" className="py-24 md:py-40 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.06]">
-        <img src={MAP_BG} alt="" className="w-full h-full object-cover" />
+        <img src={MAP_BG} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
       </div>
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
