@@ -60,12 +60,12 @@ export default function HeroSection() {
           >
             <div className="relative grid items-center">
               {/* Reserve space to prevent layout shifts */}
-              <h1
+              <div
                 aria-hidden="true"
                 className="invisible col-start-1 row-start-1 text-[2.15rem] sm:text-5xl md:text-5xl lg:text-[3.6rem] font-heading leading-[0.95] tracking-[-0.02em]"
               >
                 {slogans.reduce((a, b) => (a.length >= b.length ? a : b))}
-              </h1>
+              </div>
 
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div

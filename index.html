@@ -38,6 +38,15 @@
     <!-- Brand -->
     <meta name="theme-color" content="#2E7D32" />
 
+    <!-- Hero image: start downloading before the JS/CSS load -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/hero.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
+
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="/favicon.webp" />
 
