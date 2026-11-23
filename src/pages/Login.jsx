@@ -43,10 +43,10 @@ export default function Login() {
 
     if (profile.role === "admin") {
       navigate("/admin");
-    } else if (profile.role === "employee") {
-      navigate("/employee");
     } else {
-      setError("Invalid user role.");
+      // There is no employee area yet, so only admins can sign in.
+      await supabase.auth.signOut();
+      setError("Your account does not have access to the admin panel.");
     }
 
     setLoading(false);

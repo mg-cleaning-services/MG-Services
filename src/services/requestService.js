@@ -274,7 +274,7 @@ export async function updateRequest(request) {
       updated_at: new Date().toISOString(),
     })
     .eq("id", request.id)
-    .select()
+    .select(requestRelations)
     .single();
 
   if (error) {
@@ -298,7 +298,7 @@ export async function updateRequestStatus(requestId, status) {
       updated_at: new Date().toISOString(),
     })
     .eq("id", requestId)
-    .select()
+    .select(requestRelations)
     .single();
 
   if (error) {

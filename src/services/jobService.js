@@ -297,7 +297,7 @@ export async function createJob(jobData) {
   const { data, error } = await supabase
     .from("jobs")
     .insert(databaseJob)
-    .select()
+    .select(jobRelations)
     .single();
 
   if (error) {
@@ -351,7 +351,7 @@ export async function updateJob(job) {
       updated_at: new Date().toISOString(),
     })
     .eq("id", job.id)
-    .select()
+    .select(jobRelations)
     .single();
 
   if (error) {
@@ -369,7 +369,7 @@ export async function updateJobStatus(jobId, status) {
       updated_at: new Date().toISOString(),
     })
     .eq("id", jobId)
-    .select()
+    .select(jobRelations)
     .single();
 
   if (error) {

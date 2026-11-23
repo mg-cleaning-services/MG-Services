@@ -3,5 +3,6 @@ Allow: /
 
 Disallow: /admin/
 Disallow: /login
+Disallow: /apply
 
 Sitemap: https://www.mgcleaningservices.com.au/sitemap.xml
