@@ -94,8 +94,8 @@ export async function buildCleanerJobMessage(job) {
           .join("\n")
       : "• None",
     "",
-    job.notes?.cleaningPriorities
-      ? `Cleaning priorities: ${job.notes.cleaningPriorities}`
+    job.notes?.trim()
+      ? `Cleaning priorities: ${job.notes.trim()}`
       : null,
     "",
     job.access?.instructions

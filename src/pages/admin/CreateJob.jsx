@@ -358,9 +358,9 @@ export default function CreateJob() {
             </div>
           </FormSection>
 
-          {/* Internal Notes */}
+          {/* Notes for the cleaner */}
 
-          <FormSection title="Internal Notes">
+          <FormSection title="Notes for the Cleaner">
             <InternalNotesFields
               value={job.notes}
               onChange={(value) => updateJobField("notes", value)}

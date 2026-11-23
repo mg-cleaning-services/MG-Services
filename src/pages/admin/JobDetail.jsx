@@ -110,7 +110,7 @@ export default function JobDetail() {
     { id: "schedule", label: "Schedule" },
     { id: "pricing", label: "Pricing" },
     { id: "team", label: "Team" },
-    { id: "notes", label: "Internal Notes" },
+    { id: "notes", label: "Notes for the Cleaner" },
   ];
 
   return (
@@ -262,10 +262,10 @@ export default function JobDetail() {
             </FormSection>
           </div>
 
-          {/* Internal Notes */}
+          {/* Notes for the cleaner */}
 
           <div id="notes" className="scroll-mt-35">
-            <FormSection title="Internal Notes">
+            <FormSection title="Notes for the Cleaner">
               <InternalNotesFields
                 value={job.notes}
                 onChange={(notes) => updateJobField("notes", notes)}
