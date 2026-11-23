@@ -38,7 +38,8 @@ export default function HeroSection() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
+      {/* pb-32 matches the bottom fade (h-32) so the badges never sit on the light area */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20 pb-32">
         {/* Brand + Slogan */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-14 mb-8">
           {/* Logo */}
@@ -150,10 +151,10 @@ export default function HeroSection() {
           {trustBadges.map((badge) => (
             <div
               key={badge.label}
-              className="flex items-center gap-2.5 text-white/80"
+              className="flex items-center gap-2.5 text-brand-bright"
             >
               <badge.icon className="w-5 h-5 text-brand-bright" />
-              <span className="text-sm font-medium">{badge.label}</span>
+              <span className="text-sm font-semibold">{badge.label}</span>
             </div>
           ))}
         </motion.div>
