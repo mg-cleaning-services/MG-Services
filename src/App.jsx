@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Global components — se cargan normalmente
 import ScrollToTop from "@/components/ScrollToTop";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 import GoogleAnalyticsTracker from "@/components/GoogleAnalyticsTracker";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
@@ -79,7 +79,7 @@ function App() {
         </Routes>
       </Suspense>
 
-      <Toaster />
+      <Toaster position="top-center" richColors closeButton />
     </Router>
   );
 }
